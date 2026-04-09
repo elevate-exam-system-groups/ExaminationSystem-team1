@@ -28,6 +28,14 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
+    <Folder Include="ExaminationSystem.Infrastructure\Configurations\" />
+    <Folder Include="Features\AuthModule\AccountVerification\" />
+    <Folder Include="Features\AuthModule\Login\DTOs\" />
+    <Folder Include="Features\AuthModule\Login\Requests\" />
+    <Folder Include="Features\AuthModule\PasswordReset\" />
+    <Folder Include="Features\AuthModule\Register\" />
+    <Folder Include="Features\DiplomaModule\" />
+    <Folder Include="Features\QuizModule\" />
   </ItemGroup>
 
 </Project>

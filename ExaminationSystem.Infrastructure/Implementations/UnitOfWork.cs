@@ -1,6 +1,6 @@
 ﻿namespace ExaminationSystem.Infrastructure.Implementations
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
     }
 }

@@ -10,7 +10,7 @@ namespace ExaminationSystem.Domain.Models
         public Role Role { get; set; }
 
         // Navigation properties
-        public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
+        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
 
     }
