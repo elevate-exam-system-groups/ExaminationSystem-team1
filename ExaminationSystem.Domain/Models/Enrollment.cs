@@ -1,6 +1,6 @@
 ﻿namespace ExaminationSystem.Domain.Models
 {
-    public class Enrollment : BaseModel
+    public class Enrollment : BaseModel<int>
     {
         public int StudentId { get; set; }
         public int DiplomaId { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 namespace ExaminationSystem.Domain.Abstractions
 {
-    public interface IGeneralRepository<T> where T : BaseModel
+    public interface IGeneralRepository<TEntity, TKey> where TEntity : BaseModel<TKey>
     {
     }
 }
