@@ -1,6 +1,6 @@
 ﻿namespace ExaminationSystem.Domain.Models
 {
-    public class Diploma : BaseModel
+    public class Diploma : BaseModel<int>
     {
         public string Title { get; set; }
         public string Description { get; set; }

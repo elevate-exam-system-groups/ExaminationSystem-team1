@@ -3,10 +3,12 @@ using ExaminationSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
+
 namespace ExaminationSystem.Infrastructure.Implementations
 {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : BaseModel
     {
+
         Context _context;
         DbSet<T> _dbSet;
         public GeneralRepository(Context context)
@@ -101,6 +103,7 @@ namespace ExaminationSystem.Infrastructure.Implementations
             UpdateInclude(entity, nameof(entity.isDeleted));
             entity.isDeleted = true;
         }
+
 
     }
 }

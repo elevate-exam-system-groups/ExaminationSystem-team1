@@ -2,7 +2,7 @@
 
 namespace ExaminationSystem.Domain.Models
 {
-    public class User : BaseModel
+    public class User : BaseModel<int>
     {
         public string Name { get; set; }
         public string Email { get; set; }

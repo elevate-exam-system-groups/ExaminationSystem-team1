@@ -1,7 +1,7 @@
 ﻿
 namespace ExaminationSystem.Domain.Models
 {
-    public class Quiz : BaseModel
+    public class Quiz : BaseModel<int>
     {
         public int DiplomaId { get; set; }
         public string Title { get; set; }
@@ -9,7 +9,7 @@ namespace ExaminationSystem.Domain.Models
         public int PassScore { get; set; }
         public int MaxAttempts { get; set; }
         public string Status { get; set; } = string.Empty;
-        public DateTime PuplishedAt { get; set; }
+        public DateTime PublishedAt { get; set; }
 
         // Navigation property
         public Diploma Diploma { get; set; }
