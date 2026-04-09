@@ -30,4 +30,8 @@
     <ProjectReference Include="..\ExaminationSystem.Application\ExaminationSystem.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+
 </Project>
