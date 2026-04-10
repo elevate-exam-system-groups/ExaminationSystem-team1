@@ -1,11 +1,13 @@
 ﻿
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace ExaminationSystem.Infrastructure.Data
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<User>//DbContext
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
@@ -16,6 +18,7 @@ namespace ExaminationSystem.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
