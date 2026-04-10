@@ -7,6 +7,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configurations\**" />
+    <Compile Remove="Features\AuthModule\AccountVerification\**" />
+    <Compile Remove="Features\AuthModule\PasswordReset\**" />
+    <Compile Remove="Features\AuthModule\Register\**" />
+    <Compile Remove="Features\DiplomaModule\**" />
+    <Compile Remove="Features\QuizModule\**" />
+    <Content Remove="Configurations\**" />
+    <Content Remove="Features\AuthModule\AccountVerification\**" />
+    <Content Remove="Features\AuthModule\PasswordReset\**" />
+    <Content Remove="Features\AuthModule\Register\**" />
+    <Content Remove="Features\DiplomaModule\**" />
+    <Content Remove="Features\QuizModule\**" />
+    <EmbeddedResource Remove="Configurations\**" />
+    <EmbeddedResource Remove="Features\AuthModule\AccountVerification\**" />
+    <EmbeddedResource Remove="Features\AuthModule\PasswordReset\**" />
+    <EmbeddedResource Remove="Features\AuthModule\Register\**" />
+    <EmbeddedResource Remove="Features\DiplomaModule\**" />
+    <EmbeddedResource Remove="Features\QuizModule\**" />
+    <None Remove="Configurations\**" />
+    <None Remove="Features\AuthModule\AccountVerification\**" />
+    <None Remove="Features\AuthModule\PasswordReset\**" />
+    <None Remove="Features\AuthModule\Register\**" />
+    <None Remove="Features\DiplomaModule\**" />
+    <None Remove="Features\QuizModule\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="MailKit" Version="4.15.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
@@ -29,15 +56,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
+    <Folder Include="Features\AuthModule\foreget_ResetPassword\Commands\" />
+    <Folder Include="Features\AuthModule\foreget_ResetPassword\Orchestrators\" />
+    <Folder Include="Features\AuthModule\DTOs\" />
     <Folder Include="Infrastructure\Configurations\" />
-    <Folder Include="Features\AuthModule\AccountVerification\" />
-    <Folder Include="Features\AuthModule\Login\DTOs\" />
-    <Folder Include="Features\AuthModule\Login\Requests\" />
-    <Folder Include="Features\AuthModule\PasswordReset\" />
-    <Folder Include="Features\AuthModule\Register\" />
-    <Folder Include="Features\DiplomaModule\" />
-    <Folder Include="Features\QuizModule\" />
   </ItemGroup>
 
 </Project>
