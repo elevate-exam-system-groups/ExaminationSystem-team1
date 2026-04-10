@@ -1,7 +1,4 @@
-﻿
-using ExaminationSystem.Domain.Abstractions;
-using ExaminationSystem.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using ExaminationSystem.Infrastructure.Data;
 
 namespace ExaminationSystem.Infrastructure.Implementations
 {
@@ -14,17 +11,16 @@ namespace ExaminationSystem.Infrastructure.Implementations
         {
             _dbContext = dbContext;
         }
-        public IGeneralRepository<TEntity, TKey> GetRepository<TEntity, TKey>() where TEntity : BaseModel<TKey>
+        public IGeneralRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseModel
         {
             //Get the type of the entity
             var entityType = typeof(TEntity);
 
             //Check if the repository for this entity type already exists in dictionary
             if (_repositories.TryGetValue(entityType, out var repository))
-                return (IGeneralRepository<TEntity, TKey>)repository;
-
+                return (IGeneralRepository<TEntity>)repository;
             //If not, create a new repository instance
-            var newRepo = new GeneralRepository<TEntity, TKey>(_dbContext);
+            var newRepo = new GeneralRepository<TEntity>(_dbContext);
             _repositories[entityType] = newRepo;
             return newRepo;
         }

@@ -1,6 +1,6 @@
 ﻿namespace ExaminationSystem.Domain.Models
 {
-    public class Option : BaseModel<int>
+    public class Option : BaseModel
     {
         public int QuestionId { get; set; }
         public string Text { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 namespace ExaminationSystem.Domain.Models
 {
-    public class Quiz : BaseModel<int>
+    public class Quiz : BaseModel
     {
         public int DiplomaId { get; set; }
         public string Title { get; set; }

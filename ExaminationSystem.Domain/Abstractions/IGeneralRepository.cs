@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace ExaminationSystem.Domain.Abstractions
 {
-    public interface IGeneralRepository<TEntity, TKey> where TEntity : BaseModel<TKey>
+    public interface IGeneralRepository<T> where T : BaseModel
     {
         public IQueryable<T> GetAll();
 
