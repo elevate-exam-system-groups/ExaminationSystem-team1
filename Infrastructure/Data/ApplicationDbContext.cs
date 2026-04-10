@@ -1,11 +1,12 @@
-﻿
-namespace ExaminationSystem.Infrastructure.Data
+﻿namespace ExaminationSystem.Infrastructure.Data
 {
-    public class Context : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public Context(DbContextOptions<Context> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
+        {
+        
+        }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
