@@ -1,7 +1,4 @@
-﻿
-using ExaminationSystem.Domain.Abstractions;
-using ExaminationSystem.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using ExaminationSystem.Infrastructure.Data;
 
 namespace ExaminationSystem.Infrastructure.Implementations
 {
@@ -22,7 +19,6 @@ namespace ExaminationSystem.Infrastructure.Implementations
             //Check if the repository for this entity type already exists in dictionary
             if (_repositories.TryGetValue(entityType, out var repository))
                 return (IGeneralRepository<TEntity>)repository;
-
             //If not, create a new repository instance
             var newRepo = new GeneralRepository<TEntity>(_dbContext);
             _repositories[entityType] = newRepo;

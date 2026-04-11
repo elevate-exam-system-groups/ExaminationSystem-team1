@@ -2,11 +2,11 @@
 {
     public class BaseModel
     {
-        public int Id { get; set; } = default!;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
-        public string CreatedBy { get; set; } = default!;
-        public string UpdatedBy { get; set; } = default!;
-        public bool isDeleted { get; set; }
+        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public string CreatedBy { get; set; } = string.Empty;
+        public string UpdatedBy { get; set; } = string.Empty;
+        public bool isDeleted { get; set; } = false;
     }
 }

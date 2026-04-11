@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\AuthModule\Login\**" />
+    <Content Remove="Features\AuthModule\Login\**" />
+    <EmbeddedResource Remove="Features\AuthModule\Login\**" />
+    <None Remove="Features\AuthModule\Login\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.4.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="MailKit" Version="4.15.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
@@ -30,6 +40,13 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Infrastructure\Configurations\" />
+    <Folder Include="Features\AuthModule\AccountVerification\" />
+    <Folder Include="Features\AuthModule\PasswordReset\" />
+    <Folder Include="Features\AuthModule\Register\" />
+    <Folder Include="Features\AuthModule\UserLogin\LoginRequests\Orchestrator\" />
+    <Folder Include="Features\DiplomaModule\" />
+    <Folder Include="Features\QuizModule\" />
   </ItemGroup>
 
 </Project>

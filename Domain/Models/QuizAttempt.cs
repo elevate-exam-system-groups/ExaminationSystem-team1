@@ -4,7 +4,6 @@ namespace ExaminationSystem.Domain.Models
 {
     public class QuizAttempt : BaseModel
     {
-        [ForeignKey("Student")]
         public string StudentId { get; set; }
         public int QuizId { get; set; }
 
@@ -19,5 +18,6 @@ namespace ExaminationSystem.Domain.Models
         public User Student { get; set; }
         public Quiz Quiz { get; set; }
         public ICollection<AttemptAnswer> UserAnswers { get; set; } = new List<AttemptAnswer>();
+
     }
 }

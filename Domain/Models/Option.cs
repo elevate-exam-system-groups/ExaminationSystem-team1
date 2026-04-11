@@ -3,9 +3,8 @@
     public class Option : BaseModel
     {
         public int QuestionId { get; set; }
-        public string Text { get; set; } = string.Empty;
+        public string Text { get; set; }
         public bool IsCorrect { get; set; }
-
         // Navigation property
         public Question Question { get; set; }
 

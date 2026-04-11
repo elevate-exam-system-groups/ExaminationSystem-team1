@@ -10,7 +10,7 @@ namespace ExaminationSystem.Domain.Models
         public string Status { get; set; }
 
         // Navigation properties
-        [ForeignKey("StudentId")]
+        [ForeignKey(nameof(StudentId))]
         public User Student { get; set; }
         public Diploma Diploma { get; set; }
     }
