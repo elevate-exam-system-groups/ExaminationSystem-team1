@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ExaminationSystem.Infrastructure.Data
 {
-    public class Context : IdentityDbContext<User>
-    {
     public class Context : IdentityDbContext<User>//DbContext
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
