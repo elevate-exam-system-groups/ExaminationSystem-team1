@@ -10,7 +10,7 @@ namespace ExaminationSystem
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +26,14 @@ namespace ExaminationSystem
 
             builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            builder.Services.AddIdentity<User, IdentityRole>()
-              .AddEntityFrameworkStores<Context>()
-              .AddDefaultTokenProviders();
+
 
             builder.Services.AddMediatR(cfg =>
                   cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            builder.Services.AddIdentity<User, IdentityRole>() // context user
+              .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces
+              .AddDefaultTokenProviders();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -54,6 +56,29 @@ namespace ExaminationSystem
               });
 
             var app = builder.Build();
+
+            #region UpdateDatabase
+
+            using var Scope = app.Services.CreateScope(); //Group Of services That has object lifetime scoped
+            var Services = Scope.ServiceProvider; // Service itself
+            var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+                //Ask CLR For Creating An Instance From Context Exiplicitly
+                var context = Services.GetRequiredService<Context>();
+
+                await context.Database.MigrateAsync(); // Update identity database
+
+                var userManager = Services.GetRequiredService<UserManager<User>>();
+                await ContextSeed.SeedUserAsync(userManager); // Seed Data
+            }
+            catch (Exception ex)
+            {
+                var logger = LoggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "An error occurred during migration");
+            }
+
+            #endregion
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

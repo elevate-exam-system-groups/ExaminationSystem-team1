@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.4.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="MailKit" Version="4.15.1" />
@@ -36,8 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
-    <Folder Include="ExaminationSystem.Infrastructure\Configurations\" />
+    <Folder Include="Infrastructure\Configurations\" />
     <Folder Include="Features\AuthModule\AccountVerification\" />
     <Folder Include="Features\AuthModule\PasswordReset\" />
     <Folder Include="Features\AuthModule\Register\" />

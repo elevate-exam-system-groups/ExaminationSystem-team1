@@ -28,7 +28,7 @@ namespace ExaminationSystem.Controllers
             return Ok("Hello, World!");
         }
 
-        [HttpPost()]
+        [HttpPost("Login")]
         public async Task<ResponseViewModel<UserResponseVm>> Login(LoginRequestVm loginModel)
         {
             var result = await _mediator.Send(new LoginCommandRequest(loginModel.Email, loginModel.Password));
