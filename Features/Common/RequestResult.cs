@@ -1,0 +1,34 @@
+﻿using ExaminationSystem.Features.Common.Enums;
+
+namespace ExaminationSystem.Features.Common
+{
+    public class RequestResult<T> where T : class
+    {
+        public bool IsSuccess { get; set; }
+        public T? Data { get; set; }
+        public string? Message { get; set; }
+        public RequestErrorCode? requestErrorCode { get; set; }
+
+        public static RequestResult<T> Success(T data, string message = "Success")
+        {
+            return new RequestResult<T>
+            {
+                IsSuccess = true,
+                Data = data,
+                Message = message,
+                requestErrorCode = RequestErrorCode.None
+            };
+        }
+
+        public static RequestResult<T> Failure(string message = "Request Failed", RequestErrorCode? errorCode = null)
+        {
+            return new RequestResult<T>
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = message,
+                requestErrorCode = errorCode
+            };
+        }
+    }
+}
