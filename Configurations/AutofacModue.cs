@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ExaminationSystem.Features.AuthModule.Shared;
 using ExaminationSystem.Infrastructure.Implementations;
 using Module = Autofac.Module;
 
@@ -12,6 +13,9 @@ namespace ExaminationSystem.Configurations
                    .As<IUnitOfWork>()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<TokenGenerator>()
+                   .As<ITokenGenerator>()
+                   .InstancePerLifetimeScope();
 
         }
     }
