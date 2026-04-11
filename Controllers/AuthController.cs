@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ExaminationSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class testController : ControllerBase
+    public class AuthController : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()

@@ -1,4 +1,6 @@
 
+using ExaminationSystem.Infrastructure.Data;
+
 namespace ExaminationSystem
 {
     public class Program
@@ -13,6 +15,9 @@ namespace ExaminationSystem
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<Context>(opt => 
+                opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
 
             var app = builder.Build();
 
