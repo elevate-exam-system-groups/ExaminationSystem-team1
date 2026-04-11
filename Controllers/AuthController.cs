@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Shared;
+using ExaminationSystem.Shared;
 ﻿using ExaminationSystem.Controllers.ViewModels;
 using ExaminationSystem.Controllers.ViewModels.Enums;
 using ExaminationSystem.Controllers.ViewModels.LoginViewModels;
@@ -13,11 +13,21 @@ namespace ExaminationSystem.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IMediator _mediator;
 
-        public AuthController(IMediator mediator)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IMediator mediator)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("API is running");
         }
 
         [HttpPost("forgot-password")]
@@ -29,18 +39,6 @@ namespace ExaminationSystem.Controllers
 
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IMediator _mediator;
-
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IMediator mediator)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _mediator = mediator;
-        }
-        [HttpGet]
-        public IActionResult Get()
         {
             var result = await _mediator.Send(command);
             return result.ToHttpResponse();

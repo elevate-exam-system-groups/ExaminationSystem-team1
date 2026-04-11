@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Enums;
+using ExaminationSystem.Features.Common.Enums;
 
 namespace ExaminationSystem.Features.Common
 {
@@ -8,6 +8,18 @@ namespace ExaminationSystem.Features.Common
         public T? Data { get; set; }
         public string? Message { get; set; }
         public RequestErrorCode? requestErrorCode { get; set; }
+        public ErrorCode ErrorCode { get; set; }
+
+        public static RequestResult<T> Failure(ErrorCode errorCode, string message = "Request Failed")
+        {
+            return new RequestResult<T>
+            {
+                IsSuccess = false,
+                Data = null,
+                Message = message,
+                ErrorCode = errorCode
+            };
+        }
 
         public static RequestResult<T> Success(T data, string message = "Success")
         {

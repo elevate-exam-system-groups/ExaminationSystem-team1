@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Domain.Abstractions;
+using ExaminationSystem.Domain.Abstractions;
 using ExaminationSystem.Domain.Enums;
 using ExaminationSystem.Features.Account.DTOs;
 using MediatR;
@@ -28,7 +28,7 @@ namespace ExaminationSystem.Features.Account.Command
 
             var existingUser = await _userManager.FindByEmailAsync(request.registerDTO.Email);
             if(existingUser is not null)
-                return new RequestResult<UserDTO>(null!, false, ErrorCode.EmailAlreadyRegistered);
+                return new RequestResult<UserDTO>(null!, false, global::ExaminationSystem.Domain.Enums.ErrorCode.EmailAlreadyRegistered);
 
             var user = new User
             {
@@ -42,11 +42,11 @@ namespace ExaminationSystem.Features.Account.Command
             if (!identityResult.Succeeded)
             {
                 var errors = identityResult.Errors.Select(e => e.Description).ToList();
-                return new RequestResult<UserDTO>(null!, false, ErrorCode.PasswordPolicyViolation);
+                return new RequestResult<UserDTO>(null!, false, global::ExaminationSystem.Domain.Enums.ErrorCode.PasswordPolicyViolation);
             }
 
             var token = await CreateTokenAsync(user);
-            return new RequestResult<UserDTO>(new UserDTO(user.Email, user.FullName, token), true, ErrorCode.Success);
+            return new RequestResult<UserDTO>(new UserDTO(user.Email, user.FullName, token), true, global::ExaminationSystem.Domain.Enums.ErrorCode.Success);
 
         }
 

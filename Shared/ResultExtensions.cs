@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExaminationSystem.Shared
 {
@@ -18,7 +18,7 @@ namespace ExaminationSystem.Shared
             [ErrorCode.AccountNotVerified] = new ErrorDetails(403, "Account not verified"),
         };
 
-        public static IActionResult ToHttpResponse<T>(this RequestResult<T> result)
+        public static IActionResult ToHttpResponse<T>(this RequestResult<T> result) where T : class
         {
             if (result.IsSuccess)
             {
