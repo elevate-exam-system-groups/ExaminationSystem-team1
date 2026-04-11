@@ -1,11 +1,11 @@
-﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace ExaminationSystem.Features.AuthModule.Shared
 {
-    public class TokenGenerator
+    public class TokenGenerator : ITokenGenerator
     {
 
         private readonly IConfiguration _configuration;
