@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ExaminationSystem.Shared;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExaminationSystem.Controllers
 {
@@ -6,10 +7,25 @@ namespace ExaminationSystem.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        private readonly IMediator _mediator;
+
+        public AuthController(IMediator mediator)
         {
-            return Ok("Hello, World!");
+            _mediator = mediator;
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result.ToHttpResponse();
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result.ToHttpResponse();
         }
     }
 }

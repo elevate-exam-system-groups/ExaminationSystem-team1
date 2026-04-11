@@ -8,29 +8,33 @@
 
   <ItemGroup>
     <Compile Remove="Configurations\**" />
-    <Compile Remove="Features\AuthModule\AccountVerification\**" />
-    <Compile Remove="Features\AuthModule\PasswordReset\**" />
-    <Compile Remove="Features\AuthModule\Register\**" />
+    <Compile Remove="Features\Authentication\AccountVerification\**" />
+    <Compile Remove="Features\Authentication\PasswordReset\**" />
+    <Compile Remove="Features\Authentication\Register\**" />
     <Compile Remove="Features\DiplomaModule\**" />
     <Compile Remove="Features\QuizModule\**" />
+    <Compile Remove="Infrastructure\Configurations\**" />
     <Content Remove="Configurations\**" />
-    <Content Remove="Features\AuthModule\AccountVerification\**" />
-    <Content Remove="Features\AuthModule\PasswordReset\**" />
-    <Content Remove="Features\AuthModule\Register\**" />
+    <Content Remove="Features\Authentication\AccountVerification\**" />
+    <Content Remove="Features\Authentication\PasswordReset\**" />
+    <Content Remove="Features\Authentication\Register\**" />
     <Content Remove="Features\DiplomaModule\**" />
     <Content Remove="Features\QuizModule\**" />
+    <Content Remove="Infrastructure\Configurations\**" />
     <EmbeddedResource Remove="Configurations\**" />
-    <EmbeddedResource Remove="Features\AuthModule\AccountVerification\**" />
-    <EmbeddedResource Remove="Features\AuthModule\PasswordReset\**" />
-    <EmbeddedResource Remove="Features\AuthModule\Register\**" />
+    <EmbeddedResource Remove="Features\Authentication\AccountVerification\**" />
+    <EmbeddedResource Remove="Features\Authentication\PasswordReset\**" />
+    <EmbeddedResource Remove="Features\Authentication\Register\**" />
     <EmbeddedResource Remove="Features\DiplomaModule\**" />
     <EmbeddedResource Remove="Features\QuizModule\**" />
+    <EmbeddedResource Remove="Infrastructure\Configurations\**" />
     <None Remove="Configurations\**" />
-    <None Remove="Features\AuthModule\AccountVerification\**" />
-    <None Remove="Features\AuthModule\PasswordReset\**" />
-    <None Remove="Features\AuthModule\Register\**" />
+    <None Remove="Features\Authentication\AccountVerification\**" />
+    <None Remove="Features\Authentication\PasswordReset\**" />
+    <None Remove="Features\Authentication\Register\**" />
     <None Remove="Features\DiplomaModule\**" />
     <None Remove="Features\QuizModule\**" />
+    <None Remove="Infrastructure\Configurations\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,15 +55,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MimeKit" Version="4.15.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\AuthModule\foreget_ResetPassword\Commands\" />
-    <Folder Include="Features\AuthModule\foreget_ResetPassword\Orchestrators\" />
-    <Folder Include="Features\AuthModule\DTOs\" />
-    <Folder Include="Infrastructure\Configurations\" />
+    <Folder Include="Domain\Models\Enums\" />
   </ItemGroup>
 
 </Project>
