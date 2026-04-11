@@ -3,6 +3,6 @@
     public interface IUnitOfWork
     {
         Task<int> SaveChangesAsync();
-        IGeneralRepository<T> GetRepository<T>() where T : BaseModel;
+        IGeneralRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseModel;
     }
 }

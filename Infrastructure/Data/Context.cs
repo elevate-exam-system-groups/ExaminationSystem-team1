@@ -1,8 +1,9 @@
-
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ExaminationSystem.Infrastructure.Data
 {
+    public class Context : IdentityDbContext<User>
+    {
     public class Context : IdentityDbContext<User>//DbContext
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
@@ -18,8 +19,7 @@ namespace ExaminationSystem.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            
+            base.OnModelCreating(modelBuilder);            
             // Prevent multiple cascade paths error for AttemptAnswer
             modelBuilder.Entity<AttemptAnswer>()
                 .HasOne(a => a.Question)

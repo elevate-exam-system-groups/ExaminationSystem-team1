@@ -1,6 +1,4 @@
-﻿
-
-using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
+﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace ExaminationSystem.Domain.Models

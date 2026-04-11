@@ -13,10 +13,11 @@ namespace ExaminationSystem.Domain.Models
         public DateTime SubmittedAt { get; set; }
         public int Score { get; set; }
         public bool IsPassed { get; set; }
+       
         // Navigation properties
-        [ForeignKey(nameof(StudentId))]
         public User Student { get; set; }
         public Quiz Quiz { get; set; }
+        public ICollection<AttemptAnswer> UserAnswers { get; set; } = new List<AttemptAnswer>();
 
     }
 }
