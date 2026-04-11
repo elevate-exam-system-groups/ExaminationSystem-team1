@@ -1,14 +1,11 @@
 ﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
+using ExaminationSystem.Features.AuthModule.Shared;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginDTOS;
 using ExaminationSystem.Features.Common;
 using ExaminationSystem.Features.Common.Enums;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
 {
@@ -41,17 +38,17 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IConfiguration _configuration;
+        private readonly ITokenGenerator _tokenGenerator;
 
 
         public LoginCommandHandler(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IConfiguration configuration)
+            ITokenGenerator tokenGenerator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
+            _tokenGenerator = tokenGenerator;
         }
 
         public async Task<RequestResult<LoginCommandResponseDTO>> Handle(
@@ -97,7 +94,7 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
                     .Failure("Invalid email or password", RequestErrorCode.InvalidCredentials);
 
             // 6. Generate Token
-            var token = GenerateAccessToken(user);
+            var token = _tokenGenerator.GenerateAccessToken(user);
 
             return RequestResult<LoginCommandResponseDTO>.Success(new LoginCommandResponseDTO
             {
@@ -106,28 +103,28 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
             });
         }
 
-        private string GenerateAccessToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
-            };
+        //private string GenerateAccessToken(User user)
+        //{
+        //    var claims = new List<Claim>
+        //    {
+        //        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        //        new Claim(ClaimTypes.Email, user.Email),
+        //        new Claim(ClaimTypes.Name, user.UserName),
+        //        new Claim(ClaimTypes.Role, user.Role.ToString())
+        //    };
 
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
+        //    var key = new SymmetricSecurityKey(
+        //        Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:Issuer"],
-                audience: _configuration["JWT:Audience"],
-                expires: DateTime.UtcNow.AddMinutes(15),
-                claims: claims,
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-            );
+        //    var token = new JwtSecurityToken(
+        //        issuer: _configuration["JWT:Issuer"],
+        //        audience: _configuration["JWT:Audience"],
+        //        expires: DateTime.UtcNow.AddMinutes(15),
+        //        claims: claims,
+        //        signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+        //    );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
     }
 }

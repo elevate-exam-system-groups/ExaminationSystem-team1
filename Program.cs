@@ -1,4 +1,7 @@
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using ExaminationSystem.Configurations;
 using ExaminationSystem.Infrastructure.Data;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,6 +33,10 @@ namespace ExaminationSystem
 
             builder.Services.AddMediatR(cfg =>
                   cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+                containerBuilder.RegisterModule(new AutofacModule()));
 
             builder.Services.AddIdentity<User, IdentityRole>() // context user
               .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces
