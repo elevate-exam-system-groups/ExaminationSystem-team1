@@ -32,7 +32,7 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required")
-                .MinimumLength(8).WithMessage("Password must be at least 8 characters");
+                .MinimumLength(5).WithMessage("Password must be at least 5 characters");
         }
     }
     #endregion
@@ -42,6 +42,7 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
+
 
         public LoginCommandHandler(
             UserManager<User> userManager,
@@ -57,6 +58,15 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
             LoginCommandRequest request,
             CancellationToken cancellationToken)
         {
+            var validator = new LoginCommandValidator();
+            var resultValidate = await validator.ValidateAsync(request);
+
+            if (!resultValidate.IsValid)
+            {
+                return RequestResult<LoginCommandResponseDTO>
+                     .Failure("Invalid email or password", RequestErrorCode.InvalidCredentials);
+            }
+
             // 1. Find User
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user is null)
