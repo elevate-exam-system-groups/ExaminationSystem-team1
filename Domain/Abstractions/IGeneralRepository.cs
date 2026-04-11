@@ -1,4 +1,8 @@
-﻿namespace ExaminationSystem.Domain.Abstractions
+﻿
+
+using System.Linq.Expressions;
+
+namespace ExaminationSystem.Domain.Abstractions
 {
     public interface IGeneralRepository<T> where T : BaseModel
     {

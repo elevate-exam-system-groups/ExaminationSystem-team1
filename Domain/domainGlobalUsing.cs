@@ -1,3 +1,2 @@
 ﻿global using ExaminationSystem.Domain.Models;
-global using System.Linq.Expressions;
-
+global using ExaminationSystem.Domain.Models.Enums;

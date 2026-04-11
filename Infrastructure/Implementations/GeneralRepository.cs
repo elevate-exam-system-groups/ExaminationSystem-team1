@@ -1,11 +1,16 @@
-﻿namespace ExaminationSystem.Infrastructure.Implementations
+﻿
+using ExaminationSystem.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
+
+namespace ExaminationSystem.Infrastructure.Implementations
 {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : BaseModel
     {
 
-        ApplicationDbContext _context;
+        Context _context;
         DbSet<T> _dbSet;
-        public GeneralRepository(ApplicationDbContext context)
+        public GeneralRepository(Context context)
         {
             _context = context;
             _dbSet = context.Set<T>();

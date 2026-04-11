@@ -1,30 +1,34 @@
-﻿namespace ExaminationSystem.Features.Common
+﻿using ExaminationSystem.Features.Common.Enums;
+
+namespace ExaminationSystem.Features.Common
 {
-    public record RequestResult<TResult>
+    public class RequestResult<T> where T : class
     {
-        public TResult? Data { get; init; }
-        public bool IsSuccess { get; init; }
-        public ErrorCode ErrorCode { get; init; }
+        public bool IsSuccess { get; set; }
+        public T? Data { get; set; }
+        public string? Message { get; set; }
+        public RequestErrorCode? requestErrorCode { get; set; }
 
-
-        public static RequestResult<TResult> Success(TResult data) =>
-            new RequestResult<TResult>
+        public static RequestResult<T> Success(T data, string message = "Success")
+        {
+            return new RequestResult<T>
             {
-                Data = data,
                 IsSuccess = true,
-                ErrorCode = ErrorCode.None,
-
+                Data = data,
+                Message = message,
+                requestErrorCode = RequestErrorCode.None
             };
+        }
 
-        public static RequestResult<TResult> Failure(ErrorCode errorCode) =>
-            new RequestResult<TResult>
+        public static RequestResult<T> Failure(string message = "Request Failed", RequestErrorCode? errorCode = null)
+        {
+            return new RequestResult<T>
             {
-                Data = default,
                 IsSuccess = false,
-                ErrorCode = errorCode,
-
+                Data = null,
+                Message = message,
+                requestErrorCode = errorCode
             };
-
-
+        }
     }
 }

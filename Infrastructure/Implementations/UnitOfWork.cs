@@ -1,11 +1,13 @@
-﻿namespace ExaminationSystem.Infrastructure.Implementations
+﻿using ExaminationSystem.Infrastructure.Data;
+
+namespace ExaminationSystem.Infrastructure.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly Context _dbContext;
         private readonly Dictionary<Type, object> _repositories = [];
 
-        public UnitOfWork(ApplicationDbContext dbContext)
+        public UnitOfWork(Context dbContext)
         {
             _dbContext = dbContext;
         }

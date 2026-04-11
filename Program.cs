@@ -1,10 +1,19 @@
-using ExaminationSystem.Features.Common.Services;
+
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using ExaminationSystem.Configurations;
+using ExaminationSystem.Infrastructure.Data;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ExaminationSystem
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -13,57 +22,72 @@ namespace ExaminationSystem
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+            builder.Services.AddDbContext<Context>(opt =>
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            builder.Services.AddIdentity<User, IdentityRole>(options => 
-            {
-                options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireDigit = true;
 
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-            })
-              .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            builder.Services.AddScoped<IEmailService, EmailService>();
-
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+            builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 
 
-            builder.Services.AddAuthentication(options => 
+            builder.Services.AddMediatR(cfg =>
+                  cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+                containerBuilder.RegisterModule(new AutofacModule()));
+
+            builder.Services.AddIdentity<User, IdentityRole>() // context user
+              .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces
+              .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => 
-            {
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = builder.Configuration["JWTOptions:Issuer"],
-                    ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWTOptions:Audience"],
-                    ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                        builder.Configuration["JWTOptions:SecretKey"]))
-                };
-            });
-
-            #endregion
+            })
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = builder.Configuration["JWT:Issuer"],
+                      ValidAudience = builder.Configuration["JWT:Audience"],
+                      IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                  };
+              });
 
             var app = builder.Build();
 
-            #region Configure the HTTP request pipeline.
+            #region UpdateDatabase
 
+            using var Scope = app.Services.CreateScope(); //Group Of services That has object lifetime scoped
+            var Services = Scope.ServiceProvider; // Service itself
+            var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+                //Ask CLR For Creating An Instance From Context Exiplicitly
+                var context = Services.GetRequiredService<Context>();
+
+                await context.Database.MigrateAsync(); // Update identity database
+
+                var userManager = Services.GetRequiredService<UserManager<User>>();
+                await ContextSeed.SeedUserAsync(userManager); // Seed Data
+            }
+            catch (Exception ex)
+            {
+                var logger = LoggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "An error occurred during migration");
+            }
+
+            #endregion
+
+            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -71,7 +95,6 @@ namespace ExaminationSystem
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
