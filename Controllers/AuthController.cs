@@ -1,3 +1,4 @@
+﻿using ExaminationSystem.Shared;
 ﻿using ExaminationSystem.Controllers.ViewModels;
 using ExaminationSystem.Controllers.ViewModels.Enums;
 using ExaminationSystem.Controllers.ViewModels.LoginViewModels;
@@ -12,6 +13,22 @@ namespace ExaminationSystem.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public AuthController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result.ToHttpResponse();
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMediator _mediator;
@@ -25,7 +42,8 @@ namespace ExaminationSystem.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Hello, World!");
+            var result = await _mediator.Send(command);
+            return result.ToHttpResponse();
         }
 
         [HttpPost("Login")]

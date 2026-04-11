@@ -7,6 +7,37 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configurations\**" />
+    <Compile Remove="Features\Authentication\AccountVerification\**" />
+    <Compile Remove="Features\Authentication\PasswordReset\**" />
+    <Compile Remove="Features\Authentication\Register\**" />
+    <Compile Remove="Features\DiplomaModule\**" />
+    <Compile Remove="Features\QuizModule\**" />
+    <Compile Remove="Infrastructure\Configurations\**" />
+    <Content Remove="Configurations\**" />
+    <Content Remove="Features\Authentication\AccountVerification\**" />
+    <Content Remove="Features\Authentication\PasswordReset\**" />
+    <Content Remove="Features\Authentication\Register\**" />
+    <Content Remove="Features\DiplomaModule\**" />
+    <Content Remove="Features\QuizModule\**" />
+    <Content Remove="Infrastructure\Configurations\**" />
+    <EmbeddedResource Remove="Configurations\**" />
+    <EmbeddedResource Remove="Features\Authentication\AccountVerification\**" />
+    <EmbeddedResource Remove="Features\Authentication\PasswordReset\**" />
+    <EmbeddedResource Remove="Features\Authentication\Register\**" />
+    <EmbeddedResource Remove="Features\DiplomaModule\**" />
+    <EmbeddedResource Remove="Features\QuizModule\**" />
+    <EmbeddedResource Remove="Infrastructure\Configurations\**" />
+    <None Remove="Configurations\**" />
+    <None Remove="Features\Authentication\AccountVerification\**" />
+    <None Remove="Features\Authentication\PasswordReset\**" />
+    <None Remove="Features\Authentication\Register\**" />
+    <None Remove="Features\DiplomaModule\**" />
+    <None Remove="Features\QuizModule\**" />
+    <None Remove="Infrastructure\Configurations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Features\AuthModule\Login\**" />
     <Content Remove="Features\AuthModule\Login\**" />
     <EmbeddedResource Remove="Features\AuthModule\Login\**" />
@@ -20,6 +51,7 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="MailKit" Version="4.15.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.11" />
@@ -33,11 +65,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MimeKit" Version="4.15.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Domain\Models\Enums\" />
     <Folder Include="Configurations\" />
     <Folder Include="Migrations\" />
     <Folder Include="Infrastructure\Configurations\" />
