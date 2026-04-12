@@ -1,6 +1,6 @@
 ﻿using Autofac;
+using ExaminationSystem.Features.Account.Shared.Services;
 using ExaminationSystem.Features.AuthModule.Shared;
-using ExaminationSystem.Infrastructure.Implementations;
 using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations
@@ -15,6 +15,10 @@ namespace ExaminationSystem.Configurations
 
             builder.RegisterType<TokenGenerator>()
                    .As<ITokenGenerator>()
+                   .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailService>()
+                   .As<IEmailService>()
                    .InstancePerLifetimeScope();
 
         }

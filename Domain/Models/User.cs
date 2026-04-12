@@ -1,5 +1,4 @@
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
-using Microsoft.AspNetCore.Identity;
 
 namespace ExaminationSystem.Domain.Models
 {
@@ -19,5 +18,11 @@ namespace ExaminationSystem.Domain.Models
         public DateTime? ForgotPasswordLockoutEnd { get; set; }
         public int ForgotPasswordAttempts { get; set; }
         public ICollection<PasswordResetToken> PasswordResetTokens { get; set; } = new List<PasswordResetToken>();
+
+        //  Manage => Reset Password
+        public string? PasswordResetTokenHash { get; set; } // to store Hash for token
+        public DateTime? PasswordResetTokenExpiry { get; set; }
+        public bool IsPasswordResetTokenUsed { get; set; }
+
     }
 }

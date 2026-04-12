@@ -18,27 +18,9 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Prevent multiple cascade paths error for AttemptAnswer
-            modelBuilder.Entity<AttemptAnswer>()
-                .HasOne(a => a.Question)
-                .WithMany()
-                .HasForeignKey(a => a.QuestionId)
-                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<AttemptAnswer>()
-                .HasOne(a => a.Option)
-                .WithMany()
-                .HasForeignKey(a => a.OptionId)
-                .OnDelete(DeleteBehavior.NoAction);
 
-            // relation => User و PasswordResetToken
-            modelBuilder.Entity<PasswordResetToken>(entity =>
-            {
-                entity.HasOne(e => e.User)
-                      .WithMany(u => u.PasswordResetTokens)
-                      .HasForeignKey(e => e.UserId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
+
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

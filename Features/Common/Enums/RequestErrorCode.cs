@@ -6,6 +6,16 @@
         InvalidCredentials,
         EmailNotVerified,
         AccountLocked,
-        AccountNotActive
+        AccountNotActive,
+        Success = 201,
+        EmailAlreadyRegistered = 209,
+        ValidationError = 422,
+        PasswordPolicyViolation = 422,
+        UserNotFound = 1001,
+        InvalidToken = 1002,
+        PasswordResetFailed = 1003,
+        EmailSendFailed = 1004,
+        EmailAlreadyExists = 1005,
+        AccountNotVerified = 1006
     }
 }
