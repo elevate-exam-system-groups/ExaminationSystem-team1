@@ -6,7 +6,6 @@ using ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPasswor
 using ExaminationSystem.Features.AuthModule.Account.Command;
 using ExaminationSystem.Features.AuthModule.Account.DTOs;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands;
-using ExaminationSystem.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExaminationSystem.Controllers.AccountController
@@ -47,23 +46,29 @@ namespace ExaminationSystem.Controllers.AccountController
         }
 
         [HttpPost]
-        public async Task<ResponseViewModel<ForgotPasswordResponseVm>> ForgotPassword([FromBody] ForgotPasswordViewModel model)
+        public async Task<ResponseViewModel<ForgotPasswordViewModel>> ForgotPassword([FromBody] ForgotPasswordViewModel model)
         {
             var command = new ForgotPasswordCommand(model.Email);
 
             var result = await _mediator.Send(command);
-            return ResponseViewModel<ForgotPasswordResponseVm>.Success();
+            return ResponseViewModel<ForgotPasswordViewModel>.Success(new ForgotPasswordViewModel
+            {
+                Email = result.Data.Message
+            });
 
         }
 
         [HttpPost]
-        public async Task<ResponseViewModel<ResetPasswordResponseVm>> ResetPassword([FromBody] ResetPasswordViewModel model)
+        public async Task<ResponseViewModel<ResetPasswordViewModel>> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             var command = new ResetPasswordCommand
             (model.Token, model.NewPassword, model.ConfirmNewPassword);
 
             var result = await _mediator.Send(command);
-            return result.ToHttpResponse();
+            return ResponseViewModel<ResetPasswordViewModel>.Success(new ResetPasswordViewModel
+            {
+                Token = result.Data.Message
+            });
         }
 
     }

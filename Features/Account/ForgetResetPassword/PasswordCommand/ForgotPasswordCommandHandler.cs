@@ -1,6 +1,6 @@
 ﻿using ExaminationSystem.Features.Account.ForgetResetPassword.DTOs;
 using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.AuthModule.Shared;
+using static ExaminationSystem.Features.Account.ForgetResetPassword.Helper.HashToken;
 
 namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword
 {
@@ -12,17 +12,16 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
         private readonly UserManager<User> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailService _emailService;
-        private readonly ITokenGenerator _tokenGenerator;
 
         public ForgotPasswordHandler(UserManager<User> userManager,
             IUnitOfWork unitOfWork,
-            IEmailService emailService,
-            ITokenGenerator tokenGenerator)
+            IEmailService emailService
+            )
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _emailService = emailService;
-            _tokenGenerator = tokenGenerator;
+
         }
 
         public async Task<RequestResult<ForgotPasswordResponse>> Handle(
@@ -77,7 +76,11 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
             await _userManager.UpdateAsync(user);
 
 
-            var resetToken = _tokenGenerator.GenerateAccessToken(user); // يمكن استخدام UUID أو JWT بسيط - هنا استخدمنا JWT لسهولة التحقق لاحقًا
+            // 6. إنشاء التوكن (UUID - مرة واحدة)
+            var resetToken = Guid.NewGuid().ToString();
+
+            // 7. تخزين التوكن كـ Hash في قاعدة البيانات
+            var tokenHash = TokenHasher.HashToken(resetToken);
 
 
             var passwordResetToken = new PasswordResetToken

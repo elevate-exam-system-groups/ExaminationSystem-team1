@@ -1,5 +1,6 @@
 ﻿using ExaminationSystem.Features.Account.ForgetResetPassword.DTOs;
 using ExaminationSystem.Features.AuthModule.Shared;
+using static ExaminationSystem.Features.Account.ForgetResetPassword.Helper.HashToken;
 
 namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword
 {
@@ -33,7 +34,7 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
             }
 
             // 3. هاش التوكن المُستلم
-            var tokenHash = _tokenGenerator.GenerateAccessToken(request.Token);
+            var tokenHash = TokenHasher.HashToken(request.Token);
 
             // 4. البحث عن التوكن في قاعدة البيانات
             var tokenEntity = await _unitOfWork.GetRepository<PasswordResetToken>()
