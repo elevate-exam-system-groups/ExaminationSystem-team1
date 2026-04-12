@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ExaminationSystem.Features.Account.AccountControllers.ViewModels.PasswordViewModels
+namespace ExaminationSystem.Controllers.AccountController.ViewModels.PasswordViewModels
 {
     public class ResetPasswordViewModel
     {

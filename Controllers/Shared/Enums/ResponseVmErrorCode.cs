@@ -1,9 +1,16 @@
-﻿namespace ExaminationSystem.Features.Account.AccountControllers.ViewModels.Enums
+﻿namespace ExaminationSystem.Controllers.Shared.Enums
 {
     public enum ResponseVmErrorCode
     {
         None = 0,
-        InvalidCredentials
+        InvalidCredentials,
+        UserNotFound = 404,
+        InvalidToken = 400,
+        PasswordResetFailed = 400,
+        EmailSendFailed = 500,
+        EmailAlreadyExists = 409,
+        AccountNotVerified = 403
+
         //InvalidInput = 1,
         //NotFound = 2,
         //Unauthorized = 3,

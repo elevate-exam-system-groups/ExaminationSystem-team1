@@ -1,14 +1,15 @@
-using ExaminationSystem.Features.Account.AccountControllers.ViewModels;
-using ExaminationSystem.Features.Account.AccountControllers.ViewModels.Enums;
-using ExaminationSystem.Features.Account.AccountControllers.ViewModels.LoginViewModels;
-using ExaminationSystem.Features.Account.AccountControllers.ViewModels.PasswordViewModels;
+using ExaminationSystem.Controllers.AccountController.ViewModels.LoginViewModels;
+using ExaminationSystem.Controllers.AccountController.ViewModels.PasswordViewModels;
+using ExaminationSystem.Controllers.Shared;
+using ExaminationSystem.Controllers.Shared.Enums;
+using ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword;
 using ExaminationSystem.Features.AuthModule.Account.Command;
 using ExaminationSystem.Features.AuthModule.Account.DTOs;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands;
 using ExaminationSystem.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExaminationSystem.Features.Account.AccountControllers
+namespace ExaminationSystem.Controllers.AccountController
 {
     [Route("[controller]/[action]")]
     [ApiController]
@@ -46,16 +47,17 @@ namespace ExaminationSystem.Features.Account.AccountControllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
+        public async Task<ResponseViewModel<ForgotPasswordResponseVm>> ForgotPassword([FromBody] ForgotPasswordViewModel model)
         {
             var command = new ForgotPasswordCommand(model.Email);
 
             var result = await _mediator.Send(command);
-            return result.ToHttpResponse();
+            return ResponseViewModel<ForgotPasswordResponseVm>.Success();
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
+        public async Task<ResponseViewModel<ResetPasswordResponseVm>> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             var command = new ResetPasswordCommand
             (model.Token, model.NewPassword, model.ConfirmNewPassword);

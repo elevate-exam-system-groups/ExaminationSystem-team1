@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ExaminationSystem.Features.Account.AccountControllers.ViewModels.LoginViewModels
+namespace ExaminationSystem.Controllers.AccountController.ViewModels.LoginViewModels
 {
     public class LoginRequestVm
     {

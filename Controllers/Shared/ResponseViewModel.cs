@@ -1,6 +1,6 @@
-﻿using ExaminationSystem.Features.Account.AccountControllers.ViewModels.Enums;
+﻿using ExaminationSystem.Controllers.Shared.Enums;
 
-namespace ExaminationSystem.Features.Account.AccountControllers.ViewModels
+namespace ExaminationSystem.Controllers.Shared
 {
     public class ResponseViewModel<T> where T : class
     {

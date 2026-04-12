@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -69,7 +69,6 @@
   <ItemGroup>
     <Folder Include="Domain\Models\Enums\" />
     <Folder Include="Configurations\" />
-    <Folder Include="Features\Common\Helpers\" />
     <Folder Include="Features\DiplomaModule\" />
     <Folder Include="Features\QuizModule\" />
   </ItemGroup>
