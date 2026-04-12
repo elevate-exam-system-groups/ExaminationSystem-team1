@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 
 namespace ExaminationSystem.Infrastructure.Data
 {
@@ -13,7 +13,10 @@ namespace ExaminationSystem.Infrastructure.Data
                     FullName = "SuperAdmin",
                     Email = "SuperAdmin@gmail.com",
                     UserName = "SuperAdmin",
-                    PhoneNumber = "0123456789"
+                    PhoneNumber = "0123456789",
+                    accountStatus = AccountStatus.Active,
+                    Role = Role.Admin,
+                    EmailConfirmed = true
                 };
 
                 await userManager.CreateAsync(User, "Abc@123");
