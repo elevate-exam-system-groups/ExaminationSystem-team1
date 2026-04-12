@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExaminationSystem.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260411205249_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(Context))]
+    [Migration("20260412133546_intial0migration")]
+    partial class intial0migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,9 @@ namespace ExaminationSystem.Migrations
                     b.Property<int>("OptionId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OptionId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
@@ -65,6 +68,8 @@ namespace ExaminationSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OptionId");
+
+                    b.HasIndex("OptionId1");
 
                     b.HasIndex("QuestionId");
 
@@ -140,10 +145,8 @@ namespace ExaminationSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentId1")
+                    b.Property<string>("StudentId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -160,7 +163,7 @@ namespace ExaminationSystem.Migrations
 
                     b.HasIndex("DiplomaId");
 
-                    b.HasIndex("StudentId1");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Enrollments");
                 });
@@ -316,6 +319,12 @@ namespace ExaminationSystem.Migrations
                     b.Property<int>("DiplomaId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Instructions")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -327,6 +336,9 @@ namespace ExaminationSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PublishedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
@@ -384,10 +396,8 @@ namespace ExaminationSystem.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentId1")
+                    b.Property<string>("StudentId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("SubmittedAt")
@@ -411,7 +421,7 @@ namespace ExaminationSystem.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.HasIndex("StudentId1");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("QuizAttempts");
                 });
@@ -441,8 +451,9 @@ namespace ExaminationSystem.Migrations
                     b.Property<DateTime?>("ForgotPasswordLockoutEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsPasswordResetTokenUsed")
-                        .HasColumnType("bit");
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -461,17 +472,14 @@ namespace ExaminationSystem.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PasswordResetTokenExpiry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PasswordResetTokenHash")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -482,6 +490,9 @@ namespace ExaminationSystem.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("accountStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -632,19 +643,23 @@ namespace ExaminationSystem.Migrations
             modelBuilder.Entity("ExaminationSystem.Domain.Models.AttemptAnswer", b =>
                 {
                     b.HasOne("ExaminationSystem.Domain.Models.Option", "Option")
-                        .WithMany("AttemptAnswers")
+                        .WithMany()
                         .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("ExaminationSystem.Domain.Models.Option", null)
+                        .WithMany("AttemptAnswers")
+                        .HasForeignKey("OptionId1");
 
                     b.HasOne("ExaminationSystem.Domain.Models.Question", "Question")
                         .WithMany("AttemptAnswers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ExaminationSystem.Domain.Models.QuizAttempt", "QuizAttempt")
-                        .WithMany()
+                        .WithMany("UserAnswers")
                         .HasForeignKey("QuizAttemptId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -665,8 +680,10 @@ namespace ExaminationSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("ExaminationSystem.Domain.Models.User", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId1");
+                        .WithMany("Enrollments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Diploma");
 
@@ -700,7 +717,7 @@ namespace ExaminationSystem.Migrations
                     b.HasOne("ExaminationSystem.Domain.Models.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Quiz");
@@ -708,13 +725,11 @@ namespace ExaminationSystem.Migrations
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
                 {
-                    b.HasOne("ExaminationSystem.Domain.Models.Diploma", "Diploma")
+                    b.HasOne("ExaminationSystem.Domain.Models.Diploma", null)
                         .WithMany("Quizzes")
                         .HasForeignKey("DiplomaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Diploma");
                 });
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
@@ -726,8 +741,10 @@ namespace ExaminationSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("ExaminationSystem.Domain.Models.User", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId1");
+                        .WithMany("QuizAttempts")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Quiz");
 
@@ -809,9 +826,18 @@ namespace ExaminationSystem.Migrations
                     b.Navigation("Questions");
                 });
 
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
+                {
+                    b.Navigation("UserAnswers");
+                });
+
             modelBuilder.Entity("ExaminationSystem.Domain.Models.User", b =>
                 {
+                    b.Navigation("Enrollments");
+
                     b.Navigation("PasswordResetTokens");
+
+                    b.Navigation("QuizAttempts");
                 });
 #pragma warning restore 612, 618
         }

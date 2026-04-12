@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExaminationSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class intial0migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,11 +30,11 @@ namespace ExaminationSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PasswordResetTokenHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordResetTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsPasswordResetTokenUsed = table.Column<bool>(type: "bit", nullable: false),
-                    ForgotPasswordAttempts = table.Column<int>(type: "int", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    accountStatus = table.Column<int>(type: "int", nullable: false),
                     ForgotPasswordLockoutEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ForgotPasswordAttempts = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -214,11 +214,10 @@ namespace ExaminationSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DiplomaId = table.Column<int>(type: "int", nullable: false),
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -229,10 +228,11 @@ namespace ExaminationSystem.Migrations
                 {
                     table.PrimaryKey("PK_Enrollments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Enrollments_AspNetUsers_StudentId1",
-                        column: x => x.StudentId1,
+                        name: "FK_Enrollments_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Enrollments_Diplomas_DiplomaId",
                         column: x => x.DiplomaId,
@@ -253,6 +253,9 @@ namespace ExaminationSystem.Migrations
                     PassScore = table.Column<int>(type: "int", nullable: false),
                     MaxAttempts = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -294,8 +297,7 @@ namespace ExaminationSystem.Migrations
                         name: "FK_Questions_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -304,7 +306,7 @@ namespace ExaminationSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     QuizId = table.Column<int>(type: "int", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -312,7 +314,6 @@ namespace ExaminationSystem.Migrations
                     SubmittedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Score = table.Column<int>(type: "int", nullable: false),
                     IsPassed = table.Column<bool>(type: "bit", nullable: false),
-                    StudentId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -323,10 +324,11 @@ namespace ExaminationSystem.Migrations
                 {
                     table.PrimaryKey("PK_QuizAttempts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_QuizAttempts_AspNetUsers_StudentId1",
-                        column: x => x.StudentId1,
+                        name: "FK_QuizAttempts_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_QuizAttempts_Quizzes_QuizId",
                         column: x => x.QuizId,
@@ -371,6 +373,7 @@ namespace ExaminationSystem.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     OptionId = table.Column<int>(type: "int", nullable: false),
                     AnsweredAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OptionId1 = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -384,14 +387,17 @@ namespace ExaminationSystem.Migrations
                         name: "FK_AttemptAnswers_Options_OptionId",
                         column: x => x.OptionId,
                         principalTable: "Options",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AttemptAnswers_Options_OptionId1",
+                        column: x => x.OptionId1,
+                        principalTable: "Options",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AttemptAnswers_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AttemptAnswers_QuizAttempts_QuizAttemptId",
                         column: x => x.QuizAttemptId,
@@ -445,6 +451,11 @@ namespace ExaminationSystem.Migrations
                 column: "OptionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AttemptAnswers_OptionId1",
+                table: "AttemptAnswers",
+                column: "OptionId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AttemptAnswers_QuestionId",
                 table: "AttemptAnswers",
                 column: "QuestionId");
@@ -460,9 +471,9 @@ namespace ExaminationSystem.Migrations
                 column: "DiplomaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollments_StudentId1",
+                name: "IX_Enrollments_StudentId",
                 table: "Enrollments",
-                column: "StudentId1");
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Options_QuestionId",
@@ -485,9 +496,9 @@ namespace ExaminationSystem.Migrations
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuizAttempts_StudentId1",
+                name: "IX_QuizAttempts_StudentId",
                 table: "QuizAttempts",
-                column: "StudentId1");
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quizzes_DiplomaId",
