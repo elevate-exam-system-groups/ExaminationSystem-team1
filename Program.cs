@@ -2,12 +2,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
-using ExaminationSystem.Infrastructure.Data;
+using ExaminationSystem.Middlewares;
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace ExaminationSystem
 {
@@ -62,7 +58,12 @@ namespace ExaminationSystem
                   };
               });
 
+            builder.Services.AddScoped<GlobalErrorHandlerMiddelware>();
+
+
             var app = builder.Build();
+
+            app.UseMiddleware<GlobalErrorHandlerMiddelware>();
 
             #region UpdateDatabase
 

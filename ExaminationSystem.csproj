@@ -67,10 +67,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\DiplomaController\ViewModels\" />
     <Folder Include="Domain\Models\Enums\" />
     <Folder Include="Configurations\" />
-    <Folder Include="Features\DiplomaModule\" />
+    <Folder Include="Features\DiplomaModule\CreateDiploma\" />
+    <Folder Include="Features\DiplomaModule\DeleteDiploma\" />
+    <Folder Include="Features\DiplomaModule\UpdateDiploma\" />
     <Folder Include="Features\QuizModule\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
 
 </Project>
