@@ -13,18 +13,21 @@
     <Compile Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Compile Remove="Features\DiplomaModule\**" />
     <Compile Remove="Features\QuizModule\**" />
+    <Compile Remove="Infrastructure\Configurations\**" />
 
     <Content Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <Content Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <Content Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Content Remove="Features\DiplomaModule\**" />
     <Content Remove="Features\QuizModule\**" />
+    <Content Remove="Infrastructure\Configurations\**" />
 
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\Register\**" />
     <EmbeddedResource Remove="Features\DiplomaModule\**" />
     <EmbeddedResource Remove="Features\QuizModule\**" />
+    <EmbeddedResource Remove="Infrastructure\Configurations\**" />
 
     <None Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <None Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
@@ -38,6 +41,7 @@
     <Content Remove="Features\Account\Login\**" />
     <EmbeddedResource Remove="Features\Account\Login\**" />
     <None Remove="Features\Account\Login\**" />
+    <None Remove="Infrastructure\Configurations\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,7 +78,6 @@
     <Folder Include="Features\DiplomaModule\UpdateDiploma\" />
     <Folder Include="Features\QuizModule\" />
     <Folder Include="Filters\" />
-    <Folder Include="Infrastructure\Configurations\" />
   </ItemGroup>
 
 </Project>
