@@ -62,7 +62,7 @@ namespace ExaminationSystem
                   };
               });
 
-            builder.Services.AddScoped<GlobalErrorHandlerMiddelware>();
+
 
             #endregion
 
