@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
 using ExaminationSystem.Middlewares;
 using FluentValidation;
+using System.Diagnostics;
 
 namespace ExaminationSystem
 {
@@ -20,6 +21,9 @@ namespace ExaminationSystem
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<Context>(opt =>
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
+                .EnableSensitiveDataLogging()
             );
 
 
@@ -60,10 +64,11 @@ namespace ExaminationSystem
 
             builder.Services.AddScoped<GlobalErrorHandlerMiddelware>();
 
+            #endregion
 
             var app = builder.Build();
 
-            app.UseMiddleware<GlobalErrorHandlerMiddelware>();
+
 
             #region UpdateDatabase
 
@@ -88,20 +93,23 @@ namespace ExaminationSystem
 
             #endregion
 
-            // Configure the HTTP request pipeline.
+            #region  Configure the HTTP request pipeline
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<GlobalErrorHandlerMiddelware>();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
 
-            #endregion           
+            #endregion
+
 
             app.Run();
         }
