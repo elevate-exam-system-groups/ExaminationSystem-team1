@@ -17,9 +17,6 @@ namespace ExaminationSystem.Domain.Models
         public DateTime PublishedAt { get; set; }
 
         // Navigation property
-  
-
-
         public ICollection<Question> Questions { get; set; } = new List<Question>();
 
     }

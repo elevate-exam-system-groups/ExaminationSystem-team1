@@ -45,34 +45,41 @@ namespace ExaminationSystem.Controllers.AccountController
 
         }
 
+
         [HttpPost]
-        public async Task<ResponseViewModel<ForgotPasswordViewModel>> ForgotPassword([FromBody] ForgotPasswordViewModel model)
+        public async Task<ResponseViewModel<ForgotPasswordResponseVM>> ForgotPassword([FromBody] ForgotPasswordVM model)
         {
             var command = new ForgotPasswordCommand(model.Email);
-
             var result = await _mediator.Send(command);
-            return ResponseViewModel<ForgotPasswordViewModel>.Success(new ForgotPasswordViewModel
-            {
-                Email = result.Data.Message
-            });
 
+            if (!result.IsSuccess || result.Data == null)
+                return ResponseViewModel<ForgotPasswordResponseVM>.Failure(
+                    result.Message ?? "An error occurred",
+                    ResponseVmErrorCode.InternalServerError);
+
+            return ResponseViewModel<ForgotPasswordResponseVM>.Success(new ForgotPasswordResponseVM
+            {
+                Message = result.Data.Message,
+                EmailSent = result.Data.EmailSent
+            });
         }
 
         [HttpPost]
-        public async Task<ResponseViewModel<ResetPasswordViewModel>> ResetPassword([FromBody] ResetPasswordViewModel model)
+        public async Task<ResponseViewModel<ResetPasswordResponseVM>> ResetPassword([FromBody] ResetPasswordVM model)
         {
-            var command = new ResetPasswordCommand
-            (model.Token, model.NewPassword, model.ConfirmNewPassword);
-
+            var command = new ResetPasswordCommand(model.Token, model.NewPassword, model.ConfirmNewPassword);
             var result = await _mediator.Send(command);
-            return ResponseViewModel<ResetPasswordViewModel>.Success(new ResetPasswordViewModel
+
+            if (!result.IsSuccess || result.Data == null)
+                return ResponseViewModel<ResetPasswordResponseVM>.Failure(
+                    result.Message ?? "Password reset failed",
+                    ResponseVmErrorCode.PasswordResetFailed);
+
+            return ResponseViewModel<ResetPasswordResponseVM>.Success(new ResetPasswordResponseVM
             {
-                Token = result.Data.Message
+                Success = result.Data.Success,
+                Message = result.Data.Message
             });
         }
-
     }
 }
-
-
-

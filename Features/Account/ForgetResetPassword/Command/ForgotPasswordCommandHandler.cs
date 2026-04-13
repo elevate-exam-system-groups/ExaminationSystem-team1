@@ -21,7 +21,6 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _emailService = emailService;
-
         }
 
         public async Task<RequestResult<ForgotPasswordResponse>> Handle(
@@ -29,10 +28,11 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            // 2. التحقق من Lockout لـ ForgotPassword = المستخدم في حاله الحظر 
+            // SECURITY LAYER 1: Check if user is in lockout period
+            // Purpose: Prevent brute force attacks on forgot password endpoint
+            // Returns same message as "user not found" to avoid email enumeration
             if (user != null && user.ForgotPasswordLockoutEnd > DateTime.UtcNow)
             {
-                // لا نكشف السبب الحقيقي - نفس الرد العام
                 return RequestResult<ForgotPasswordResponse>.Success(new ForgotPasswordResponse
                 {
                     Message = "If your email is registered, you will receive a password reset link.",
@@ -40,7 +40,9 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
                 });
             }
 
-            // 3. زيادة عداد المحاولات الخاطئة إذا كان المستخدم موجود// مش في فترة الحظر
+            // SECURITY LAYER 2: Track failed attempts
+            // Purpose: Increment counter for each reset request
+            // After 5 attempts -> 15 minute lockout
             if (user != null)
             {
                 user.ForgotPasswordAttempts++;
@@ -60,7 +62,9 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
                 await _userManager.UpdateAsync(user);
             }
 
-            // 4. إذا المستخدم غير موجود -> نفس الرد العام
+            // SECURITY LAYER 3: Generic response for non-existent emails
+            // Purpose: Prevent email enumeration attacks
+            // Always return same message whether email exists or not
             if (user == null)
             {
                 return RequestResult<ForgotPasswordResponse>.Success(new ForgotPasswordResponse
@@ -70,23 +74,28 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
                 });
             }
 
-            // 5. إعادة تعيين العداد بعد نجاح الطلب
+            // Reset attempt counter on successful request
+            // Purpose: Allow legitimate user to continue after valid request
             user.ForgotPasswordAttempts = 0;
             user.ForgotPasswordLockoutEnd = null;
             await _userManager.UpdateAsync(user);
 
 
-            // 6. إنشاء التوكن (UUID - مرة واحدة)
+            // Generate secure reset token
+            // Use GUID for uniqueness and randomness
             var resetToken = Guid.NewGuid().ToString();
 
-            // 7. تخزين التوكن كـ Hash في قاعدة البيانات
+
+            // CRITICAL SECURITY: Hash the token before storing
+            // Purpose: Prevent token theft from database compromise
+            // Never store plain-text tokens in database
             var tokenHash = TokenHasher.HashToken(resetToken);
 
 
             var passwordResetToken = new PasswordResetToken
             {
                 UserId = user.Id,
-                TokenHash = resetToken,
+                TokenHash = tokenHash,
                 ExpiryAt = DateTime.UtcNow.AddMinutes(15),
                 IsUsed = false,
                 CreatedAt = DateTime.UtcNow
@@ -95,8 +104,11 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
             _unitOfWork.GetRepository<PasswordResetToken>().Add(passwordResetToken);
             await _unitOfWork.SaveChangesAsync();
 
-            // 8. إرسال الإيميل
-            var emailSent = await _emailService.SendPasswordResetEmailAsync(user.Email, resetToken, user.UserName);
+            // Send email with plain-text token (not hash)
+            // User receives the plain token to click in email link
+            // Database stores only the hash for verification
+            var emailSent = await _emailService.SendPasswordResetEmailAsync
+                (user.Email, resetToken, user.UserName);
 
             if (!emailSent)
             {
@@ -109,9 +121,6 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
                 EmailSent = true
             });
         }
-
-
-
 
     }
 }

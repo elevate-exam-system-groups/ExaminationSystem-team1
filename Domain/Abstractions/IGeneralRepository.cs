@@ -1,6 +1,4 @@
-﻿
-
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace ExaminationSystem.Domain.Abstractions
 {

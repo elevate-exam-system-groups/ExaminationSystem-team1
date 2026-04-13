@@ -6,7 +6,6 @@ namespace ExaminationSystem.Domain.Models
     {
         public string StudentId { get; set; }
         public int QuizId { get; set; }
-
         public string status { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime DeadLine { get; set; }
