@@ -40,8 +40,15 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OptionId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsCorrect")
+                        .HasColumnType("bit");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
@@ -49,7 +56,10 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                     b.Property<int>("QuizAttemptId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<int>("SelectedOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -61,11 +71,12 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OptionId");
-
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("QuizAttemptId");
+                    b.HasIndex("SelectedOptionId");
+
+                    b.HasIndex("QuizAttemptId", "QuestionId")
+                        .IsUnique();
 
                     b.ToTable("AttemptAnswers");
                 });
@@ -85,9 +96,16 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -95,9 +113,10 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -127,21 +146,24 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DiplomaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("StudentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -155,7 +177,8 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
 
                     b.HasIndex("DiplomaId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentId", "DiplomaId")
+                        .IsUnique();
 
                     b.ToTable("Enrollments");
                 });
@@ -175,6 +198,13 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
@@ -185,7 +215,7 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -217,6 +247,13 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ExpiryAt")
                         .HasColumnType("datetime2");
 
@@ -227,7 +264,7 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -263,6 +300,13 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Explanation")
                         .HasColumnType("nvarchar(max)");
 
@@ -276,7 +320,7 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -308,29 +352,32 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiplomaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Instructions")
+                    b.Property<string>("DeletedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaxAttempts")
+                    b.Property<int>("DiplomaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PassScore")
+                    b.Property<int>("DurationInMinutes")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PublishedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Instructions")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<int?>("MaxAttempts")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PassScore")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)")
+                        .HasDefaultValue(60m);
+
+                    b.Property<DateTime?>("PublishedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
@@ -339,9 +386,10 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -376,26 +424,38 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                     b.Property<DateTime>("DeadLine")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsPassed")
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsPassed")
                         .HasColumnType("bit");
 
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Score")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("SubmittedAt")
+                    b.Property<DateTime?>("SubmittedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
@@ -405,15 +465,13 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("QuizId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentId", "QuizId")
+                        .IsUnique()
+                        .HasFilter("\"Status\" = 'inProgress'");
 
                     b.ToTable("QuizAttempts");
                 });
@@ -479,9 +537,6 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -492,8 +547,9 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("accountStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("accountStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -643,12 +699,6 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.AttemptAnswer", b =>
                 {
-                    b.HasOne("ExaminationSystem.Domain.Models.Option", "Option")
-                        .WithMany("AttemptAnswers")
-                        .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ExaminationSystem.Domain.Models.Question", "Question")
                         .WithMany("AttemptAnswers")
                         .HasForeignKey("QuestionId")
@@ -661,11 +711,17 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Option");
+                    b.HasOne("ExaminationSystem.Domain.Models.Option", "SelectedOption")
+                        .WithMany("AttemptAnswers")
+                        .HasForeignKey("SelectedOptionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Question");
 
                     b.Navigation("QuizAttempt");
+
+                    b.Navigation("SelectedOption");
                 });
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.Enrollment", b =>
@@ -692,7 +748,7 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
                     b.HasOne("ExaminationSystem.Domain.Models.Question", "Question")
                         .WithMany("Options")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Question");
@@ -722,11 +778,13 @@ namespace ExaminationSystem.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
                 {
-                    b.HasOne("ExaminationSystem.Domain.Models.Diploma", null)
+                    b.HasOne("ExaminationSystem.Domain.Models.Diploma", "Diploma")
                         .WithMany("Quizzes")
                         .HasForeignKey("DiplomaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Diploma");
                 });
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>

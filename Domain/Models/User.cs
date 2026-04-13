@@ -9,7 +9,7 @@ namespace ExaminationSystem.Domain.Models
 
         //public string Email { get; set; }
         //public string PasswordHash { get; set; }
-        public Role Role { get; set; }
+        //public Role Role { get; set; }
         public AccountStatus accountStatus { get; set; } = AccountStatus.Active;
 
         // Navigation properties
@@ -33,8 +33,8 @@ namespace ExaminationSystem.Domain.Models
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(u => u.Role)
-                   .HasConversion<string>();
+            //builder.Property(u => u.Role)
+            //       .HasConversion<string>();
 
             builder.Property(u => u.accountStatus)
                    .HasConversion<string>();
