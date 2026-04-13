@@ -4,8 +4,9 @@ using static ExaminationSystem.Features.Account.ForgetResetPassword.Helper.HashT
 namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword
 {
 
-    public record ResetPasswordCommand(string Token, string NewPassword, string ConfirmNewPassword)
-       : IRequest<RequestResult<ResetPasswordResponse>>;
+
+    public record ResetPasswordCommand(string Email, string Token, string NewPassword, string ConfirmNewPassword)
+        : IRequest<RequestResult<ResetPasswordResponse>>;
 
 
     public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, RequestResult<ResetPasswordResponse>>
@@ -41,7 +42,10 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
             // 2. Token not used before (single-use)
             // 3. Token not expired (15 min validity)
             var tokenEntity = await _unitOfWork.GetRepository<PasswordResetToken>()
-                .Get(t => t.TokenHash == tokenHash && !t.IsUsed)
+                .Get(t => t.TokenHash == tokenHash 
+                && !t.IsUsed
+                && t.ExpiryAt > DateTime.UtcNow 
+                && t.User.Email == request.Email)
                 .Include(t => t.User)
                 .FirstOrDefaultAsync(cancellationToken);
 

@@ -67,7 +67,12 @@ namespace ExaminationSystem.Controllers.AccountController
         [HttpPost]
         public async Task<ResponseViewModel<ResetPasswordResponseVM>> ResetPassword([FromBody] ResetPasswordVM model)
         {
-            var command = new ResetPasswordCommand(model.Token, model.NewPassword, model.ConfirmNewPassword);
+            var command = new ResetPasswordCommand(
+                model.Email,         
+                model.Token,
+                model.NewPassword,
+                model.ConfirmNewPassword);
+
             var result = await _mediator.Send(command);
 
             if (!result.IsSuccess || result.Data == null)
