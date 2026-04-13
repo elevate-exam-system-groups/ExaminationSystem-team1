@@ -39,11 +39,16 @@ namespace ExaminationSystem
 
             builder.Services.AddIdentity<User, IdentityRole>(options => 
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 8;
+                
+                // Epic 1.2: 5 consecutive failed attempts -> Lock account for 15 minutes.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
 
             }) // context user
               .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces

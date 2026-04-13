@@ -1,4 +1,4 @@
-using ExaminationSystem.Controllers.AccountController.ViewModels.LoginViewModels;
+﻿using ExaminationSystem.Controllers.AccountController.ViewModels.LoginViewModels;
 using ExaminationSystem.Controllers.AccountController.ViewModels.PasswordViewModels;
 using ExaminationSystem.Controllers.Shared;
 using ExaminationSystem.Controllers.Shared.Enums;
@@ -6,10 +6,15 @@ using ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPasswor
 using ExaminationSystem.Features.AuthModule.Account.Command;
 using ExaminationSystem.Features.AuthModule.Account.DTOs;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands;
+using ExaminationSystem.Features.Account.Reqisteration.Command;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExaminationSystem.Controllers.AccountController
 {
+    public record OtpRequestDto(string Email, string OtpCode);
+    public record ResendOtpRequestDto(string Email);
+
     [Route("[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -22,29 +27,62 @@ namespace ExaminationSystem.Controllers.AccountController
         }
 
         [HttpPost]
-        public async Task<ResponseViewModel<UserDTO>> Register([FromBody] RegisterDTO registerDTO)
+        public async Task<ResponseViewModel<string>> Register([FromBody] RegisterDTO registerDTO)
         {
             var result = await _mediator.Send(new RegisterCommand(registerDTO));
-            return ResponseViewModel<UserDTO>.Success(result.Data);
+            if (!result.IsSuccess)
+                return ResponseViewModel<string>.Failure(result.Message, ResponseVmErrorCode.InternalServerError);
+            
+            return ResponseViewModel<string>.Success(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<ResponseViewModel<string>> VerifyOtp([FromBody] OtpRequestDto request)
+        {
+            var result = await _mediator.Send(new VerifyOtpCommand(request.Email, request.OtpCode));
+            if (!result.IsSuccess)
+                return ResponseViewModel<string>.Failure(result.Message, ResponseVmErrorCode.InvalidCredentials);
+            
+            return ResponseViewModel<string>.Success(result.Data);
+        }
+
+        [HttpPost]
+        public async Task<ResponseViewModel<string>> ResendOtp([FromBody] ResendOtpRequestDto request)
+        {
+            var result = await _mediator.Send(new ResendOtpCommand(request.Email));
+            if (!result.IsSuccess)
+                return ResponseViewModel<string>.Failure(result.Message, ResponseVmErrorCode.InternalServerError);
+            
+            return ResponseViewModel<string>.Success(result.Data);
         }
 
         [HttpPost]
         public async Task<ResponseViewModel<UserResponseVm>> Login(LoginRequestVm loginModel)
         {
+            // Note: In real production, also grab IP address via HttpContext.Connection.RemoteIpAddress for logging.
             var result = await _mediator.Send(new LoginCommandRequest(loginModel.Email, loginModel.Password));
 
             if (!result.IsSuccess)
                 return ResponseViewModel<UserResponseVm>
-                    .Failure(result.Message, ResponseVmErrorCode.InvalidCredentials);
+                    .Failure(result.Message ?? "Invalid Login", ResponseVmErrorCode.InvalidCredentials);
+
+            // Prepend HTTP only cookie logic for RefreshToken
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Secure = true,   // Ensure HTTPS
+                SameSite = SameSiteMode.Strict
+            };
+            
+            Response.Cookies.Append("refreshToken", result.Data.RefreshToken, cookieOptions);
 
             return ResponseViewModel<UserResponseVm>.Success(new UserResponseVm
             {
                 Email = result.Data.Email,
                 Token = result.Data.Token
             });
-
         }
-
 
         [HttpPost]
         public async Task<ResponseViewModel<ForgotPasswordResponseVM>> ForgotPassword([FromBody] ForgotPasswordVM model)

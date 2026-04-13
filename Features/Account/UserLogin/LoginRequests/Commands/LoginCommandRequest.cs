@@ -1,8 +1,13 @@
-﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
+﻿using ExaminationSystem.Domain.Models;
+using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using ExaminationSystem.Features.AuthModule.Shared;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginDTOS;
 using ExaminationSystem.Features.Common.Enums;
+using ExaminationSystem.Infrastructure.Data;
 using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Cryptography;
 
 namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
 {
@@ -36,16 +41,18 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenGenerator _tokenGenerator;
-
+        private readonly Context _context;
 
         public LoginCommandHandler(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            ITokenGenerator tokenGenerator)
+            ITokenGenerator tokenGenerator,
+            Context context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenGenerator = tokenGenerator;
+            _context = context;
         }
 
         public async Task<RequestResult<LoginCommandResponseDTO>> Handle(
@@ -90,13 +97,31 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
                 return RequestResult<LoginCommandResponseDTO>
                     .Failure("Invalid email or password", RequestErrorCode.InvalidCredentials);
 
-            // 6. Generate Token
+            // 6. Generate Access Token
             var token = _tokenGenerator.GenerateAccessToken(user);
+
+            // 7. Generate Refresh Token
+            var refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = refreshToken,
+                JwtId = Guid.NewGuid().ToString(),
+                IsUsed = false,
+                IsRevoked = false,
+                UserId = user.Id,
+                AddedDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddDays(7)
+            };
+            
+            _context.RefreshTokens.Add(refreshTokenEntity);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return RequestResult<LoginCommandResponseDTO>.Success(new LoginCommandResponseDTO
             {
                 Email = user.Email,
-                Token = token
+                Token = token,
+                RefreshToken = refreshToken
             });
         }
 
