@@ -8,6 +8,7 @@ namespace ExaminationSystem.Domain.Models
         public int QuizId { get; set; }
 
         public QuizAttemptStatus Status { get; set; } = QuizAttemptStatus.InProgress;
+
         public DateTime StartTime { get; set; }
         public DateTime DeadLine { get; set; }
         public DateTime? SubmittedAt { get; set; }

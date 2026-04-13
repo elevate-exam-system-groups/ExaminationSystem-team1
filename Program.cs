@@ -28,8 +28,7 @@ namespace ExaminationSystem
 
 
             builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-
+           
 
             builder.Services.AddMediatR(cfg =>
                   cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
@@ -38,7 +37,15 @@ namespace ExaminationSystem
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 containerBuilder.RegisterModule(new AutofacModule()));
 
-            builder.Services.AddIdentity<User, IdentityRole>() // context user
+            builder.Services.AddIdentity<User, IdentityRole>(options => 
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 8;
+
+            }) // context user
               .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces
               .AddDefaultTokenProviders();
 
