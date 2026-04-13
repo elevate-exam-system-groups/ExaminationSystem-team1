@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Features.Account.Shared.Services
+﻿using MailKit.Security;
+
+namespace ExaminationSystem.Features.Account.Shared.Services
 {
     public class EmailService : IEmailService
     {
@@ -13,10 +15,12 @@
         {
             try
             {
-                var resetLink = $"{_configuration["AppSettings:ClientUrl"]}/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(email)}";
+                var resetLink = $"{_configuration["AppSettings:ClientUrl"]}" +
+                    $"/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(email)}";
 
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Examination System", _configuration["EmailSettings:SenderEmail"]));
+                message.From.Add(new MailboxAddress
+                    ("Examination System", _configuration["EmailSettings:SenderEmail"]));
                 message.To.Add(new MailboxAddress(userName, email));
                 message.Subject = "Password Reset Request";
 
@@ -37,11 +41,14 @@
                         </html>"
                 };
 
+                // print token before Hashing
+                Console.WriteLine($"DEBUG_TOKEN: {token}");
+
                 using var client = new SmtpClient();
                 await client.ConnectAsync(
                     _configuration["EmailSettings:SmtpServer"],
                     int.Parse(_configuration["EmailSettings:SmtpPort"]),
-                    bool.Parse(_configuration["EmailSettings:UseSsl"]));
+                    SecureSocketOptions.StartTls);
 
                 await client.AuthenticateAsync(
                     _configuration["EmailSettings:SmtpUsername"],

@@ -2,7 +2,7 @@
 
 namespace ExaminationSystem.Controllers.AccountController.ViewModels.PasswordViewModels
 {
-    public class ForgotPasswordViewModel
+    public class ForgotPasswordVM
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]

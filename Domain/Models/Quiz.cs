@@ -9,6 +9,7 @@ namespace ExaminationSystem.Domain.Models
         public int DiplomaId { get; set; }
         public Diploma Diploma { get; set; }
         public string Title { get; set; } = string.Empty;
+
         public string? Instructions { get; set; }
         public decimal PassScore { get; set; }
         public int? MaxAttempts { get; set; }
@@ -16,6 +17,7 @@ namespace ExaminationSystem.Domain.Models
         public QuizStatus Status { get; set; } = QuizStatus.Draft;
 
         public DateTime? PublishedAt { get; set; }
+
         public ICollection<Question> Questions { get; set; } = new List<Question>();
 
     }

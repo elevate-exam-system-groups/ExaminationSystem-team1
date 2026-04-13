@@ -1,7 +1,8 @@
-﻿
+
 using System.Runtime.Serialization;
 
 namespace ExaminationSystem.Domain.Models.Enums
+
 {
     public enum Role
     {
