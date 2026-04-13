@@ -1,14 +1,16 @@
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExaminationSystem.Domain.Models
 {
     public class User : IdentityUser//BaseModel
     {
         public string FullName { get; set; }
+
         //public string Email { get; set; }
         //public string PasswordHash { get; set; }
         public Role Role { get; set; }
-        public AccountStatus accountStatus { get; set; }
+        public AccountStatus accountStatus { get; set; } = AccountStatus.Active;
 
         // Navigation properties
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
@@ -24,5 +26,18 @@ namespace ExaminationSystem.Domain.Models
         public DateTime? PasswordResetTokenExpiry { get; set; }
         public bool IsPasswordResetTokenUsed { get; set; }
 
+    }
+
+
+    public class UserConfiguration : IEntityTypeConfiguration<User>
+    {
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder.Property(u => u.Role)
+                   .HasConversion<string>();
+
+            builder.Property(u => u.accountStatus)
+                   .HasConversion<string>();
+        }
     }
 }

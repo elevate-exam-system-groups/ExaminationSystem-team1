@@ -1,10 +1,13 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace ExaminationSystem.Domain.Models.Enums
 {
     public enum Role
     {
+        [EnumMember(Value = "Student")]
         Student,
-        // Instructor,
+        [EnumMember(Value = "Admin")]
         Admin
     }
 }

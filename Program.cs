@@ -68,8 +68,6 @@ namespace ExaminationSystem
 
             var app = builder.Build();
 
-
-
             #region UpdateDatabase
 
             using var Scope = app.Services.CreateScope(); //Group Of services That has object lifetime scoped
