@@ -6,7 +6,7 @@ namespace ExaminationSystem.Domain.Models
     public class Option : BaseModel
     {
         [ForeignKey("Question")]
-        public int QuestionId { get; set; }
+        public Guid QuestionId { get; set; }
         public string Text { get; set; }
         public bool IsCorrect { get; set; }
         // Navigation property

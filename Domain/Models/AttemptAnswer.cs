@@ -4,9 +4,9 @@ namespace ExaminationSystem.Domain.Models
 {
     public class AttemptAnswer : BaseModel
     {
-        public int QuizAttemptId { get; set; }
-        public int QuestionId { get; set; }
-        public int SelectedOptionId { get; set; }
+        public Guid QuizAttemptId { get; set; }
+        public Guid QuestionId { get; set; }
+        public Guid SelectedOptionId { get; set; }
         public DateTime AnsweredAt { get; set; }
         public bool? IsCorrect { get; set; }
         public QuizAttempt QuizAttempt { get; set; }

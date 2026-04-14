@@ -1,10 +1,11 @@
-﻿using FluentValidation;
+﻿using ExaminationSystem.Features.DiplomaModule.CreateDiploma.DTOS;
+using FluentValidation;
 
 namespace ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests
 {
     #region Request
 
-    public record CreateDiplomaCommandRequest(string Title, string? Description) : IRequest<RequestResult<Guid>> { }
+    public record CreateDiplomaCommandRequest(string Title, string? Description) : IRequest<RequestResult<CreateDiplomaResponseDTO>> { }
 
     #endregion
 
@@ -26,7 +27,7 @@ namespace ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests
 
     #region Handler
 
-    public class CreateDiplomaCommandHandler : IRequestHandler<CreateDiplomaCommandRequest, RequestResult<Guid>>
+    public class CreateDiplomaCommandHandler : IRequestHandler<CreateDiplomaCommandRequest, RequestResult<CreateDiplomaResponseDTO>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
         private readonly IValidator<CreateDiplomaCommandRequest> _validator;
@@ -35,24 +36,33 @@ namespace ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests
             _diplomaRepository = diplomaRepository;
             _validator = validator;
         }
-        public async Task<RequestResult<Guid>> Handle(CreateDiplomaCommandRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<CreateDiplomaResponseDTO>> Handle(CreateDiplomaCommandRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
-                var result = RequestResult<Guid>
+                var result = RequestResult<CreateDiplomaResponseDTO>
                      .Failure(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage)),
                      RequestErrorCode.ValidationError);
                 return result;
 
             }
-            var diplomaId = _diplomaRepository.AddAndReturnId(new Diploma
+            var newDiploma = new Diploma
             {
                 Title = request.Title,
                 Description = request.Description
-            });
+            };
+
+            _diplomaRepository.Add(newDiploma);
             await _diplomaRepository.SaveChangesAsync();
-            return RequestResult<Guid>.Success(diplomaId);
+
+            var responseDTO = new CreateDiplomaResponseDTO(
+                newDiploma.Id,
+                newDiploma.Title,
+                newDiploma.Description,
+                newDiploma.Status);
+
+            return RequestResult<CreateDiplomaResponseDTO>.Success(responseDTO, "Diploma created successfully", RequestErrorCode.Success);
 
         }
     }

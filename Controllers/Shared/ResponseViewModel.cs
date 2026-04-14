@@ -2,7 +2,7 @@
 
 namespace ExaminationSystem.Controllers.Shared
 {
-    public class ResponseViewModel<T> where T : class
+    public class ResponseViewModel<T>// where T : class
     {
         public bool isSuccess { get; set; }
         public T? Data { get; set; }
@@ -23,7 +23,7 @@ namespace ExaminationSystem.Controllers.Shared
             return new ResponseViewModel<T>
             {
                 isSuccess = false,
-                Data = null,
+                Data = default,
                 Message = message,
                 errorCode = ErrorCode
             };

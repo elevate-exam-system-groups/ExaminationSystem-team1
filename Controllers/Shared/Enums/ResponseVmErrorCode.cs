@@ -10,7 +10,7 @@
         EmailSendFailed = 500,
         EmailAlreadyExists = 409,
         AccountNotVerified = 403,
-
+        ValidationError = 422,
         //InvalidInput = 1,
         //NotFound = 2,
         Unauthorized = 401,
@@ -19,5 +19,6 @@
         //BadRequest = 6,
         //Conflict = 7,
         //ServiceUnavailable = 8
+
     }
 }
