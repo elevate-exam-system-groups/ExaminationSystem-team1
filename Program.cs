@@ -2,12 +2,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
-using ExaminationSystem.Infrastructure.Data;
+using ExaminationSystem.Middlewares;
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using System.Diagnostics;
 
 namespace ExaminationSystem
 {
@@ -24,12 +21,14 @@ namespace ExaminationSystem
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<Context>(opt =>
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
+                .EnableSensitiveDataLogging()
             );
 
 
             builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-
+           
 
             builder.Services.AddMediatR(cfg =>
                   cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
@@ -38,7 +37,20 @@ namespace ExaminationSystem
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 containerBuilder.RegisterModule(new AutofacModule()));
 
-            builder.Services.AddIdentity<User, IdentityRole>() // context user
+            builder.Services.AddIdentity<User, IdentityRole>(options => 
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 8;
+                
+                // Epic 1.2: 5 consecutive failed attempts -> Lock account for 15 minutes.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+            }) // context user
               .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces
               .AddDefaultTokenProviders();
 
@@ -61,6 +73,10 @@ namespace ExaminationSystem
                     Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
                   };
               });
+
+
+
+            #endregion
 
             var app = builder.Build();
 
@@ -87,20 +103,23 @@ namespace ExaminationSystem
 
             #endregion
 
-            // Configure the HTTP request pipeline.
+            #region  Configure the HTTP request pipeline
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<GlobalErrorHandlerMiddelware>();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
 
-            #endregion           
+            #endregion
+
 
             app.Run();
         }

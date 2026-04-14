@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Infrastructure.Data;
-
-namespace ExaminationSystem.Infrastructure.Implementations
+﻿namespace ExaminationSystem.Infrastructure.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -25,6 +23,7 @@ namespace ExaminationSystem.Infrastructure.Implementations
             return newRepo;
         }
 
-        public Task<int> SaveChangesAsync() => _dbContext.SaveChangesAsync();
+        public Task<int> SaveChangesAsync() 
+            => _dbContext.SaveChangesAsync();
     }
 }

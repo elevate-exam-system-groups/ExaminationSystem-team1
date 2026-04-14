@@ -15,7 +15,7 @@ namespace ExaminationSystem.Infrastructure.Data
                     UserName = "SuperAdmin",
                     PhoneNumber = "0123456789",
                     accountStatus = AccountStatus.Active,
-                    Role = Role.Admin,
+                    //Role = Role.Admin,
                     EmailConfirmed = true
                 };
 

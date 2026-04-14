@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExaminationSystem.Domain.Models
 {
@@ -7,11 +8,22 @@ namespace ExaminationSystem.Domain.Models
         public string StudentId { get; set; }
         public int DiplomaId { get; set; }
         public DateTime EnrollmentDate { get; set; }
-        public string Status { get; set; }
 
-        // Navigation properties
+
         [ForeignKey(nameof(StudentId))]
         public User Student { get; set; }
+
+        [ForeignKey(nameof(DiplomaId))]
         public Diploma Diploma { get; set; }
+    }
+
+
+    public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
+    {
+        public void Configure(EntityTypeBuilder<Enrollment> builder)
+        {
+            builder.HasIndex(e => new { e.StudentId, e.DiplomaId })
+                   .IsUnique();
+        }
     }
 }

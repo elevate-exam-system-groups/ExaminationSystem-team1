@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,40 +8,46 @@
 
   <ItemGroup>
 
-    <Compile Remove="Features\Authentication\AccountVerification\**" />
-    <Compile Remove="Features\Authentication\PasswordReset\**" />
-    <Compile Remove="Features\Authentication\Register\**" />
+    <Compile Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
+    <Compile Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
+    <Compile Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Compile Remove="Features\DiplomaModule\**" />
     <Compile Remove="Features\QuizModule\**" />
     <Compile Remove="Infrastructure\Configurations\**" />
 
-    <Content Remove="Features\Authentication\AccountVerification\**" />
-    <Content Remove="Features\Authentication\PasswordReset\**" />
-    <Content Remove="Features\Authentication\Register\**" />
+    <Content Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
+    <Content Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
+    <Content Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Content Remove="Features\DiplomaModule\**" />
     <Content Remove="Features\QuizModule\**" />
     <Content Remove="Infrastructure\Configurations\**" />
 
-    <EmbeddedResource Remove="Features\Authentication\AccountVerification\**" />
-    <EmbeddedResource Remove="Features\Authentication\PasswordReset\**" />
-    <EmbeddedResource Remove="Features\Authentication\Register\**" />
+    <EmbeddedResource Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
+    <EmbeddedResource Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
+    <EmbeddedResource Remove="Features\Account\ForgetResetPassword\Register\**" />
     <EmbeddedResource Remove="Features\DiplomaModule\**" />
     <EmbeddedResource Remove="Features\QuizModule\**" />
     <EmbeddedResource Remove="Infrastructure\Configurations\**" />
 
-    <None Remove="Features\Authentication\AccountVerification\**" />
-    <None Remove="Features\Authentication\PasswordReset\**" />
-    <None Remove="Features\Authentication\Register\**" />
+    <None Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
+    <None Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
+    <None Remove="Features\Account\ForgetResetPassword\Register\**" />
     <None Remove="Features\DiplomaModule\**" />
     <None Remove="Features\QuizModule\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Account\Login\**" />
+    <Content Remove="Features\Account\Login\**" />
+    <EmbeddedResource Remove="Features\Account\Login\**" />
+    <None Remove="Features\Account\Login\**" />
     <None Remove="Infrastructure\Configurations\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\AuthModule\Login\**" />
-    <Content Remove="Features\AuthModule\Login\**" />
-    <EmbeddedResource Remove="Features\AuthModule\Login\**" />
-    <None Remove="Features\AuthModule\Login\**" />
+    <Compile Include="Features\DiplomaModule\CreateDiploma\tst1.cs" />
+    <Compile Include="Features\DiplomaModule\DeleteDiploma\tst2.cs" />
+    <Compile Include="Features\DiplomaModule\UpdateDiploma\tst3.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,16 +77,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Models\Enums\" />
     <Folder Include="Configurations\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Infrastructure\Configurations\" />
-    <Folder Include="Features\AuthModule\AccountVerification\" />
-    <Folder Include="Features\AuthModule\PasswordReset\" />
-    <Folder Include="Features\AuthModule\Register\" />
-    <Folder Include="Features\AuthModule\UserLogin\LoginRequests\Orchestrator\" />
-    <Folder Include="Features\DiplomaModule\" />
     <Folder Include="Features\QuizModule\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
 
 </Project>
