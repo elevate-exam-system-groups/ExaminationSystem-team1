@@ -1,7 +1,7 @@
 ﻿using ExaminationSystem.Controllers.Shared;
 using ExaminationSystem.Controllers.Shared.Enums;
 
-namespace ExaminationSystem.Middlewares
+namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
     public class GlobalErrorHandlerMiddelware : IMiddleware
     {

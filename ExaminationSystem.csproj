@@ -82,7 +82,7 @@
     <Folder Include="Configurations\" />
     <Folder Include="Features\DiplomaModule\ViewDiploma\" />
     <Folder Include="Features\QuizModule\" />
-    <Folder Include="Filters\" />
+    <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>
 
 </Project>

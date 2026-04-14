@@ -1,7 +1,7 @@
 ﻿using Autofac;
+using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Features.Account.Shared.Services;
 using ExaminationSystem.Features.AuthModule.Shared;
-using ExaminationSystem.Middlewares;
 using FluentValidation;
 using Module = Autofac.Module;
 

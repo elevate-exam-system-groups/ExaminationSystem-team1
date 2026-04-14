@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 
-namespace ExaminationSystem.Middlewares
+namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
     public class TransactionMiddleware
     {
