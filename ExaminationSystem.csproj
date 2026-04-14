@@ -45,8 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Features\DiplomaModule\CreateDiploma\tst1.cs" />
-    <Compile Include="Features\DiplomaModule\DeleteDiploma\tst2.cs" />
+    <Compile Include="Features\DiplomaModule\CreateDiploma\DTOS\CreateDiplomaResponseDTO.cs" />
+    <Compile Include="Features\DiplomaModule\CreateDiploma\Requests\CreateDiplomaCommandRequest.cs" />
+    <Compile Include="Features\DiplomaModule\DeleteDiploma\Requests\DeleteDiplomaCommandRequest.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\tst3.cs" />
   </ItemGroup>
 
@@ -78,6 +79,8 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
+    <Folder Include="Features\DiplomaModule\DeleteDiploma\DTOS\" />
+    <Folder Include="Features\DiplomaModule\ViewDiploma\" />
     <Folder Include="Features\QuizModule\" />
     <Folder Include="Filters\" />
   </ItemGroup>

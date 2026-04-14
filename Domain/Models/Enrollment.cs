@@ -6,7 +6,7 @@ namespace ExaminationSystem.Domain.Models
     public class Enrollment : BaseModel
     {
         public string StudentId { get; set; }
-        public int DiplomaId { get; set; }
+        public Guid DiplomaId { get; set; }
         public DateTime EnrollmentDate { get; set; }
 
 

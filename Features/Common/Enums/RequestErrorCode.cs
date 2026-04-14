@@ -11,6 +11,8 @@
         EmailAlreadyRegistered = 209,
         ValidationError = 422,
         PasswordPolicyViolation = 422,
+        NotFound = 404,
+        Conflict = 409,
         UserNotFound = 1001,
         InvalidToken = 1002,
         PasswordResetFailed = 1003,

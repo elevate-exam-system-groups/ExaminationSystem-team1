@@ -1,7 +1,4 @@
-﻿
-using ExaminationSystem.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace ExaminationSystem.Infrastructure.Implementations
 {
@@ -22,7 +19,7 @@ namespace ExaminationSystem.Infrastructure.Implementations
             return _dbSet.Where(x => !x.isDeleted);
         }
 
-        public IQueryable<T> GetById(int id)
+        public IQueryable<T> GetById(Guid id)
         {
             return _dbSet.Where(x => x.Id == id && !x.isDeleted);
         }
@@ -31,7 +28,7 @@ namespace ExaminationSystem.Infrastructure.Implementations
         {
             return GetAll().Where(expression);
         }
-        public IQueryable<T> GetByIdWithTracking(int id)
+        public IQueryable<T> GetByIdWithTracking(Guid id)
         {
             var trackedEntity = _dbSet.Where(x => x.Id == id && !x.isDeleted)
                 .AsTracking();
@@ -45,6 +42,13 @@ namespace ExaminationSystem.Infrastructure.Implementations
         {
             _dbSet.Add(entity);
             entity.CreatedAt = DateTime.Now;
+        }
+
+        public Guid AddAndReturnId(T entity)
+        {
+            _dbSet.Add(entity);
+            entity.CreatedAt = DateTime.Now;
+            return entity.Id;
         }
 
         #region UpdateRegion
@@ -101,8 +105,22 @@ namespace ExaminationSystem.Infrastructure.Implementations
         {
             UpdateInclude(entity, nameof(entity.isDeleted));
             entity.isDeleted = true;
+            entity.DeletedAt = DateTime.UtcNow;
         }
 
+        public bool SoftDeleteById(Guid id)
+        {
+            var entity = GetById(id);
+            if (entity is null)
+                return false;
+            SoftDelete(entity.FirstOrDefault());
+            return true;
+        }
 
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+
+        }
     }
 }
