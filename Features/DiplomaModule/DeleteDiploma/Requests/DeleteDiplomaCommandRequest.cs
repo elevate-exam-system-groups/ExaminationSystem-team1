@@ -22,9 +22,9 @@ namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
         private readonly IGeneralRepository<Enrollment> _enrollmentRepository;
-        private readonly AbstractValidator<DeleteDiplomaCommandRequest> _Validator;
+        private readonly IValidator<DeleteDiplomaCommandRequest> _Validator;
 
-        public DeleteDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository, IGeneralRepository<Enrollment> enrollmentRepository, AbstractValidator<DeleteDiplomaCommandRequest> validator)
+        public DeleteDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository, IGeneralRepository<Enrollment> enrollmentRepository, IValidator<DeleteDiplomaCommandRequest> validator)
         {
             _diplomaRepository = diplomaRepository;
             _enrollmentRepository = enrollmentRepository;
@@ -69,7 +69,7 @@ namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
             }
 
             _diplomaRepository.SoftDelete(existingDiploma);
-
+            await _diplomaRepository.SaveChangesAsync();
             return RequestResult<bool>.Success(true);
         }
     }

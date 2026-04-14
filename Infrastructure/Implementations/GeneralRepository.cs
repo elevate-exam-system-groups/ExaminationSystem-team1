@@ -103,8 +103,8 @@ namespace ExaminationSystem.Infrastructure.Implementations
 
         public void SoftDelete(T entity)
         {
-            UpdateInclude(entity, nameof(entity.isDeleted));
             entity.isDeleted = true;
+            UpdateInclude(entity, nameof(entity.isDeleted));
             entity.DeletedAt = DateTime.UtcNow;
         }
 

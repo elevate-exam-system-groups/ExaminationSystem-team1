@@ -8,6 +8,7 @@
         AccountLocked,
         AccountNotActive,
         Success = 201,
+        UpdateSuccess = 200,
         EmailAlreadyRegistered = 209,
         ValidationError = 422,
         PasswordPolicyViolation = 422,
