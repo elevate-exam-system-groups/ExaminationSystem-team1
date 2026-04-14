@@ -1,13 +1,21 @@
 ﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CreateOptions
 {
+
+    #region Request
+    public record CreateOptionsCommand(Guid QuestionId, List<OptionDto> Options)
+     : IRequest<RequestResult<CreateOptionsResponse>>;
+
+    #endregion
+
+    #region Handler
     public class CreateOptionsCommandHandler
-        : IRequestHandler<CreateOptionsCommand, RequestResult<CreateOptionsResponse>>
+   : IRequestHandler<CreateOptionsCommand, RequestResult<CreateOptionsResponse>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
         public CreateOptionsCommandHandler(IUnitOfWork unitOfWork)
          => _unitOfWork = unitOfWork;
-        
+
 
         public async Task<RequestResult<CreateOptionsResponse>> Handle
             (CreateOptionsCommand request, CancellationToken ct)
@@ -31,5 +39,7 @@
 
             return RequestResult<CreateOptionsResponse>.Success(response, "Options created successfully");
         }
-    }
+    } 
+    #endregion
+
 }

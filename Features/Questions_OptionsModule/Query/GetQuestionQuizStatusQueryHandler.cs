@@ -1,7 +1,14 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.QuestionQuizStatus
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Query
 {
+
+    #region Request
+    public record GetQuestionQuizStatusQuery(Guid QuestionId) : IRequest<RequestResult<QuestionStatusResult>>;
+
+    #endregion
+
+    #region Handler
     public class GetQuestionQuizStatusQueryHandler :
-        IRequestHandler<GetQuestionQuizStatusQuery, RequestResult<QuestionStatusResult>>
+   IRequestHandler<GetQuestionQuizStatusQuery, RequestResult<QuestionStatusResult>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -15,7 +22,7 @@
                 .Include(q => q.Quiz)
                 .FirstOrDefaultAsync(ct);
 
-            if (question == null) 
+            if (question == null)
                 return RequestResult<QuestionStatusResult>.Failure("Question not found");
 
             return RequestResult<QuestionStatusResult>.Success(
@@ -23,4 +30,6 @@
             );
         }
     }
+    #endregion
+
 }

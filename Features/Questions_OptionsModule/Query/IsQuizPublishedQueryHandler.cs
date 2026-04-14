@@ -1,5 +1,13 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CheckQuizPublished
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Query
 {
+
+    #region Request
+
+    public record IsQuizPublishedQuery(Guid QuizId) : IRequest<RequestResult<bool>>;
+
+    #endregion
+
+    #region Handler
     public class IsQuizPublishedQueryHandler : IRequestHandler<IsQuizPublishedQuery, RequestResult<bool>>
     {
         private readonly IMediator _mediator;
@@ -16,4 +24,7 @@
             return RequestResult<bool>.Success(statusResult.Data == QuizStatus.Published);
         }
     }
+
+    #endregion
+
 }

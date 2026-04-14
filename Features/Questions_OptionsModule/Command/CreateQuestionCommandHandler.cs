@@ -1,7 +1,19 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Command
 {
-    public class CreateQuestionCommandHandler 
-        : IRequestHandler<CreateQuestionCommand, RequestResult<CreateQuestionResponse>>
+
+    #region MyRegion
+    public record CreateQuestionCommand : IRequest<RequestResult<CreateQuestionResponse>>
+    {
+        public Guid QuizId { get; set; }
+        public string Text { get; set; }
+        public string? Explanation { get; set; }
+        public int OrderIndex { get; set; }
+    }
+    #endregion
+
+    #region Handler
+    public class CreateQuestionCommandHandler
+   : IRequestHandler<CreateQuestionCommand, RequestResult<CreateQuestionResponse>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -28,5 +40,7 @@
                 new CreateQuestionResponse(question.Id),
                 "Question created successfully");
         }
-    }
+    } 
+    #endregion
+
 }

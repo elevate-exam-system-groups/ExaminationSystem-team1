@@ -1,7 +1,53 @@
 ﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.AddQuestion
 {
-    public class AddQuestionOrchestratorHandler 
-        : IRequestHandler<AddQuestionOrchestrator, RequestResult<AddQuestionResponse>>
+
+
+    #region Request
+    public record AddQuestionOrchestrator : IRequest<RequestResult<AddQuestionResponse>>
+    {
+        public Guid QuizId { get; set; }
+        public string Text { get; set; }
+        public string? Explanation { get; set; }
+        public List<OptionDto> Options { get; set; }
+    }
+
+    #endregion
+
+    #region Validator
+
+    public class AddQuestionValidator : AbstractValidator<AddQuestionViewModel>
+    {
+        public AddQuestionValidator()
+        {
+            RuleFor(x => x.QuizId).NotEmpty();
+
+            RuleFor(x => x.Text).NotEmpty()
+                               .MaximumLength(1000);
+
+            RuleFor(x => x.Options)
+                .Must(x => x != null && x.Count >= 2)
+                .WithMessage("At least 2 options are required.");
+
+            RuleFor(x => x.Options)
+                .Must(x => x != null && x.Count(o => o.IsCorrect) == 1)
+                .WithMessage("Exactly one correct option required.");
+
+            RuleForEach(x => x.Options).ChildRules(option =>
+            {
+                option.RuleFor(o => o.Text)
+                 .NotEmpty()
+                 .WithMessage("Option text cannot be empty");
+            });
+        }
+
+    }
+
+    #endregion
+
+    #region Handler
+
+    public class AddQuestionOrchestratorHandler
+      : IRequestHandler<AddQuestionOrchestrator, RequestResult<AddQuestionResponse>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -80,4 +126,7 @@
             }
         }
     }
+
+    #endregion
+
 }

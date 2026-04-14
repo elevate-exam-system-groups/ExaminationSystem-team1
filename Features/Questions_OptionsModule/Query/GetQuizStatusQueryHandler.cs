@@ -1,6 +1,12 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.GetQuizStatus
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Query
 {
 
+    #region Request
+    public record GetQuizStatusQuery(Guid QuizId) : IRequest<RequestResult<QuizStatus>>;
+
+    #endregion
+
+    #region Handler
     public class GetQuizStatusQueryHandler : IRequestHandler<GetQuizStatusQuery, RequestResult<QuizStatus>>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -19,4 +25,6 @@
             return RequestResult<QuizStatus>.Success(quiz.Status);
         }
     }
+    #endregion
+
 }
