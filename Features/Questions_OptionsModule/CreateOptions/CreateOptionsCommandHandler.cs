@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Features.Questions_OptionsModule.DTOs;
-
-namespace ExaminationSystem.Features.Questions_OptionsModule.CreateOptions
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CreateOptions
 {
     public class CreateOptionsCommandHandler
         : IRequestHandler<CreateOptionsCommand, RequestResult<CreateOptionsResponse>>

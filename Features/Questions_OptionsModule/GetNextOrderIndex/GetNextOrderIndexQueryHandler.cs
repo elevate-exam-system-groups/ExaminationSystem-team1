@@ -1,15 +1,11 @@
-﻿using ExaminationSystem.Features.Questions_OptionsModule.DTOs;
-
-namespace ExaminationSystem.Features.Questions_OptionsModule.GetNextOrderIndex
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.GetNextOrderIndex
 {
-    public class GetNextOrderIndexQueryHandler : IRequestHandler<GetNextOrderIndexQuery, RequestResult<GetNextOrderIndexResponse>>
+    public class GetNextOrderIndexQueryHandler 
+        : IRequestHandler<GetNextOrderIndexQuery, RequestResult<GetNextOrderIndexResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public GetNextOrderIndexQueryHandler(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+         =>  _unitOfWork = unitOfWork;
 
         public async Task<RequestResult<GetNextOrderIndexResponse>> Handle(
             GetNextOrderIndexQuery request, CancellationToken cancellationToken)

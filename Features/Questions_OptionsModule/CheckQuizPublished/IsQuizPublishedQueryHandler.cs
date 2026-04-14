@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Features.Questions_OptionsModule.GetQuizStatus;
-
-namespace ExaminationSystem.Features.Questions_OptionsModule.CheckQuizPublished
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CheckQuizPublished
 {
     public class IsQuizPublishedQueryHandler : IRequestHandler<IsQuizPublishedQuery, RequestResult<bool>>
     {

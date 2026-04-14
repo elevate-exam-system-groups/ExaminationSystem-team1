@@ -1,7 +1,4 @@
-﻿using ExaminationSystem.Controllers.QuestionController.ViewModels;
-using FluentValidation;
-
-namespace ExaminationSystem.Features.Questions_OptionsModule.Validator
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Validator
 {
     public class UpdateQuestionValidator : AbstractValidator<UpdateQuestionViewModel>
     {
