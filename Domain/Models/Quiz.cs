@@ -6,7 +6,7 @@ namespace ExaminationSystem.Domain.Models
     public class Quiz : BaseModel
     {
         [ForeignKey("Diploma")]
-        public int DiplomaId { get; set; }
+        public Guid DiplomaId { get; set; }
         public Diploma Diploma { get; set; }
         public string Title { get; set; } = string.Empty;
 
@@ -26,6 +26,10 @@ namespace ExaminationSystem.Domain.Models
     {
         public void Configure(EntityTypeBuilder<Quiz> builder)
         {
+
+            builder.Property(q => q.DiplomaId)
+                   .IsRequired();
+
             builder.Property(q => q.Status)
                    .HasConversion<string>();
 

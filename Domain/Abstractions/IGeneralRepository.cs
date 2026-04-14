@@ -6,10 +6,10 @@ namespace ExaminationSystem.Domain.Abstractions
     {
         public IQueryable<T> GetAll();
 
-        public IQueryable<T> GetById(int id);
+        public IQueryable<T> GetById(Guid id);
 
         public IQueryable<T> Get(Expression<Func<T, bool>> expression);
-        public IQueryable<T> GetByIdWithTracking(int id);
+        public IQueryable<T> GetByIdWithTracking(Guid id);
         public void Add(T entity);
         public void Update(T entity);
         public void UpdateInclude(T entity, params string[] include);

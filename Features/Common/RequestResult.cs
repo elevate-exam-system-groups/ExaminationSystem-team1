@@ -1,5 +1,3 @@
-using ExaminationSystem.Features.Common.Enums;
-
 namespace ExaminationSystem.Features.Common
 {
     public class RequestResult<T> where T : class
