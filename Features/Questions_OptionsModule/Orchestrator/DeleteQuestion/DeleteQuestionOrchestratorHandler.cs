@@ -1,18 +1,18 @@
-﻿using ExaminationSystem.Features.Questions_OptionsModule.DTOs;
-
-namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
-{
-    public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionCommand, RequestResult<DeleteQuestionResponse>>
+﻿    namespace ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.DeleteQuestion
     {
+    public class DeleteQuestionOrchestratorHandler 
+        : IRequestHandler<DeleteQuestionOrchestrator, RequestResult<DeleteQuestionResponse>>
+    {
+
         private readonly IUnitOfWork _unitOfWork;
+        public DeleteQuestionOrchestratorHandler(IUnitOfWork unitOfWork)
+          => _unitOfWork = unitOfWork;
+        
 
-        public DeleteQuestionCommandHandler(IUnitOfWork unitOfWork)
+        public async Task<RequestResult<DeleteQuestionResponse>> 
+            Handle(DeleteQuestionOrchestrator request, CancellationToken cancellationToken)
         {
-            _unitOfWork = unitOfWork;
-        }
 
-        public async Task<RequestResult<DeleteQuestionResponse>> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
-        {
             var questionRepo = _unitOfWork.GetRepository<Question>();
 
             // IMPORTANT: Include Quiz to check its status

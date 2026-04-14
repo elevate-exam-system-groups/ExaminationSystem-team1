@@ -1,4 +1,6 @@
-﻿using MailKit.Security;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
 
 namespace ExaminationSystem.Features.Account.Shared.Services
 {

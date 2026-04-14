@@ -1,12 +1,10 @@
-﻿using ExaminationSystem.Controllers.Shared.Enums;
-using ExaminationSystem.Controllers.Shared;
+﻿using ExaminationSystem.Controllers.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ExaminationSystem.Features.Questions_OptionsModule.DTOs;
-using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion;
-using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion;
-using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion;
 using ExaminationSystem.Controllers.QuestionController.ViewModels;
+using ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.AddQuestion;
+using ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.UpdateQuestion;
+using ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.DeleteQuestion;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {
@@ -29,7 +27,7 @@ namespace ExaminationSystem.Controllers.QuestionController
             if (quizId != vm.QuizId)
                 return BadRequest(ResponseViewModel<AddQuestionResponse>.Failure("Quiz ID mismatch"));
 
-            var command = new AddQuestionCommand
+            var command = new AddQuestionOrchestrator
             {
                 QuizId = vm.QuizId,
                 Text = vm.Text,
@@ -49,7 +47,7 @@ namespace ExaminationSystem.Controllers.QuestionController
             if (id != vm.Id)
                 return BadRequest(ResponseViewModel<UpdateQuestionResponse>.Failure("Question ID mismatch"));
 
-            var command = new UpdateQuestionCommand
+            var command = new UpdateQuestionOrchestrator
             {
                 Id = vm.Id,
                 Text = vm.Text,
@@ -65,7 +63,7 @@ namespace ExaminationSystem.Controllers.QuestionController
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult<ResponseViewModel<DeleteQuestionResponse>>> Delete(Guid id)
         {
-            var result = await _mediator.Send(new DeleteQuestionCommand { Id = id });
+            var result = await _mediator.Send(new DeleteQuestionOrchestrator(id));
 
             return HandleResult(result);
         }
