@@ -1,6 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using ExaminationSystem.Domain.Data;
+using System.Linq.Expressions;
 
-namespace ExaminationSystem.Infrastructure.Implementations
+namespace ExaminationSystem.Domain.Implementations
 {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : BaseModel
     {

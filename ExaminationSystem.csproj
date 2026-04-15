@@ -13,21 +13,18 @@
     <Compile Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Compile Remove="Features\DiplomaModule\**" />
     <Compile Remove="Features\QuizModule\**" />
-    <Compile Remove="Infrastructure\Configurations\**" />
 
     <Content Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <Content Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <Content Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Content Remove="Features\DiplomaModule\**" />
     <Content Remove="Features\QuizModule\**" />
-    <Content Remove="Infrastructure\Configurations\**" />
 
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\Register\**" />
     <EmbeddedResource Remove="Features\DiplomaModule\**" />
     <EmbeddedResource Remove="Features\QuizModule\**" />
-    <EmbeddedResource Remove="Infrastructure\Configurations\**" />
 
     <None Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <None Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
@@ -41,7 +38,6 @@
     <Content Remove="Features\Account\Login\**" />
     <EmbeddedResource Remove="Features\Account\Login\**" />
     <None Remove="Features\Account\Login\**" />
-    <None Remove="Infrastructure\Configurations\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +52,7 @@
     <PackageReference Include="Autofac" Version="8.4.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Dapper" Version="2.1.72" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="MailKit" Version="4.15.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />

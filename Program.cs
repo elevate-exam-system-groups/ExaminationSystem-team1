@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
 using ExaminationSystem.Controllers.Shared.Middlewares;
+using ExaminationSystem.Domain.Data;
 using System.Diagnostics;
 
 namespace ExaminationSystem

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using ExaminationSystem.Domain.Data;
+using System.Diagnostics;
 
 namespace ExaminationSystem.Extensions
 {

@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.DTOS;
-using FluentValidation;
 
 namespace ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests
 {

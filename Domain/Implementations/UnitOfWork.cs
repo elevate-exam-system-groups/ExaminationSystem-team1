@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Infrastructure.Implementations
+﻿using ExaminationSystem.Domain.Data;
+
+namespace ExaminationSystem.Domain.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {

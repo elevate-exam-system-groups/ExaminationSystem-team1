@@ -1,10 +1,7 @@
 ﻿using ExaminationSystem.Controllers.DiplomaController.ViewModels;
-using ExaminationSystem.Controllers.Shared;
-using ExaminationSystem.Controllers.Shared.Enums;
 using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ExaminationSystem.Controllers.DiplomaController
 {
@@ -37,7 +34,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         }
 
         [HttpPut]
-        public async Task<ResponseViewModel<UpdateDiplomaResponseVM>> Update(UpdateDiplomaRequestVM request)
+        public async Task<ResponseViewModel<UpdateDiplomaResponseVM>> UpdateDiploma(UpdateDiplomaRequestVM request)
         {
             var result = await _mediator
                                     .Send(new UpdateDiplomaCommandRequest(request.Id, request.Title, request.Description));
@@ -53,7 +50,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         }
 
         [HttpDelete]
-        public async Task<ResponseViewModel<bool>> Delete(Guid diplomaID)
+        public async Task<ResponseViewModel<bool>> DeleteDiploma(Guid diplomaID)
         {
             var result = await _mediator.Send(new DeleteDiplomaCommandRequest(diplomaID));
             if (!result.IsSuccess)

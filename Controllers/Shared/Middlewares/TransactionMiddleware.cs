@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using ExaminationSystem.Domain.Data;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
