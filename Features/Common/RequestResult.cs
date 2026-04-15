@@ -1,6 +1,6 @@
 namespace ExaminationSystem.Features.Common
 {
-    public class RequestResult<T> //where T : class
+    public class RequestResult<T> 
     {
         public bool IsSuccess { get; set; }
         public T? Data { get; set; }

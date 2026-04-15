@@ -8,8 +8,12 @@ namespace ExaminationSystem.Domain.Implementations
         private readonly Dictionary<Type, object> _repositories = [];
 
         public UnitOfWork(Context dbContext)
+         => _dbContext = dbContext;
+        
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct = default)
         {
-            _dbContext = dbContext;
+            return await _dbContext.Database.BeginTransactionAsync(ct);
         }
         public IGeneralRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseModel
         {
