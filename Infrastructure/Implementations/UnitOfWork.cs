@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Infrastructure.Implementations
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace ExaminationSystem.Infrastructure.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -6,8 +8,12 @@
         private readonly Dictionary<Type, object> _repositories = [];
 
         public UnitOfWork(Context dbContext)
+         => _dbContext = dbContext;
+        
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct = default)
         {
-            _dbContext = dbContext;
+            return await _dbContext.Database.BeginTransactionAsync(ct);
         }
         public IGeneralRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseModel
         {

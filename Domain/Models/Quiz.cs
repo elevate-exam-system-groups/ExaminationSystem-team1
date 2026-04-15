@@ -26,6 +26,10 @@ namespace ExaminationSystem.Domain.Models
     {
         public void Configure(EntityTypeBuilder<Quiz> builder)
         {
+
+            builder.Property(q => q.DiplomaId)
+                   .IsRequired();
+
             builder.Property(q => q.Status)
                    .HasConversion<string>();
 

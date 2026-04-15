@@ -12,8 +12,9 @@ namespace ExaminationSystem.Infrastructure.Implementations
             _context = context;
             _dbSet = context.Set<T>();
         }
-        #region ReadRegion
 
+
+        #region ReadRegion
         public IQueryable<T> GetAll()
         {
             return _dbSet.Where(x => !x.isDeleted);
@@ -82,7 +83,8 @@ namespace ExaminationSystem.Infrastructure.Implementations
             else
             {
                 // 3- If the entity is already being tracked, use the existing tracked entity
-                entityEntry = _context.ChangeTracker.Entries<T>().FirstOrDefault(e => e.Entity.Id == entity.Id);
+                entityEntry = _context.ChangeTracker.Entries<T>()
+                                                    .FirstOrDefault(e => e.Entity.Id == entity.Id);
             }
 
             // 4- Mark only the specified properties as modified
@@ -91,7 +93,9 @@ namespace ExaminationSystem.Infrastructure.Implementations
                 if (include.Contains(prop.Metadata.Name))
                 {
                     // Set the current value of the property to the value from the provided entity
-                    prop.CurrentValue = entity.GetType().GetProperty(prop.Metadata.Name).GetValue(entity);
+                    prop.CurrentValue = entity.GetType()
+                                              .GetProperty(prop.Metadata.Name)
+                                              .GetValue(entity);
                     prop.IsModified = true;
 
                 }
@@ -116,6 +120,9 @@ namespace ExaminationSystem.Infrastructure.Implementations
             SoftDelete(entity.FirstOrDefault());
             return true;
         }
+
+        public void AddRange(IEnumerable<T> entities)
+         => _dbSet.AddRange(entities);
 
         public async Task SaveChangesAsync()
         {

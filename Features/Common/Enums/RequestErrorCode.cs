@@ -7,6 +7,7 @@
         EmailNotVerified,
         AccountLocked,
         AccountNotActive,
+
         Success = 201,
         UpdateSuccess = 200,
         EmailAlreadyRegistered = 209,
