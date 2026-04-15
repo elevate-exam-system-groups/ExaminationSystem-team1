@@ -7,14 +7,14 @@ namespace ExaminationSystem.Features.Common
         public string? Message { get; set; }
         public RequestErrorCode? requestErrorCode { get; set; }
 
-        public static RequestResult<T> Success(T data, string message = "Success")
+        public static RequestResult<T> Success(T data, string message = "Success", RequestErrorCode? errorCode = RequestErrorCode.None)
         {
             return new RequestResult<T>
             {
                 IsSuccess = true,
                 Data = data,
                 Message = message,
-                requestErrorCode = RequestErrorCode.None
+                requestErrorCode = errorCode
             };
         }
 

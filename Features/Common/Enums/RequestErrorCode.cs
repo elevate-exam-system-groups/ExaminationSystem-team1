@@ -9,16 +9,17 @@
         AccountNotActive,
 
         Success = 201,
+        UpdateSuccess = 200,
         EmailAlreadyRegistered = 209,
         ValidationError = 422,
         PasswordPolicyViolation = 422,
-
-        UserNotFound ,
-        InvalidToken ,
-        PasswordResetFailed,
-        EmailSendFailed,
-        EmailAlreadyExists,
-        AccountNotVerified,
-        Conflict = 409
+        NotFound = 404,
+        Conflict = 409,
+        UserNotFound = 1001,
+        InvalidToken = 1002,
+        PasswordResetFailed = 1003,
+        EmailSendFailed = 1004,
+        EmailAlreadyExists = 1005,
+        AccountNotVerified = 1006
     }
 }

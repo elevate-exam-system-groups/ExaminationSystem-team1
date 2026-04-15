@@ -29,7 +29,6 @@ namespace ExaminationSystem.Infrastructure.Implementations
         {
             return GetAll().Where(expression);
         }
-
         public IQueryable<T> GetByIdWithTracking(Guid id)
         {
             var trackedEntity = _dbSet.Where(x => x.Id == id && !x.isDeleted)
@@ -44,6 +43,13 @@ namespace ExaminationSystem.Infrastructure.Implementations
         {
             _dbSet.Add(entity);
             entity.CreatedAt = DateTime.Now;
+        }
+
+        public Guid AddAndReturnId(T entity)
+        {
+            _dbSet.Add(entity);
+            entity.CreatedAt = DateTime.Now;
+            return entity.Id;
         }
 
         #region UpdateRegion
@@ -101,13 +107,27 @@ namespace ExaminationSystem.Infrastructure.Implementations
 
         public void SoftDelete(T entity)
         {
-            UpdateInclude(entity, nameof(entity.isDeleted));
             entity.isDeleted = true;
+            UpdateInclude(entity, nameof(entity.isDeleted));
+            entity.DeletedAt = DateTime.UtcNow;
+        }
+
+        public bool SoftDeleteById(Guid id)
+        {
+            var entity = GetById(id);
+            if (entity is null)
+                return false;
+            SoftDelete(entity.FirstOrDefault());
+            return true;
         }
 
         public void AddRange(IEnumerable<T> entities)
          => _dbSet.AddRange(entities);
-        
 
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+
+        }
     }
 }

@@ -12,9 +12,14 @@ namespace ExaminationSystem.Domain.Abstractions
 
         // Write
         public void Add(T entity);
+
+        public Guid AddAndReturnId(T entity);
         public void Update(T entity);
         public void UpdateInclude(T entity, params string[] include);
         public void SoftDelete(T entity);
+        public bool SoftDeleteById(Guid id);
         public void AddRange(IEnumerable<T> entities);
+
+        public Task SaveChangesAsync();
     }
 }

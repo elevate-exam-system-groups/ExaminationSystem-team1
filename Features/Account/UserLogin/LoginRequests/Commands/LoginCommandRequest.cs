@@ -1,12 +1,7 @@
-﻿using ExaminationSystem.Domain.Models;
-using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
+﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using ExaminationSystem.Features.AuthModule.Shared;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginDTOS;
-using ExaminationSystem.Features.Common.Enums;
-using ExaminationSystem.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 
 namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
@@ -41,26 +36,29 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenGenerator _tokenGenerator;
-        private readonly Context _context;
+        private readonly IGeneralRepository<RefreshToken> _refreshTokenRepository;
+        private readonly IValidator<LoginCommandRequest> _validator;
 
         public LoginCommandHandler(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ITokenGenerator tokenGenerator,
-            Context context)
+            IValidator<LoginCommandRequest> validator,
+            IGeneralRepository<RefreshToken> refreshTokenRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenGenerator = tokenGenerator;
-            _context = context;
+            _validator = validator;
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
         public async Task<RequestResult<LoginCommandResponseDTO>> Handle(
             LoginCommandRequest request,
             CancellationToken cancellationToken)
         {
-            var validator = new LoginCommandValidator();
-            var resultValidate = await validator.ValidateAsync(request);
+
+            var resultValidate = await _validator.ValidateAsync(request);
 
             if (!resultValidate.IsValid)
             {
@@ -102,7 +100,7 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
 
             // 7. Generate Refresh Token
             var refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-            
+
             var refreshTokenEntity = new RefreshToken
             {
                 Token = refreshToken,
@@ -113,9 +111,9 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
                 AddedDate = DateTime.UtcNow,
                 ExpiryDate = DateTime.UtcNow.AddDays(7)
             };
-            
-            _context.RefreshTokens.Add(refreshTokenEntity);
-            await _context.SaveChangesAsync(cancellationToken);
+
+            _refreshTokenRepository.Add(refreshTokenEntity);
+            await _refreshTokenRepository.SaveChangesAsync();
 
             return RequestResult<LoginCommandResponseDTO>.Success(new LoginCommandResponseDTO
             {

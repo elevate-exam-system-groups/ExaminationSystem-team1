@@ -2,8 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
-using ExaminationSystem.Middlewares;
-using FluentValidation;
+using ExaminationSystem.Controllers.Shared.Middlewares;
 using System.Diagnostics;
 
 namespace ExaminationSystem
@@ -19,6 +18,7 @@ namespace ExaminationSystem
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            //builder.Services.AddDatabase(builder.Configuration);
             builder.Services.AddDbContext<Context>(opt =>
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
@@ -27,8 +27,8 @@ namespace ExaminationSystem
             );
 
 
-            builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-           
+            //builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
 
             builder.Services.AddMediatR(cfg =>
                   cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
@@ -37,14 +37,16 @@ namespace ExaminationSystem
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 containerBuilder.RegisterModule(new AutofacModule()));
 
-            builder.Services.AddIdentity<User, IdentityRole>(options => 
+            //builder.Services.AddIdentityServices();
+
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 8;
-                
+
                 // Epic 1.2: 5 consecutive failed attempts -> Lock account for 15 minutes.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
                 options.Lockout.MaxFailedAccessAttempts = 5;
@@ -54,6 +56,8 @@ namespace ExaminationSystem
               .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces
               .AddDefaultTokenProviders();
 
+
+            //builder.Services.AddJwtServices(builder.Configuration);
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -112,6 +116,7 @@ namespace ExaminationSystem
             }
 
             app.UseMiddleware<GlobalErrorHandlerMiddelware>();
+            app.UseMiddleware<TransactionMiddleware>();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

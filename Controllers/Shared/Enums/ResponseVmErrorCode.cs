@@ -10,7 +10,7 @@
         EmailSendFailed = 500,
         EmailAlreadyExists = 409,
         AccountNotVerified = 403,
-
+        ValidationError = 422,
         //InvalidInput = 1,
         //NotFound = 2,
         Unauthorized = 401,
@@ -23,7 +23,6 @@
         //Question
         Conflict = 409,
         Success = 201,
-        ValidationError = 422, 
         NotFound = 404,
         InternalServerError = 500
 

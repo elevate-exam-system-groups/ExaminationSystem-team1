@@ -1,7 +1,8 @@
 ﻿using Autofac;
+using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Features.Account.Shared.Services;
 using ExaminationSystem.Features.AuthModule.Shared;
-using ExaminationSystem.Middlewares;
+using FluentValidation;
 using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations
@@ -25,6 +26,10 @@ namespace ExaminationSystem.Configurations
             builder.RegisterType<EmailService>()
                    .As<IEmailService>()
                    .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                   .AsClosedTypesOf(typeof(IValidator<>))
+                   .AsImplementedInterfaces();
 
             builder.RegisterType<GlobalErrorHandlerMiddelware>()
                    .InstancePerLifetimeScope();
