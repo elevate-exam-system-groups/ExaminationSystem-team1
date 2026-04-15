@@ -2,8 +2,8 @@
 {
     public class LoginCommandResponseDTO
     {
-        public string Email { get; set; }
-        public string Token { get; set; }
-        public string RefreshToken { get; set; } = string.Empty;
+        public required string Email { get; set; }
+        public required string Token { get; set; }
+        public required string RefreshToken { get; set; }
     }
 }

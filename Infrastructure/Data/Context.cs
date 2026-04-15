@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Infrastructure.Data
+namespace ExaminationSystem.Infrastructure.Data
 {
     public class Context : IdentityDbContext<User>//DbContext
     {
@@ -14,6 +14,8 @@
         public DbSet<Enrollment> Enrollments { get; set; }
 
         public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<UserOTP> UserOTPs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
