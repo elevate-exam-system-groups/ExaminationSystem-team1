@@ -5,7 +5,7 @@ namespace ExaminationSystem.Domain.Models
     public class Question : BaseModel
     {
         [ForeignKey("Quiz")]
-        public int QuizId { get; set; }
+        public Guid QuizId { get; set; }
         public string Text { get; set; }
         public string? Explanation { get; set; }
         public int OrderIndex { get; set; } = 1;
@@ -23,6 +23,11 @@ namespace ExaminationSystem.Domain.Models
     {
         public void Configure(EntityTypeBuilder<Question> builder)
         {
+
+            builder.HasKey(q => q.Id);  // Guid primary key
+            builder.Property(q => q.Id)
+                   .HasDefaultValueSql("NEWID()");  // Auto-generate in DB
+
             builder.HasMany(q => q.AttemptAnswers)
                    .WithOne(x => x.Question)
                    .HasForeignKey(x => x.QuestionId)

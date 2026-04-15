@@ -5,7 +5,7 @@ namespace ExaminationSystem.Domain.Models
     public class QuizAttempt : BaseModel
     {
         public string StudentId { get; set; }
-        public int QuizId { get; set; }
+        public Guid QuizId { get; set; }
 
         public QuizAttemptStatus Status { get; set; } = QuizAttemptStatus.InProgress;
 

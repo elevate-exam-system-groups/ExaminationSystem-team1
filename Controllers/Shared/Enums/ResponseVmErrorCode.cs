@@ -15,9 +15,17 @@
         //NotFound = 2,
         Unauthorized = 401,
         //Forbidden = 4,
-        InternalServerError = 500,
+        //InternalServerError = 500,
         //BadRequest = 6,
         //Conflict = 7,
         //ServiceUnavailable = 8
+
+        //Question
+        Conflict = 409,
+        Success = 201,
+        ValidationError = 422, 
+        NotFound = 404,
+        InternalServerError = 500
+
     }
 }

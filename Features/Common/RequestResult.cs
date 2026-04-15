@@ -1,8 +1,6 @@
-using ExaminationSystem.Features.Common.Enums;
-
 namespace ExaminationSystem.Features.Common
 {
-    public class RequestResult<T> where T : class
+    public class RequestResult<T> 
     {
         public bool IsSuccess { get; set; }
         public T? Data { get; set; }
@@ -25,7 +23,7 @@ namespace ExaminationSystem.Features.Common
             return new RequestResult<T>
             {
                 IsSuccess = false,
-                Data = null,
+                Data = default,
                 Message = message,
                 requestErrorCode = errorCode
             };
