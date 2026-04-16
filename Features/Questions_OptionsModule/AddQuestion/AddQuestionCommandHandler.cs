@@ -3,16 +3,16 @@ using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion.DTOs;
 
 namespace ExaminationSystem.Features.Questions_OptionsModule.Command
 {
-    public class CreateQuestionCommandHandler
-        : IRequestHandler<CreateQuestionCommand, RequestResult<CreateQuestionResponse>>
+    public class AddQuestionCommandHandler
+        : IRequestHandler<AddQuestionCommand, RequestResult<AddQuestionResponse>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        public CreateQuestionCommandHandler(IUnitOfWork unitOfWork)
+        public AddQuestionCommandHandler(IUnitOfWork unitOfWork)
             => _unitOfWork = unitOfWork;
 
-        public async Task<RequestResult<CreateQuestionResponse>> Handle(
-            CreateQuestionCommand request,
+        public async Task<RequestResult<AddQuestionResponse>> Handle(
+            AddQuestionCommand request,
             CancellationToken ct)
         {
 
@@ -21,13 +21,15 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.Command
             {
                 // 1. Check If Quiz Exists and get its status
                 var quizRepo = _unitOfWork.GetRepository<Quiz>();
-                var quiz = await quizRepo.GetById(request.QuizId).FirstOrDefaultAsync(ct);
+                var quiz = await quizRepo.GetById(request.QuizId)  //===================
+                                         .FirstOrDefaultAsync(ct);
 
                 if (quiz == null)
-                    return RequestResult<CreateQuestionResponse>.Failure("Quiz not found", RequestErrorCode.UserNotFound);
+                    return RequestResult<AddQuestionResponse>.Failure
+                        ("Quiz not found", RequestErrorCode.UserNotFound);
 
                 if (quiz.Status == QuizStatus.Published)
-                    return RequestResult<CreateQuestionResponse>.Failure(
+                    return RequestResult<AddQuestionResponse>.Failure(
                         "Cannot add question to published quiz",
                         RequestErrorCode.Conflict);
 
@@ -63,8 +65,8 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.Command
 
                 await _unitOfWork.SaveChangesAsync();
 
-                return RequestResult<CreateQuestionResponse>.Success(
-                    new CreateQuestionResponse(question.Id),
+                return RequestResult<AddQuestionResponse>.Success(
+                    new AddQuestionResponse(question.Id),
                     "Question created successfully");
 
             }

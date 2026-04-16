@@ -23,13 +23,13 @@ namespace ExaminationSystem.Controllers.QuestionController
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResponseViewModel<CreateQuestionResponse>>> Create(
+        public async Task<ActionResult<ResponseViewModel<AddQuestionResponse>>> Create(
                       Guid quizId, [FromBody] AddQuestionViewModel vm)
         {
             if (quizId != vm.QuizId)
-                return BadRequest(ResponseViewModel<CreateQuestionResponse>.Failure("Quiz ID mismatch"));
+                return BadRequest(ResponseViewModel<AddQuestionResponse>.Failure("Quiz ID mismatch"));
 
-            var command = new CreateQuestionCommand
+            var command = new AddQuestionCommand
             {
                 QuizId = vm.QuizId,
                 Text = vm.Text,

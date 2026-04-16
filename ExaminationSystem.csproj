@@ -81,7 +81,6 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Features\DiplomaModule\ViewDiploma\" />
-    <Folder Include="Features\Questions_OptionsModule\Helper\" />
     <Folder Include="Features\QuizModule\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>
