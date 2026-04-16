@@ -1,4 +1,7 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.AddQuestion
+﻿using ExaminationSystem.Features.Questions_OptionsModule.Command;
+using ExaminationSystem.Features.Questions_OptionsModule.Query;
+
+namespace ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.AddQuestion
 {
 
 
