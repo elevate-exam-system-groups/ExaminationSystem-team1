@@ -1,14 +1,14 @@
-﻿using ExaminationSystem.Features.Questions_OptionsModule.Command;
-using FluentValidation;
-
-namespace ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion
 {
-    public class CreateQuestionValidator : AbstractValidator<CreateQuestionCommand>
+    public class AddQuestionValidator : AbstractValidator<AddQuestionCommand>
     {
-        public CreateQuestionValidator()
+        public AddQuestionValidator()
         {
             RuleFor(x => x.QuizId).NotEmpty();
-            RuleFor(x => x.Text).NotEmpty().MaximumLength(1000);
+
+            RuleFor(x => x.Text)
+                .NotEmpty()
+                .MaximumLength(1000);
 
             RuleFor(x => x.Options)
                 .Must(x => x != null && x.Count >= 2)
@@ -20,7 +20,9 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion
 
             RuleForEach(x => x.Options).ChildRules(option =>
             {
-                option.RuleFor(o => o.Text).NotEmpty().WithMessage("Option text cannot be empty");
+                option.RuleFor(o => o.Text)
+                .NotEmpty()
+                .WithMessage("Option text cannot be empty");
             });
         }
     }

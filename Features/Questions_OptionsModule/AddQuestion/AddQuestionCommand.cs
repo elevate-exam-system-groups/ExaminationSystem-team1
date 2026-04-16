@@ -2,7 +2,7 @@
 
 namespace ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion
 {
-    public record CreateQuestionCommand : IRequest<RequestResult<CreateQuestionResponse>>
+    public record AddQuestionCommand : IRequest<RequestResult<AddQuestionResponse>>
     {
         public Guid QuizId { get; set; }
         public string Text { get; set; }

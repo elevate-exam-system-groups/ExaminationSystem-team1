@@ -7,7 +7,9 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
         public UpdateQuestionValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
-            RuleFor(x => x.Text).NotEmpty().MaximumLength(1000);
+
+            RuleFor(x => x.Text).NotEmpty()
+                .MaximumLength(1000);
 
             RuleFor(x => x.Options)
                 .Must(x => x != null && x.Count >= 2)
@@ -19,7 +21,9 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
 
             RuleForEach(x => x.Options).ChildRules(option =>
             {
-                option.RuleFor(o => o.Text).NotEmpty().WithMessage("Option text cannot be empty");
+                option.RuleFor(o => o.Text)
+                .NotEmpty()
+                .WithMessage("Option text cannot be empty");
             });
         }
     }

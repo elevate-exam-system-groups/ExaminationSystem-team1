@@ -1,12 +1,12 @@
-﻿using ExaminationSystem.Features.Common.Enums;
-using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.DTOs;
+﻿using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.DTOs;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
 {
-
     public class UpdateQuestionCommandHandler 
         : IRequestHandler<UpdateQuestionCommand, RequestResult<UpdateQuestionResponse>>
     {
+
         private readonly IUnitOfWork _unitOfWork;
         public UpdateQuestionCommandHandler(IUnitOfWork unitOfWork)
             => _unitOfWork = unitOfWork;
@@ -14,27 +14,34 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
         public async Task<RequestResult<UpdateQuestionResponse>> Handle(
             UpdateQuestionCommand request, CancellationToken ct)
         {
+            // 1. Get the question along with its quiz
             var questionRepo = _unitOfWork.GetRepository<Question>();
-            var question = await questionRepo.GetById(request.Id)
-                .Include(q => q.Quiz)
-                .FirstOrDefaultAsync(ct);
+            var questionInfo = await questionRepo.Get(q => q.Id == request.Id)
+                .Select(q => new
+                {
+                    Question = q,  //=====================
+                    QuizStatus = q.Quiz.Status
+                }).FirstOrDefaultAsync(ct);
 
-            if (question == null)
-                return RequestResult<UpdateQuestionResponse>.Failure("Question not found", RequestErrorCode.UserNotFound);
+            if (questionInfo == null)
+                return RequestResult<UpdateQuestionResponse>.Failure
+                    ("Question not found", RequestErrorCode.UserNotFound);
 
-            // التحقق من حالة الـ Quiz
-            if (question.Quiz.Status == QuizStatus.Published)
+            // Check If Quiz Published/ Unpublished
+            if (questionInfo.QuizStatus == QuizStatus.Published)
                 return RequestResult<UpdateQuestionResponse>.Failure(
                     "Cannot update question in published quiz. Unpublish quiz first.",
                     RequestErrorCode.Conflict);
 
-            // تحديث الـ Question
+            var question = questionInfo.Question;
+            // Update Question
             question.Text = request.Text;
             question.Explanation = request.Explanation;
             question.UpdatedAt = DateTime.UtcNow;
 
-            // تحديث الـ Options
+            // Update Options
             var optionRepo = _unitOfWork.GetRepository<Option>();
+
             var existingOptions = await optionRepo
                 .Get(o => o.QuestionId == question.Id)
                 .ToListAsync(ct);
@@ -44,13 +51,13 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
                 .Select(o => o.Id.Value)
                 .ToList();
 
-            // حذف اللي مش موجودين
+            // Delete options that are not in the incoming list
             foreach (var opt in existingOptions.Where(o => !incomingOptionIds.Contains(o.Id)))
             {
                 optionRepo.SoftDelete(opt);
             }
 
-            // تحديث أو إضافة
+            // Update existing options and add new ones
             foreach (var opt in request.Options)
             {
                 if (opt.Id.HasValue)
