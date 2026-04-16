@@ -27,7 +27,10 @@ namespace ExaminationSystem.Controllers.DiplomaController
                       .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode);
             }
 
-            var reponseVM = new CreateDiplomaResponseVM(result.Data.Id, result.Data.Title, result.Data.Description, result.Data.Status);
+            var reponseVM = new CreateDiplomaResponseVM(result.Data.Id,
+                                                                           result.Data.Title,
+                                                                           result.Data.Description,
+                                                                           result.Data.Status);
 
             return ResponseViewModel<CreateDiplomaResponseVM>
                  .Success(reponseVM);

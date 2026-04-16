@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Data;
+using ExaminationSystem.Extensions;
 using System.Diagnostics;
 
 namespace ExaminationSystem
@@ -19,16 +20,6 @@ namespace ExaminationSystem
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            //builder.Services.AddDatabase(builder.Configuration);
-            builder.Services.AddDbContext<Context>(opt =>
-                opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
-                .EnableSensitiveDataLogging()
-            );
-
-
-            //builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 
             builder.Services.AddMediatR(cfg =>
@@ -38,48 +29,9 @@ namespace ExaminationSystem
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 containerBuilder.RegisterModule(new AutofacModule()));
 
-            //builder.Services.AddIdentityServices();
+            builder.Services.AddIdentityServices();
 
-            builder.Services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 8;
-
-                // Epic 1.2: 5 consecutive failed attempts -> Lock account for 15 minutes.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
-
-            }) // context user
-              .AddEntityFrameworkStores<Context>() // Add implementation of identity framework interfaces
-              .AddDefaultTokenProviders();
-
-
-            //builder.Services.AddJwtServices(builder.Configuration);
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-              .AddJwtBearer(options =>
-              {
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateLifetime = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = builder.Configuration["JWT:Issuer"],
-                      ValidAudience = builder.Configuration["JWT:Audience"],
-                      IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
-                  };
-              });
-
-
+            builder.Services.AddJwtServices(builder.Configuration);
 
             #endregion
 
