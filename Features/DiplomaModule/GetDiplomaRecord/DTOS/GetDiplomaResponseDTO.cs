@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.Common.GetDiplomaRecord.DTOS
+﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaRecord.DTOS
 {
     public record GetDiplomaByIDResponseDTO(Guid Id, string Title, string? Description, DiplomaStatus Status, int Count);
 
