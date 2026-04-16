@@ -2,6 +2,8 @@
 using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
+using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.DTOS;
+using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.Request;
 
 namespace ExaminationSystem.Controllers.DiplomaController
 {
@@ -63,6 +65,33 @@ namespace ExaminationSystem.Controllers.DiplomaController
             }
             return ResponseViewModel<bool>
                  .Success(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<ResponseViewModel<GetAllDiplomasPaginatedResponseVM>> GetAllDiplomas([FromQuery] AllDiplomasPaginatedRequestVM requestVM)
+        {
+            var result = await _mediator.Send(new GetDiplomasQueryRequest(requestVM.Page, requestVM.PerPage));
+            if (!result.IsSuccess)
+            {
+                return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>
+                     .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode);
+            }
+
+            var responseVM = new GetAllDiplomasPaginatedResponseVM(
+                result.Data.Data.Select(d => new GetPublishedDiplomaResponseDTO(
+                    d.Id,
+                    d.Title,
+                    d.Description,
+                    d.Status,
+                    d.QuizCount
+                )).ToList(),
+                result.Data.Page,
+                result.Data.PerPage,
+                result.Data.Total,
+                result.Data.TotalPages
+            );
+
+            return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>.Success(responseVM);
         }
 
 

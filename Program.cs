@@ -5,7 +5,6 @@ using ExaminationSystem.Configurations;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Data;
 using ExaminationSystem.Extensions;
-using System.Diagnostics;
 
 namespace ExaminationSystem
 {
@@ -21,6 +20,7 @@ namespace ExaminationSystem
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDatabase(builder.Configuration);
 
             builder.Services.AddMediatR(cfg =>
                   cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

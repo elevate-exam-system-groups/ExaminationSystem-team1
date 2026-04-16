@@ -1,4 +1,6 @@
 ﻿using ExaminationSystem.Domain.Data;
+using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Diagnostics;
 
 namespace ExaminationSystem.Extensions
@@ -13,6 +15,10 @@ namespace ExaminationSystem.Extensions
                    .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
                    .EnableSensitiveDataLogging()
             );
+
+            services.AddScoped<IDbConnection>(_ =>
+            new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
+
             return services;
         }
     }
