@@ -3,7 +3,6 @@ using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Implementations;
 using ExaminationSystem.Features.Account.Shared.Services;
 using ExaminationSystem.Features.AuthModule.Shared;
-using FluentValidation;
 using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations
@@ -34,6 +33,10 @@ namespace ExaminationSystem.Configurations
 
             builder.RegisterType<GlobalErrorHandlerMiddelware>()
                    .InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(HandlerBasicParameterss<>))
+                   .AsSelf()
+                  .InstancePerLifetimeScope();
 
         }
     }

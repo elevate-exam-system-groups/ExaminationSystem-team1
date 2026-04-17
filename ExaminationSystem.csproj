@@ -49,6 +49,8 @@
     <Compile Include="Features\DiplomaModule\Shared\GetDiplomaQuizCountRequest\GetDiplomaQuizCountQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\DTOS\UpdateDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\Requests\UpdateDiplomaCommandRequest.cs" />
+    <Compile Include="Features\DiplomaModule\ViewDiplomaQuizzes\DTOS\ViewDiplomaQuizzesResponseDTO.cs" />
+    <Compile Include="Features\DiplomaModule\ViewDiplomaQuizzes\ViewDiplomaQuizzesQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\ViewDiplomas\DTOS\GetAllDiplomaPaginatedDTO.cs" />
     <Compile Include="Features\DiplomaModule\ViewDiplomas\DTOS\GetPublishedDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\ViewDiplomas\Request\GetDiplomasQueryRequest.cs" />
@@ -83,7 +85,6 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Features\DiplomaModule\ViewDiplomaQuizzes\" />
     <Folder Include="Features\QuizModule\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>

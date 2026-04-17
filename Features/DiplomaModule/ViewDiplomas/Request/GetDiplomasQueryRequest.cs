@@ -49,8 +49,6 @@ namespace ExaminationSystem.Features.DiplomaModule.ViewDiplomas.Request
                 totalPages
                 );
 
-
-
             return RequestResult<GetAllDiplomaPaginatedDTO>.Success(responseDTOs, "Diplomas retrieved successfully", RequestErrorCode.Success);
         }
 
