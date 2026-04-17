@@ -6,7 +6,7 @@ using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion;
 using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion.DTOs;
 using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.DTOs;
 using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion;
-using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.DTOs;
+using ExaminationSystem.Features.Questions_OptionsModule.Common.DTOs;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {
@@ -49,7 +49,7 @@ namespace ExaminationSystem.Controllers.QuestionController
             if (id != vm.Id)
                 return BadRequest(ResponseViewModel<UpdateQuestionResponse>.Failure("Question ID mismatch"));
 
-            var command = new UpdateQuestionCommand
+            var command = new UpdateQuestionOptionsOrchestrator
             {
                 Id = vm.Id,
                 Text = vm.Text,
@@ -63,9 +63,9 @@ namespace ExaminationSystem.Controllers.QuestionController
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<ActionResult<ResponseViewModel<DeleteQuestionResponse>>> Delete(Guid id)
+        public async Task<ActionResult<ResponseViewModel<DeleteOptionsResponse>>> Delete(Guid id)
         {
-            var result = await _mediator.Send(new DeleteQuestionCommand(id));
+            var result = await _mediator.Send(new DeleteQuestionOrchestrator(id));
 
             return HandleResult(result);
         }

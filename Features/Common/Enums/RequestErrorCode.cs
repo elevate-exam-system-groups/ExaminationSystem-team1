@@ -15,6 +15,8 @@
         PasswordPolicyViolation = 422,
         NotFound = 404,
         Conflict = 409,
+        InternalServerError = 500,
+
         UserNotFound = 1001,
         InvalidToken = 1002,
         PasswordResetFailed = 1003,

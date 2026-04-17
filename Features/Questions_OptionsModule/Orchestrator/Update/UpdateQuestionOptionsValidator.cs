@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
+namespace ExaminationSystem.Features.Questions_OptionsModule.Orchestrator.Update
 {
-    public class UpdateQuestionValidator : AbstractValidator<UpdateQuestionCommand>
+    public class UpdateQuestionOptionsValidator : AbstractValidator<UpdateQuestionOptionsOrchestrator>
     {
-        public UpdateQuestionValidator()
+        public UpdateQuestionOptionsValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
 
