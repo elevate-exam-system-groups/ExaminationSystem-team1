@@ -15,11 +15,13 @@
         PasswordPolicyViolation = 422,
         NotFound = 404,
         Conflict = 409,
-        UserNotFound = 1001,
-        InvalidToken = 1002,
-        PasswordResetFailed = 1003,
-        EmailSendFailed = 1004,
-        EmailAlreadyExists = 1005,
-        AccountNotVerified = 1006
+        InternalServerError = 500,
+
+        UserNotFound ,
+        InvalidToken ,
+        PasswordResetFailed,
+        EmailSendFailed,
+        EmailAlreadyExists,
+        AccountNotVerified 
     }
 }

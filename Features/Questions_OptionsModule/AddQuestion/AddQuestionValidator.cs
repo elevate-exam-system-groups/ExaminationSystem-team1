@@ -1,6 +1,6 @@
 ﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion
 {
-    public class AddQuestionValidator : AbstractValidator<AddQuestionCommand>
+    public class AddQuestionValidator : AbstractValidator<AddQuestionOrchestratorCommand>
     {
         public AddQuestionValidator()
         {
