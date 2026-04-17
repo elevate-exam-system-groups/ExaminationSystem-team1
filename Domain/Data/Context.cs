@@ -1,4 +1,4 @@
-namespace ExaminationSystem.Infrastructure.Data
+namespace ExaminationSystem.Domain.Data
 {
     public class Context : IdentityDbContext<User>//DbContext
     {

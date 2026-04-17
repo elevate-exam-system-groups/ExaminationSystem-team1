@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Extensions
+﻿using ExaminationSystem.Domain.Data;
+
+namespace ExaminationSystem.Extensions
 {
     public static class IdentityExtensions
     {

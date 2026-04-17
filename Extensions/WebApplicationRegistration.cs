@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Infrastructure.Data;
+﻿using ExaminationSystem.Domain.Data;
 
 namespace ExaminationSystem.Extensions
 {

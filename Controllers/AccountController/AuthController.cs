@@ -1,14 +1,11 @@
 ﻿using ExaminationSystem.Controllers.AccountController.ViewModels.LoginViewModels;
 using ExaminationSystem.Controllers.AccountController.ViewModels.PasswordViewModels;
-using ExaminationSystem.Controllers.Shared;
-using ExaminationSystem.Controllers.Shared.Enums;
 using ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword;
+using ExaminationSystem.Features.Account.Reqisteration.Command;
 using ExaminationSystem.Features.AuthModule.Account.Command;
 using ExaminationSystem.Features.AuthModule.Account.DTOs;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands;
-using ExaminationSystem.Features.Account.Reqisteration.Command;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace ExaminationSystem.Controllers.AccountController
 {
@@ -32,7 +29,7 @@ namespace ExaminationSystem.Controllers.AccountController
             var result = await _mediator.Send(new RegisterCommand(registerDTO));
             if (!result.IsSuccess)
                 return ResponseViewModel<string>.Failure(result.Message, ResponseVmErrorCode.InternalServerError);
-            
+
             return ResponseViewModel<string>.Success(result.Data);
         }
 
@@ -42,7 +39,7 @@ namespace ExaminationSystem.Controllers.AccountController
             var result = await _mediator.Send(new VerifyOtpCommand(request.Email, request.OtpCode));
             if (!result.IsSuccess)
                 return ResponseViewModel<string>.Failure(result.Message, ResponseVmErrorCode.InvalidCredentials);
-            
+
             return ResponseViewModel<string>.Success(result.Data);
         }
 
@@ -52,7 +49,7 @@ namespace ExaminationSystem.Controllers.AccountController
             var result = await _mediator.Send(new ResendOtpCommand(request.Email));
             if (!result.IsSuccess)
                 return ResponseViewModel<string>.Failure(result.Message, ResponseVmErrorCode.InternalServerError);
-            
+
             return ResponseViewModel<string>.Success(result.Data);
         }
 
@@ -74,7 +71,7 @@ namespace ExaminationSystem.Controllers.AccountController
                 Secure = true,   // Ensure HTTPS
                 SameSite = SameSiteMode.Strict
             };
-            
+
             Response.Cookies.Append("refreshToken", result.Data.RefreshToken, cookieOptions);
 
             return ResponseViewModel<UserResponseVm>.Success(new UserResponseVm
@@ -106,7 +103,7 @@ namespace ExaminationSystem.Controllers.AccountController
         public async Task<ResponseViewModel<ResetPasswordResponseVM>> ResetPassword([FromBody] ResetPasswordVM model)
         {
             var command = new ResetPasswordCommand(
-                model.Email,         
+                model.Email,
                 model.Token,
                 model.NewPassword,
                 model.ConfirmNewPassword);

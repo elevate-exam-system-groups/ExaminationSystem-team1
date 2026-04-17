@@ -9,7 +9,6 @@ namespace ExaminationSystem.Domain.Models
         public Guid QuestionId { get; set; }
         public string Text { get; set; }
         public bool IsCorrect { get; set; }
-        // Navigation property
         public Question Question { get; set; }
 
         public ICollection<AttemptAnswer> AttemptAnswers { get; set; } = new List<AttemptAnswer>();

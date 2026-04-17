@@ -1,6 +1,22 @@
-﻿global using System.Text;
-global using ExaminationSystem.Infrastructure.Data;
+﻿global using ExaminationSystem.Controllers.QuestionController.ViewModels;
+global using ExaminationSystem.Controllers.Shared;
+global using ExaminationSystem.Controllers.Shared.Enums;
+global using ExaminationSystem.Domain.Abstractions;
+global using ExaminationSystem.Domain.Models;
+global using ExaminationSystem.Domain.Models.Enums;
+global using ExaminationSystem.Features.Common;
+global using ExaminationSystem.Features.Common.Enums;
+global using FluentValidation;
+global using MailKit.Net.Smtp;
+global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Microsoft.IdentityModel.Tokens;
-global using ExaminationSystem.Infrastructure.Implementations;
+global using MimeKit;
+global using System.Reflection;
+global using System.Text;
+

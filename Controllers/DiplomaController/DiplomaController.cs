@@ -1,10 +1,9 @@
 ﻿using ExaminationSystem.Controllers.DiplomaController.ViewModels;
-using ExaminationSystem.Controllers.Shared;
-using ExaminationSystem.Controllers.Shared.Enums;
 using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
-using Microsoft.AspNetCore.Mvc;
+using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.DTOS;
+using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.Request;
 
 namespace ExaminationSystem.Controllers.DiplomaController
 {
@@ -30,14 +29,17 @@ namespace ExaminationSystem.Controllers.DiplomaController
                       .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode);
             }
 
-            var reponseVM = new CreateDiplomaResponseVM(result.Data.Id, result.Data.Title, result.Data.Description, result.Data.Status);
+            var reponseVM = new CreateDiplomaResponseVM(result.Data.Id,
+                                                                           result.Data.Title,
+                                                                           result.Data.Description,
+                                                                           result.Data.Status);
 
             return ResponseViewModel<CreateDiplomaResponseVM>
                  .Success(reponseVM);
         }
 
         [HttpPut]
-        public async Task<ResponseViewModel<UpdateDiplomaResponseVM>> Update(UpdateDiplomaRequestVM request)
+        public async Task<ResponseViewModel<UpdateDiplomaResponseVM>> UpdateDiploma(UpdateDiplomaRequestVM request)
         {
             var result = await _mediator
                                     .Send(new UpdateDiplomaCommandRequest(request.Id, request.Title, request.Description));
@@ -53,7 +55,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         }
 
         [HttpDelete]
-        public async Task<ResponseViewModel<bool>> Delete(Guid diplomaID)
+        public async Task<ResponseViewModel<bool>> DeleteDiploma(Guid diplomaID)
         {
             var result = await _mediator.Send(new DeleteDiplomaCommandRequest(diplomaID));
             if (!result.IsSuccess)
@@ -63,6 +65,33 @@ namespace ExaminationSystem.Controllers.DiplomaController
             }
             return ResponseViewModel<bool>
                  .Success(result.Data);
+        }
+
+        [HttpGet]
+        public async Task<ResponseViewModel<GetAllDiplomasPaginatedResponseVM>> GetAllDiplomas([FromQuery] AllDiplomasPaginatedRequestVM requestVM)
+        {
+            var result = await _mediator.Send(new GetDiplomasQueryRequest(requestVM.Page, requestVM.PerPage));
+            if (!result.IsSuccess)
+            {
+                return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>
+                     .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode);
+            }
+
+            var responseVM = new GetAllDiplomasPaginatedResponseVM(
+                result.Data.Data.Select(d => new GetPublishedDiplomaResponseDTO(
+                    d.Id,
+                    d.Title,
+                    d.Description,
+                    d.Status,
+                    d.QuizCount
+                )).ToList(),
+                result.Data.Page,
+                result.Data.PerPage,
+                result.Data.Total,
+                result.Data.TotalPages
+            );
+
+            return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>.Success(responseVM);
         }
 
 

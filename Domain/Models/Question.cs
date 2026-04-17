@@ -9,8 +9,6 @@ namespace ExaminationSystem.Domain.Models
         public string Text { get; set; }
         public string? Explanation { get; set; }
         public int OrderIndex { get; set; } = 1;
-
-        // Navigation property
         public Quiz? Quiz { get; set; }
         public ICollection<Option> Options { get; set; } = new List<Option>();
 

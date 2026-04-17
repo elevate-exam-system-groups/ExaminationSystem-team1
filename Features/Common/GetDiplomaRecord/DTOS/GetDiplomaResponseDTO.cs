@@ -1,6 +1,5 @@
 ﻿namespace ExaminationSystem.Features.Common.GetDiplomaRecord.DTOS
 {
-    public record GetDiplomaResponseDTO(Guid Id, string Title, string? Description, DiplomaStatus Status)
-    {
-    }
+    public record GetDiplomaByIDResponseDTO(Guid Id, string Title, string? Description, DiplomaStatus Status, int Count);
+
 }

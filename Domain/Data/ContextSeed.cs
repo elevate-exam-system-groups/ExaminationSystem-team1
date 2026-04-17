@@ -1,6 +1,6 @@
 ﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 
-namespace ExaminationSystem.Infrastructure.Data
+namespace ExaminationSystem.Domain.Data
 {
     public static class ContextSeed
     {
