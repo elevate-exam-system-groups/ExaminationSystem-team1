@@ -2,11 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion;
-using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion;
-using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion.DTOs;
-using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.DTOs;
 using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion;
-using ExaminationSystem.Features.Questions_OptionsModule.Common.DTOs;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {
@@ -29,7 +25,7 @@ namespace ExaminationSystem.Controllers.QuestionController
             if (quizId != vm.QuizId)
                 return BadRequest(ResponseViewModel<AddQuestionResponse>.Failure("Quiz ID mismatch"));
 
-            var command = new AddQuestionCommand
+            var command = new AddQuestionOrchestratorCommand
             {
                 QuizId = vm.QuizId,
                 Text = vm.Text,
@@ -63,7 +59,7 @@ namespace ExaminationSystem.Controllers.QuestionController
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<ActionResult<ResponseViewModel<DeleteOptionsResponse>>> Delete(Guid id)
+        public async Task<ActionResult<ResponseViewModel<DeleteResponse>>> Delete(Guid id)
         {
             var result = await _mediator.Send(new DeleteQuestionOrchestrator(id));
 

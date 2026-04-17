@@ -1,13 +1,12 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
 {
-    public class AddQuestionValidator : AbstractValidator<AddQuestionOrchestratorCommand>
+    public class UpdateQuestionOptionsValidator : AbstractValidator<UpdateQuestionOptionsOrchestrator>
     {
-        public AddQuestionValidator()
+        public UpdateQuestionOptionsValidator()
         {
-            RuleFor(x => x.QuizId).NotEmpty();
+            RuleFor(x => x.Id).NotEmpty();
 
-            RuleFor(x => x.Text)
-                .NotEmpty()
+            RuleFor(x => x.Text).NotEmpty()
                 .MaximumLength(1000);
 
             RuleFor(x => x.Options)
