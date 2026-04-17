@@ -6,8 +6,6 @@ global using ExaminationSystem.Domain.Models;
 global using ExaminationSystem.Domain.Models.Enums;
 global using ExaminationSystem.Features.Common;
 global using ExaminationSystem.Features.Common.Enums;
-global using ExaminationSystem.Features.Questions_OptionsModule.CreateOptions;
-global using ExaminationSystem.Features.Questions_OptionsModule.DTOs;
 global using FluentValidation;
 global using MailKit.Net.Smtp;
 global using MediatR;
@@ -21,5 +19,4 @@ global using Microsoft.IdentityModel.Tokens;
 global using MimeKit;
 global using System.Reflection;
 global using System.Text;
-
 
