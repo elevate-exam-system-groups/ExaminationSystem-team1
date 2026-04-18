@@ -59,6 +59,8 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.4.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.1.72" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
@@ -85,6 +87,7 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
+    <Folder Include="Domain\Data\DataSeed\" />
     <Folder Include="Features\QuizModule\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>

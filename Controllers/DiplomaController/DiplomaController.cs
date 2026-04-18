@@ -1,7 +1,9 @@
-﻿using ExaminationSystem.Controllers.DiplomaController.ViewModels;
+﻿using AutoMapper;
+using ExaminationSystem.Controllers.DiplomaController.ViewModels;
 using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
+using ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes;
 using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.DTOS;
 using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.Request;
 
@@ -12,10 +14,12 @@ namespace ExaminationSystem.Controllers.DiplomaController
     public class DiplomaController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public DiplomaController(IMediator mediator)
+        public DiplomaController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            mapper = mapper;
         }
 
         [HttpPost]
@@ -94,6 +98,23 @@ namespace ExaminationSystem.Controllers.DiplomaController
             return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>.Success(responseVM);
         }
 
+        [HttpGet]
+        public async Task<ResponseViewModel<List<ViewDiplomaQuizzesResponseVM>>> GetDiplomaQuizzes(Guid diplomaRequestID)
+        {
+            var requestResponse = await _mediator
+                .Send(new ViewDiplomaQuizzesQueryRequest(diplomaRequestID));
+
+            if (!requestResponse.IsSuccess)
+            {
+                return ResponseViewModel<List<ViewDiplomaQuizzesResponseVM>>
+                    .Failure(requestResponse.Message, (ResponseVmErrorCode?)requestResponse.requestErrorCode);
+            }
+
+            var responseVM = _mapper
+                .Map<List<ViewDiplomaQuizzesResponseVM>>(requestResponse.Data);
+
+            return ResponseViewModel<List<ViewDiplomaQuizzesResponseVM>>.Success(responseVM);
+        }
 
     }
 

@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using AutoMapper;
+using ExaminationSystem.Controllers.DiplomaController.ViewModels;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Implementations;
 using ExaminationSystem.Features.Account.Shared.Services;
@@ -37,6 +39,27 @@ namespace ExaminationSystem.Configurations
             builder.RegisterGeneric(typeof(HandlerBasicParameterss<>))
                    .AsSelf()
                   .InstancePerLifetimeScope();
+
+            #region register AutoMapper
+
+            builder.Register(context =>
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.AddProfile<ViewDiplomaQuizzesResponseVMProfile>();
+
+                });
+                return config;
+            }).SingleInstance().AutoActivate().AsSelf();
+
+            builder.Register(tempContext =>
+            {
+                var ctx = tempContext.Resolve<IComponentContext>();
+                var config = ctx.Resolve<MapperConfiguration>();
+                return config.CreateMapper(ctx.Resolve);
+            }).As<IMapper>().InstancePerLifetimeScope();
+
+            #endregion
 
         }
     }
