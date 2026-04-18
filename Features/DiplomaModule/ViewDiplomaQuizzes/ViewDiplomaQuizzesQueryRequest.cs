@@ -34,9 +34,9 @@ namespace ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes
 
         public async Task<RequestResult<List<ViewDiplomaQuizzesResponseDTO>>> Handle(ViewDiplomaQuizzesQueryRequest request, CancellationToken cancellationToken)
         {
-
             var diploma = _diplomaRepository
                 .Get(d => d.Id == request.DiplomaId && d.Status == DiplomaStatus.Published);
+
             if (diploma == null || !diploma.Any())
             {
                 return RequestResult<List<ViewDiplomaQuizzesResponseDTO>>
@@ -55,16 +55,16 @@ namespace ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes
             var Quizzes = _quizRepository
                 .Get(q => q.DiplomaId == request.DiplomaId && q.Status == QuizStatus.Published);
 
-            var quizID = Quizzes.Select(q => q.Id);
+            //var quizID = Quizzes.Select(q => q.Id)   ;
 
             var attemptsQuery = _studentQuizAttemptRepository
                 .Get(qa => qa.StudentId == studentID);
 
-            var lastScore = _studentQuizAttemptRepository
-                .Get(qa => qa.StudentId == studentID && qa.QuizId == quizID.FirstOrDefault())
-                .OrderByDescending(qa => qa.SubmittedAt)
-                .Select(qa => qa.Score)
-                .FirstOrDefault();
+            //var lastScore = _studentQuizAttemptRepository
+            //    .Get(qa => qa.StudentId == studentID && qa.QuizId == quizID.FirstOrDefault())
+            //    .OrderByDescending(qa => qa.SubmittedAt)
+            //    .Select(qa => qa.Score)
+            //    .FirstOrDefault();
 
             var response = await Quizzes.Select(q => new ViewDiplomaQuizzesResponseDTO
             (

@@ -1,0 +1,38 @@
+[
+  {
+    "Id": "c1000000-0000-0000-0000-000000000001",
+    "QuestionId": "b1000000-0000-0000-0000-000000000001",
+    "Text": "HyperText Markup Language",
+    "IsCorrect": true,
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  },
+  {
+    "Id": "c2000000-0000-0000-0000-000000000002",
+    "QuestionId": "b1000000-0000-0000-0000-000000000001",
+    "Text": "HighText Machine Language",
+    "IsCorrect": false,
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  },
+  {
+    "Id": "c3000000-0000-0000-0000-000000000003",
+    "QuestionId": "b2000000-0000-0000-0000-000000000002",
+    "Text": "color",
+    "IsCorrect": true,
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  },
+  {
+    "Id": "c4000000-0000-0000-0000-000000000004",
+    "QuestionId": "b2000000-0000-0000-0000-000000000002",
+    "Text": "font-color",
+    "IsCorrect": false,
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  }
+]

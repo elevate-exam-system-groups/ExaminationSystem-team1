@@ -47,15 +47,20 @@ namespace ExaminationSystem
                 //Ask CLR For Creating An Instance From Context Exiplicitly
                 var context = Services.GetRequiredService<Context>();
 
-                await context.Database.MigrateAsync(); // Update identity database
+                await context.Database.MigrateAsync();
 
                 var userManager = Services.GetRequiredService<UserManager<User>>();
-                await ContextSeed.SeedUserAsync(userManager); // Seed Data
+                var roleManager = Services.GetRequiredService<RoleManager<IdentityRole>>();
+                //await ContextSeed.SeedUserAsync(userManager, roleManager); // Seed Data
+                var studentId = await ContextSeed.SeedUserAsync(userManager, roleManager);
+                await ContextSeed.SeedDataAsync(context, studentId);
+                //await ContextSeed.SeedDataAsync(context); // Seed Data
             }
             catch (Exception ex)
             {
                 var logger = LoggerFactory.CreateLogger<Program>();
                 logger.LogError(ex, "An error occurred during migration");
+                // throw;
             }
 
             #endregion
