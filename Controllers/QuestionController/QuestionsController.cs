@@ -18,7 +18,6 @@ namespace ExaminationSystem.Controllers.QuestionController
             _mediator = mediator;
         }
 
-        // POST: api/admin/quizzes/{quizId}/questions
         [HttpPost("quizzes/{quizId:guid}/questions")]
         public async Task<ActionResult<ResponseViewModel<AddQuestionResponse>>> Create(
                           Guid quizId,
@@ -37,7 +36,6 @@ namespace ExaminationSystem.Controllers.QuestionController
             return HandleResult(result, successStatusCode: 201);
         }
 
-        // PUT: api/admin/questions/{id}
         [HttpPut("questions/{id:guid}")]
         public async Task<ActionResult<ResponseViewModel<UpdateQuestionResponse>>> Update(
                 Guid id,
@@ -56,7 +54,6 @@ namespace ExaminationSystem.Controllers.QuestionController
             return HandleResult(result);
         }
 
-        // DELETE: api/admin/questions/{id}
         [HttpDelete("questions/{id:guid}")]
         public async Task<ActionResult<ResponseViewModel<DeleteResponse>>> Delete(Guid id)
         {

@@ -4,5 +4,6 @@
     Guid QuizId,
     string Text,
     string? Explanation,
-    int OrderIndex) : IRequest<RequestResult<CreateQuestionResponse>>;
+    int OrderIndex)
+    : IRequest<RequestResult<CreateQuestionResponse>>;
 }
