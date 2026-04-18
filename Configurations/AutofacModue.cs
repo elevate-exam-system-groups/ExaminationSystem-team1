@@ -36,6 +36,9 @@ namespace ExaminationSystem.Configurations
             builder.RegisterType<GlobalErrorHandlerMiddelware>()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<TransactionMiddleware>()
+                   .InstancePerLifetimeScope();
+
             builder.RegisterGeneric(typeof(HandlerBasicParameterss<>))
                    .AsSelf()
                   .InstancePerLifetimeScope();

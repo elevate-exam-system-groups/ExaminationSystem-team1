@@ -47,7 +47,7 @@ namespace ExaminationSystem
                 //Ask CLR For Creating An Instance From Context Exiplicitly
                 var context = Services.GetRequiredService<Context>();
 
-                await context.Database.MigrateAsync(); // Update identity database
+                await context.Database.MigrateAsync();
 
                 var userManager = Services.GetRequiredService<UserManager<User>>();
                 var roleManager = Services.GetRequiredService<RoleManager<IdentityRole>>();
