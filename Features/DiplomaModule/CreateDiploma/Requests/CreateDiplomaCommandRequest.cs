@@ -27,26 +27,22 @@ namespace ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests
 
     #region Handler
 
-    public class CreateDiplomaCommandHandler : IRequestHandler<CreateDiplomaCommandRequest, RequestResult<CreateDiplomaResponseDTO>>
+    public class CreateDiplomaCommandHandler : BaseRequestHandler<CreateDiplomaCommandRequest, CreateDiplomaResponseDTO>//IRequestHandler<CreateDiplomaCommandRequest, RequestResult<CreateDiplomaResponseDTO>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
-        private readonly IValidator<CreateDiplomaCommandRequest> _validator;
-        public CreateDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository, IValidator<CreateDiplomaCommandRequest> validator)
+
+        public CreateDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository,
+            HandlerBasicParameterss<CreateDiplomaCommandRequest> paramters) : base(paramters)
         {
             _diplomaRepository = diplomaRepository;
-            _validator = validator;
         }
-        public async Task<RequestResult<CreateDiplomaResponseDTO>> Handle(CreateDiplomaCommandRequest request, CancellationToken cancellationToken)
+        public override async Task<RequestResult<CreateDiplomaResponseDTO>> Handle(CreateDiplomaCommandRequest request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var result = RequestResult<CreateDiplomaResponseDTO>
-                     .Failure(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage)),
-                     RequestErrorCode.ValidationError);
-                return result;
 
-            }
+            var ValidationResult = ValidateRequest(request);
+            if (!ValidationResult.IsSuccess)
+                return ValidationResult;
+
             var newDiploma = new Diploma
             {
                 Title = request.Title,

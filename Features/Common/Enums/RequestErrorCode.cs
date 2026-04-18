@@ -11,6 +11,7 @@
         Success = 201,
         UpdateSuccess = 200,
         EmailAlreadyRegistered = 209,
+        Forbidden = 403,
         ValidationError = 422,
         PasswordPolicyViolation = 422,
         NotFound = 404,

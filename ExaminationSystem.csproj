@@ -44,9 +44,13 @@
     <Compile Include="Features\DiplomaModule\CreateDiploma\DTOS\CreateDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\CreateDiploma\Requests\CreateDiplomaCommandRequest.cs" />
     <Compile Include="Features\DiplomaModule\DeleteDiploma\Requests\DeleteDiplomaCommandRequest.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaRecord\DTOS\GetDiplomaResponseDTO.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaRecord\GetDiplomaByIdQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\Shared\GetDiplomaQuizCountRequest\GetDiplomaQuizCountQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\DTOS\UpdateDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\Requests\UpdateDiplomaCommandRequest.cs" />
+    <Compile Include="Features\DiplomaModule\ViewDiplomaQuizzes\DTOS\ViewDiplomaQuizzesResponseDTO.cs" />
+    <Compile Include="Features\DiplomaModule\ViewDiplomaQuizzes\ViewDiplomaQuizzesQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\ViewDiplomas\DTOS\GetAllDiplomaPaginatedDTO.cs" />
     <Compile Include="Features\DiplomaModule\ViewDiplomas\DTOS\GetPublishedDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\ViewDiplomas\Request\GetDiplomasQueryRequest.cs" />

@@ -1,6 +1,6 @@
-﻿using ExaminationSystem.Features.Common.GetDiplomaRecord.DTOS;
+﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaRecord.DTOS;
 
-namespace ExaminationSystem.Features.Common.GetDiplomaRecord
+namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaRecord
 {
     public record GetDiplomaByIdQueryRequest(Guid DiplomaId) : IRequest<RequestResult<GetDiplomaByIDResponseDTO>>;
 

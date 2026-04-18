@@ -12,15 +12,17 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
         private readonly UserManager<User> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailService _emailService;
+        private readonly IGeneralRepository<PasswordResetToken> _generalRepository;
 
         public ForgotPasswordHandler(UserManager<User> userManager,
             IUnitOfWork unitOfWork,
-            IEmailService emailService
-            )
+            IEmailService emailService,
+            IGeneralRepository<PasswordResetToken> generalRepository)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _emailService = emailService;
+            _generalRepository = generalRepository;
         }
 
         public async Task<RequestResult<ForgotPasswordResponse>> Handle(
@@ -101,7 +103,7 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
                 CreatedAt = DateTime.UtcNow
             };
 
-            _unitOfWork.GetRepository<PasswordResetToken>().Add(passwordResetToken);
+            _generalRepository.Add(passwordResetToken);
             await _unitOfWork.SaveChangesAsync();
 
             // Send email with plain-text token (not hash)
