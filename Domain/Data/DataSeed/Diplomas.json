@@ -1,0 +1,20 @@
+[
+  {
+    "Id": "d1000000-0000-0000-0000-000000000001",
+    "Title": "Web Development Fundamentals",
+    "Description": "Master the core concepts of modern web development",
+    "Status": "Published",
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  },
+  {
+    "Id": "d2000000-0000-0000-0000-000000000002",
+    "Title": "Database Design Essentials",
+    "Description": "Relational databases, normalization, and SQL mastery",
+    "Status": "Draft",
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "Id": "a1000000-0000-0000-0000-000000000001",
+    "DiplomaId": "d1000000-0000-0000-0000-000000000001",
+    "Title": "HTML & CSS Basics",
+    "Instructions": "Read all questions carefully",
+    "DurationInMinutes": 30,
+    "PassScore": 60,
+    "MaxAttempts": 3,
+    "Status": "Published",
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  },
+  {
+    "Id": "a2000000-0000-0000-0000-000000000002",
+    "DiplomaId": "d1000000-0000-0000-0000-000000000001",
+    "Title": "JavaScript Fundamentals",
+    "Instructions": "Each question has exactly one correct answer",
+    "DurationInMinutes": 45,
+    "PassScore": 70,
+    "MaxAttempts": null,
+    "Status": "Draft",
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  }
+]

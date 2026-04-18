@@ -1,0 +1,22 @@
+[
+  {
+    "Id": "b1000000-0000-0000-0000-000000000001",
+    "QuizId": "a1000000-0000-0000-0000-000000000001",
+    "Text": "What does HTML stand for?",
+    "Explanation": "HTML stands for HyperText Markup Language",
+    "OrderIndex": 1,
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  },
+  {
+    "Id": "b2000000-0000-0000-0000-000000000002",
+    "QuizId": "a1000000-0000-0000-0000-000000000001",
+    "Text": "Which CSS property controls text color?",
+    "Explanation": "The color property sets the color of text",
+    "OrderIndex": 2,
+    "CreatedAt": "2025-01-01T00:00:00Z",
+    "UpdatedAt": "2025-01-01T00:00:00Z",
+    "IsDeleted": false
+  }
+]
