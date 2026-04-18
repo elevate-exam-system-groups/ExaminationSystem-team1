@@ -44,47 +44,32 @@
                     RequestErrorCode.Conflict);
 
 
+            // Delete options
+            var deleteOptionsResult = await _mediator.Send(
+                new DeleteOptionsCommand(request.Id), ct);
 
-            // Proceed with deletion
-            await using var transaction = await _unitOfWork.BeginTransactionAsync(ct);
-            try
+            if (!deleteOptionsResult.IsSuccess)
             {
-                // Delete options
-                var deleteOptionsResult = await _mediator.Send(
-                    new DeleteOptionsCommand(request.Id), ct);
-
-                if (!deleteOptionsResult.IsSuccess)
-                {
-                    await transaction.RollbackAsync(ct);
-                    return RequestResult<DeleteResponse>.Failure(
-                        deleteOptionsResult.Message,
-                        deleteOptionsResult.requestErrorCode);
-                }
-
-                // Delete question
-                var deleteQuestionResult = await _mediator.Send(
-                    new DeleteQuestionOnlyCommand(request.Id), ct);
-
-                if (!deleteQuestionResult.IsSuccess)
-                {
-                    await transaction.RollbackAsync(ct);
-                    return RequestResult<DeleteResponse>.Failure(
-                        deleteQuestionResult.Message,
-                        deleteQuestionResult.requestErrorCode);
-                }
-
-                await transaction.CommitAsync(ct);
-                return RequestResult<DeleteResponse>.Success(
-                    new DeleteResponse(true),
-                    "Question and all options deleted successfully");
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync(ct);
                 return RequestResult<DeleteResponse>.Failure(
-                    $"Delete failed: {ex.Message}",
-                    RequestErrorCode.InternalServerError);
+                    deleteOptionsResult.Message,
+                    deleteOptionsResult.requestErrorCode);
             }
+
+            // Delete question
+            var deleteQuestionResult = await _mediator.Send(
+                new DeleteQuestionOnlyCommand(request.Id), ct);
+
+            if (!deleteQuestionResult.IsSuccess)
+            {
+                return RequestResult<DeleteResponse>.Failure(
+                    deleteQuestionResult.Message,
+                    deleteQuestionResult.requestErrorCode);
+            }
+
+            return RequestResult<DeleteResponse>.Success(
+                new DeleteResponse(true),
+                "Question and all options deleted successfully");
         }
+
     }
 }
