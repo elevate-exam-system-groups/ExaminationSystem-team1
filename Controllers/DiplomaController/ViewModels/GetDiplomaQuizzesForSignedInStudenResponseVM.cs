@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes.DTOS;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.DTOS;
 
 namespace ExaminationSystem.Controllers.DiplomaController.ViewModels
 {
-    public record ViewDiplomaQuizzesResponseVM
+    public record GetDiplomaQuizzesForSignedInStudenResponseVM
     {
         public Guid QuizId { get; init; }
         public string QuizTitle { get; init; }
@@ -20,7 +20,7 @@ namespace ExaminationSystem.Controllers.DiplomaController.ViewModels
     {
         public ViewDiplomaQuizzesResponseVMProfile()
         {
-            CreateMap<ViewDiplomaQuizzesResponseDTO, ViewDiplomaQuizzesResponseVM>();
+            CreateMap<ViewDiplomaQuizzesResponseDTO, GetDiplomaQuizzesForSignedInStudenResponseVM>();
         }
     }
 }

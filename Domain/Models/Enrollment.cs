@@ -12,6 +12,7 @@ namespace ExaminationSystem.Domain.Models
 
         [ForeignKey(nameof(StudentId))]
         public User Student { get; set; }
+        // public Student Student { get; set; }
 
         [ForeignKey(nameof(DiplomaId))]
         public Diploma Diploma { get; set; }
