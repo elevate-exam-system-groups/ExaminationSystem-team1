@@ -1,6 +1,6 @@
-﻿using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.DTOS;
+﻿using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.DTOS;
 
-namespace ExaminationSystem.Features.DiplomaModule.ViewDiplomas.Request
+namespace ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.Request
 {
     public record GetDiplomasQueryRequest(int Page = 1, int PerPage = 20) : IRequest<RequestResult<GetAllDiplomaPaginatedDTO>>;
 

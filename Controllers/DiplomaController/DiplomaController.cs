@@ -2,10 +2,10 @@
 using ExaminationSystem.Controllers.DiplomaController.ViewModels;
 using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
+using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.DTOS;
+using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.Request;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent;
 using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
-using ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes;
-using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.DTOS;
-using ExaminationSystem.Features.DiplomaModule.ViewDiplomas.Request;
 
 namespace ExaminationSystem.Controllers.DiplomaController
 {
@@ -19,7 +19,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         public DiplomaController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
-            mapper = mapper;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -99,21 +99,21 @@ namespace ExaminationSystem.Controllers.DiplomaController
         }
 
         [HttpGet]
-        public async Task<ResponseViewModel<List<ViewDiplomaQuizzesResponseVM>>> GetDiplomaQuizzes(Guid diplomaRequestID)
+        public async Task<ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>> GetDiplomaQuizzes(Guid diplomaRequestID)
         {
             var requestResponse = await _mediator
-                .Send(new ViewDiplomaQuizzesQueryRequest(diplomaRequestID));
+                .Send(new GetDiplomaQuizzesForSignedInStudentQueryRequest(diplomaRequestID));
 
             if (!requestResponse.IsSuccess)
             {
-                return ResponseViewModel<List<ViewDiplomaQuizzesResponseVM>>
+                return ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>
                     .Failure(requestResponse.Message, (ResponseVmErrorCode?)requestResponse.requestErrorCode);
             }
 
             var responseVM = _mapper
-                .Map<List<ViewDiplomaQuizzesResponseVM>>(requestResponse.Data);
+                .Map<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>(requestResponse.Data);
 
-            return ResponseViewModel<List<ViewDiplomaQuizzesResponseVM>>.Success(responseVM);
+            return ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>.Success(responseVM);
         }
 
     }

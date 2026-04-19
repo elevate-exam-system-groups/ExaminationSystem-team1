@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.ViewDiplomas.DTOS
+﻿namespace ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.DTOS
 {
     public record GetAllDiplomaPaginatedDTO
      (

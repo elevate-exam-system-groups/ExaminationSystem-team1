@@ -1,29 +1,29 @@
-﻿using ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes.DTOS;
+﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.DTOS;
 using System.Security.Claims;
 
-namespace ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes
+namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent
 {
-    public record ViewDiplomaQuizzesQueryRequest(Guid DiplomaId) : IRequest<RequestResult<List<ViewDiplomaQuizzesResponseDTO>>>;
+    public record GetDiplomaQuizzesForSignedInStudentQueryRequest(Guid DiplomaId) : IRequest<RequestResult<List<ViewDiplomaQuizzesResponseDTO>>>;
 
-    public class ViewDiplomaQuizzesQueryRequestValidator : AbstractValidator<ViewDiplomaQuizzesQueryRequest>
+    public class GetDiplomaQuizzesForSignedInStudentQueryRequestValidator : AbstractValidator<GetDiplomaQuizzesForSignedInStudentQueryRequest>
     {
-        public ViewDiplomaQuizzesQueryRequestValidator()
+        public GetDiplomaQuizzesForSignedInStudentQueryRequestValidator()
         {
             RuleFor(x => x.DiplomaId)
                 .NotEmpty().WithMessage("DiplomaId is required");
         }
     }
 
-    public class ViewDiplomaQuizzesQueryRequestHandler : IRequestHandler<ViewDiplomaQuizzesQueryRequest, RequestResult<List<ViewDiplomaQuizzesResponseDTO>>>
+    public class GetDiplomaQuizzesForSignedInStudentQueryRequestHandler : IRequestHandler<GetDiplomaQuizzesForSignedInStudentQueryRequest, RequestResult<List<ViewDiplomaQuizzesResponseDTO>>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
         private readonly IGeneralRepository<Quiz> _quizRepository;
         private readonly IGeneralRepository<QuizAttempt> _studentQuizAttemptRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IValidator<ViewDiplomaQuizzesQueryRequest> _validator;
+        private readonly IValidator<GetDiplomaQuizzesForSignedInStudentQueryRequest> _validator;
 
 
-        public ViewDiplomaQuizzesQueryRequestHandler(IGeneralRepository<Diploma> diplomaRepository, IGeneralRepository<Quiz> quizRepository, IGeneralRepository<QuizAttempt> studentQuizAttemptRepository, IHttpContextAccessor httpContextAccessor)
+        public GetDiplomaQuizzesForSignedInStudentQueryRequestHandler(IGeneralRepository<Diploma> diplomaRepository, IGeneralRepository<Quiz> quizRepository, IGeneralRepository<QuizAttempt> studentQuizAttemptRepository, IHttpContextAccessor httpContextAccessor)
         {
             _diplomaRepository = diplomaRepository;
             _quizRepository = quizRepository;
@@ -32,7 +32,7 @@ namespace ExaminationSystem.Features.DiplomaModule.ViewDiplomaQuizzes
         }
 
 
-        public async Task<RequestResult<List<ViewDiplomaQuizzesResponseDTO>>> Handle(ViewDiplomaQuizzesQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<List<ViewDiplomaQuizzesResponseDTO>>> Handle(GetDiplomaQuizzesForSignedInStudentQueryRequest request, CancellationToken cancellationToken)
         {
             var diploma = _diplomaRepository
                 .Get(d => d.Id == request.DiplomaId && d.Status == DiplomaStatus.Published);
