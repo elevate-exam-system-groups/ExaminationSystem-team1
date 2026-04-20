@@ -3,18 +3,18 @@
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
 {
     public class GetDiplomaDetailsQueryHandler
-        : IRequestHandler<GetDiplomaDetailsQuery, RequestResult<Dictionary<Guid, DiplomaInfo>>>
+        : IRequestHandler<GetDiplomaDetailsQuery, RequestResult<DiplomaDetailsDto>>
     {
 
         private readonly IGeneralRepository<Diploma> _diplomaRepo;
         public GetDiplomaDetailsQueryHandler(IGeneralRepository<Diploma> diplomaRepo)
             => _diplomaRepo = diplomaRepo;
 
-        public async Task<RequestResult<Dictionary<Guid, DiplomaInfo>>> Handle(
+        public async Task<RequestResult<DiplomaDetailsDto>> Handle(
             GetDiplomaDetailsQuery request, CancellationToken ct)
         {
             if (!request.DiplomaIds.Any())
-                return RequestResult<Dictionary<Guid, DiplomaInfo>>.Success(new());
+                return RequestResult<DiplomaDetailsDto>.Success(new DiplomaDetailsDto(new()));
 
             var diplomas = await _diplomaRepo
                 .Get(d => request.DiplomaIds.Contains(d.Id) && !d.isDeleted)
@@ -23,7 +23,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
                     v => new DiplomaInfo(v.Title, v.Description),
                     ct);
 
-            return RequestResult<Dictionary<Guid, DiplomaInfo>>.Success(diplomas);
+            return RequestResult<DiplomaDetailsDto>.Success(new DiplomaDetailsDto(diplomas));
         }
     }
 }

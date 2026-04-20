@@ -1,5 +1,7 @@
-﻿namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+
+namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds
 {
     public record GetCompletedQuizIdsQuery(string StudentId, List<Guid> DiplomaIds)
-     : IRequest<RequestResult<List<Guid>>>;
+     : IRequest<RequestResult<CompletedQuizIdsDto>>;
 }

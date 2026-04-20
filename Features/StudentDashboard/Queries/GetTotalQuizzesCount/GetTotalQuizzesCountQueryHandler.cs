@@ -1,20 +1,21 @@
-﻿using ExaminationSystem.Features.StudentDashboard.Helper;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCount
 {
     public class GetTotalQuizzesCountQueryHandler
-        : IRequestHandler<GetTotalQuizzesCountQuery, RequestResult<Dictionary<Guid, int>>>
+        : IRequestHandler<GetTotalQuizzesCountQuery, RequestResult<TotalQuizzesCountDto>>
     {
 
         private readonly IGeneralRepository<Quiz> _quizRepo;
         public GetTotalQuizzesCountQueryHandler(IGeneralRepository<Quiz> quizRepo)
             => _quizRepo = quizRepo;
 
-        public async Task<RequestResult<Dictionary<Guid, int>>> Handle(
+        public async Task<RequestResult<TotalQuizzesCountDto>> Handle(
             GetTotalQuizzesCountQuery request, CancellationToken ct)
         {
             if (!request.DiplomaIds.Any())
-                return RequestResult<Dictionary<Guid, int>>.Success(new());
+                return RequestResult<TotalQuizzesCountDto>.Success(new TotalQuizzesCountDto(new()));
 
             var counts = await _quizRepo
             .Get(q => request.DiplomaIds.Contains(q.DiplomaId))
@@ -22,7 +23,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCou
             .CountByAsync(q => q.DiplomaId, ct);
 
 
-            return RequestResult<Dictionary<Guid, int>>.Success(counts);
+            return RequestResult<TotalQuizzesCountDto>.Success(new TotalQuizzesCountDto(counts));
         }
     }
 }

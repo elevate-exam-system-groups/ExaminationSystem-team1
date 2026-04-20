@@ -11,7 +11,11 @@ namespace ExaminationSystem.Features.StudentDashboard.Helper
         {
             return await query
                 .GroupBy(keySelector)
-                .Select(g => new { g.Key, Count = g.Count() })
+                .Select(g => new 
+                { 
+                    g.Key,
+                    Count = g.Count() 
+                })
                 .ToDictionaryAsync(k => k.Key, v => v.Count, ct);
         }
         public static IQueryable<Quiz> Published(this IQueryable<Quiz> query)

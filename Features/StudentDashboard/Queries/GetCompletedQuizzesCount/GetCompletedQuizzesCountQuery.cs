@@ -1,5 +1,7 @@
-﻿namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizzesCount
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+
+namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizzesCount
 {
     public record GetCompletedQuizzesCountQuery(List<Guid> CompletedQuizIds)
-      : IRequest<RequestResult<Dictionary<Guid, int>>>;
+      : IRequest<RequestResult<CompletedQuizzesCountDto>>;
 }

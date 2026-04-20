@@ -19,32 +19,33 @@ namespace ExaminationSystem.Features.StudentDashboard.Commands.GetEnrolledDiplom
         public async Task<RequestResult<List<EnrolledDiplomaDto>>> Handle(
             GetEnrolledDiplomasCommand request, CancellationToken ct)
         {
+
             var idsResult = await _mediator.Send(
                 new GetEnrolledDiplomaIdsQuery(request.StudentId), ct);
             
-            var diplomaIds = idsResult.Data!;
+            var diplomaIds = idsResult.Data!.DiplomaIds;
 
             if (!diplomaIds.Any())
                 return RequestResult<List<EnrolledDiplomaDto>>.Success(new());
 
             var diplomasResult = await _mediator.Send(
                 new GetDiplomaDetailsQuery(diplomaIds), ct);
-            var diplomas = diplomasResult.Data!;
+            var diplomas = diplomasResult.Data.Data!;
 
             var totalQuizzesResult = await _mediator.Send(
                 new GetTotalQuizzesCountQuery(diplomaIds), ct);
-            var totalQuizzes = totalQuizzesResult.Data!;
+            var totalQuizzes = totalQuizzesResult.Data.CountByDiplomaId!;
 
             var completedIdsResult = await _mediator.Send(
                 new GetCompletedQuizIdsQuery(request.StudentId, diplomaIds), ct);
-            var completedQuizIds = completedIdsResult.Data!;
+            var completedQuizIds = completedIdsResult.Data.QuizIds!;
 
             var completedQuizzesResult = await _mediator.Send(
                 new GetCompletedQuizzesCountQuery(completedQuizIds), ct);
-            var completedQuizzes = completedQuizzesResult.Data!;
+            var completedQuizzes = completedQuizzesResult.Data.CountByDiplomaId!;
 
             var result = diplomaIds
-                .Where(diplomas.ContainsKey)
+                .Where(id => diplomas.ContainsKey(id))
                 .Select(id => new EnrolledDiplomaDto(
                     id,
                     diplomas[id].Title,

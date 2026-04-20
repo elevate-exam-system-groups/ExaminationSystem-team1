@@ -1,18 +1,20 @@
-﻿namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+
+namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds
 {
     public class GetCompletedQuizIdsQueryHandler
-     : IRequestHandler<GetCompletedQuizIdsQuery, RequestResult<List<Guid>>>
+     : IRequestHandler<GetCompletedQuizIdsQuery, RequestResult<CompletedQuizIdsDto>>
     {
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetCompletedQuizIdsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
             => _attemptRepo = attemptRepo;
 
-        public async Task<RequestResult<List<Guid>>> Handle(
+        public async Task<RequestResult<CompletedQuizIdsDto>> Handle(
             GetCompletedQuizIdsQuery request, CancellationToken ct)
         {
             if (!request.DiplomaIds.Any())
-                return RequestResult<List<Guid>>.Success(new());
+                return RequestResult<CompletedQuizIdsDto>.Success(new CompletedQuizIdsDto(new()));
 
             var quizIds = await _attemptRepo
                 .Get(a => a.StudentId == request.StudentId
@@ -23,7 +25,7 @@
                 .Distinct()
                 .ToListAsync(ct);
 
-            return RequestResult<List<Guid>>.Success(quizIds);
+            return RequestResult<CompletedQuizIdsDto>.Success(new CompletedQuizIdsDto(quizIds));
         }
     }
 }
