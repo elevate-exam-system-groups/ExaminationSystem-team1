@@ -20,7 +20,7 @@ namespace ExaminationSystem.Controllers.DiplomaController.ViewModels
     {
         public ViewDiplomaQuizzesResponseVMProfile()
         {
-            CreateMap<ViewDiplomaQuizzesResponseDTO, GetDiplomaQuizzesForSignedInStudenResponseVM>();
+            CreateMap<GetDiplomaQuizzesForLoggedStudentDTO, GetDiplomaQuizzesForSignedInStudenResponseVM>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.Shared.GetDiplomaQuizCountRequest
+﻿namespace ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetDiplomaQuizCountRequest
 {
     public record GetDiplomaQuizCountQueryRequest(Guid diplomaID) : IRequest<RequestResult<int>>;
 

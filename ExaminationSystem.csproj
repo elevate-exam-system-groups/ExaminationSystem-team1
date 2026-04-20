@@ -44,16 +44,33 @@
     <Compile Include="Features\DiplomaModule\CreateDiploma\DTOS\CreateDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\CreateDiploma\Requests\CreateDiplomaCommandRequest.cs" />
     <Compile Include="Features\DiplomaModule\DeleteDiploma\Requests\DeleteDiplomaCommandRequest.cs" />
-    <Compile Include="Features\DiplomaModule\GetPublishedDiplomaRecord\DTOS\GetDiplomaResponseDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetPublishedDiplomaRecord\GetPublishedDiplomaByIdQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\GetDiplomaQuizCountRequest\GetDiplomaQuizCountQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Orchestrators\GetDiplomaQuizzesForLoggedStudentOrchestrator.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\CheckLoggedStudentEnrolledInDiploma\CheckLoggedStudentEnrolledInDiplomaQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\CheckStudentCanAttempQuiz\CheckStudentCanAttempQuizQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetLastAttemptScore\GetLastAttemptScoreForLoggedStudentQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetQuizSummaryForStudent\DTOS\GetQuizSummaryDTO.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetQuizSummaryForStudent\GetQuizSummaryForStudentQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\GetDiplomaEnrollments\DTOS\DiplomaEnrollmentsDto.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\GetDiplomaEnrollments\GetDiplomaEnrollmentsQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetDiplomaQuizzes\DTOS\GetDiplomaQuizzesDTO.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetDiplomaQuizzes\GetDiplomaQuizzesQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetStudentQuizzesAttemptsForDiploma\DTOS\GetQuizAttemptsDTO.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetStudentQuizzesAttemptsForDiploma\GetStudentQuizzesAttemptsForDiplomaQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\CheckDiplomaExistAndPublished\CheckDiplomaExistAndPublishedQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\GetCurrentLoggedStudentID\GetCurrentLoggedStudentIdRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\GetPublishedDiplomaRecord\DTOS\GetPublishedDiplomaByIdDTO.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\GetPublishedDiplomaRecord\GetPublishedDiplomaByIdQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\CheckDiplomaHasEnrollments\CheckDiplomaHasEnrollmentsQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Requests\GetDiplomaQuizCountRequest\GetDiplomaQuizCountQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\DTOS\UpdateDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\Requests\UpdateDiplomaCommandRequest.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\DTOS\ViewDiplomaQuizzesResponseDTO.cs" />
+    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\DTOS\GetDiplomaQuizzesForLoggedStudentDTO.cs" />
     <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\GetDiplomaQuizzesForSignedInStudentQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\GetAllDiplomas\DTOS\GetAllDiplomaPaginatedDTO.cs" />
     <Compile Include="Features\DiplomaModule\GetAllDiplomas\DTOS\GetPublishedDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\GetAllDiplomas\Request\GetDiplomasQueryRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Orchestrators\GetPuplishedDiplomaByIdWithQuizzesOrchestrator\GetPuplishedDiplomaQuizzesByIdOrchestratorRequest.cs" />
+    <Compile Include="Features\DiplomaModule\Shared\Orchestrators\GetPuplishedDiplomaByIdWithQuizzesOrchestrator\DTOS\GetPuplishedDiplomaQuizzesByIdDTO.cs" />
   </ItemGroup>
 
   <ItemGroup>
