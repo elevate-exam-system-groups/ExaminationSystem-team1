@@ -1,8 +1,4 @@
 ﻿
-using ExaminationSystem.Features.DiplomaModule.Shared.Orchestrators.GetPuplishedDiplomaByIdWithQuizzesOrchestrator.DTOS;
-using ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetDiplomaQuizCountRequest;
-using ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetPublishedDiplomaRecord;
-
 namespace ExaminationSystem.Features.DiplomaModule.Shared.Orchestrators.GetPuplishedDiplomaByIdWithQuizzesOrchestrator
 {
     public record GetPuplishedDiplomaQuizzesByIDOrchestratorRequest(Guid diplomaId)

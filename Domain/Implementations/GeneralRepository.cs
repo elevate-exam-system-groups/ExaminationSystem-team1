@@ -65,7 +65,6 @@ namespace ExaminationSystem.Domain.Implementations
         {
             if (!_dbSet.Any(e => e.Id == entity.Id && !e.isDeleted))
             {
-                _dbSet.Add(entity);
                 return;
             }
 

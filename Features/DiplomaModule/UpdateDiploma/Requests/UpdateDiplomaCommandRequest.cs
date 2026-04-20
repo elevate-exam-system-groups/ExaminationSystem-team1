@@ -37,18 +37,22 @@ namespace ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests
             if (!validationResult.IsValid)
             {
                 var validationErrors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return RequestResult<UpdateDiplomaResponseDTO>.Failure(validationErrors, RequestErrorCode.ValidationError);
+                return RequestResult<UpdateDiplomaResponseDTO>
+                    .Failure(validationErrors, RequestErrorCode.ValidationError);
             }
 
-            var existingDiploma = _diplomaRepository.GetById(request.id).FirstOrDefault();
+            var existingDiploma = new Diploma
+            {
+                Id = request.id,
+                Title = request?.Title,
+                Description = request?.Description
+            };
 
             if (existingDiploma is null)
             {
-                return RequestResult<UpdateDiplomaResponseDTO>.Failure("Diploma not found", RequestErrorCode.NotFound);
+                return RequestResult<UpdateDiplomaResponseDTO>
+                    .Failure("Diploma not found", RequestErrorCode.NotFound);
             }
-
-            existingDiploma.Title = request.Title ?? existingDiploma.Title;
-            existingDiploma.Description = request.Description ?? existingDiploma.Description;
 
             _diplomaRepository.UpdateInclude(existingDiploma, nameof(existingDiploma.Title), nameof(existingDiploma.Description));
             await _diplomaRepository.SaveChangesAsync();
