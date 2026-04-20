@@ -2,6 +2,7 @@
 {
     public class GetTotalUsersQueryHandler : IRequestHandler<GetTotalUsersQuery, int>
     {
+
         private readonly IGeneralRepository<User> _userRepo;
         public GetTotalUsersQueryHandler(IGeneralRepository<User> userRepo)
             => _userRepo = userRepo;

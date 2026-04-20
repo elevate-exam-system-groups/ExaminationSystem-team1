@@ -1,4 +1,5 @@
 ﻿using ExaminationSystem.Controllers.QuestionController;
+using ExaminationSystem.Features.StudentDashboard;
 using ExaminationSystem.Features.StudentDashboard.DTOs;
 using ExaminationSystem.Features.StudentDashboard.Test;
 using Microsoft.AspNetCore.Authorization;
@@ -27,8 +28,7 @@ namespace ExaminationSystem.Controllers.StudentController
                 return Unauthorized(ResponseViewModel<StudentDashboardResponse>.Failure(
                     "Invalid token", ResponseVmErrorCode.Unauthorized));
 
-            var query = new GetStudentDashboardQuery(studentId);
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(new GetStudentDashboardOrchestrator(studentId));
 
             return HandleResult(result);
         }

@@ -1,15 +1,13 @@
 ﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
 using ExaminationSystem.Features.StudentDashboard.ExaminationSystem.Features.StudentDashboard.Queries;
-using ExaminationSystem.Features.StudentDashboard.Queries;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts;
-using ExaminationSystem.Features.StudentDashboard.Test;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ExaminationSystem.Features.StudentDashboard
 {
     public class GetStudentDashboardOrchestratorHandler
-    : IRequestHandler<GetStudentDashboardQuery, RequestResult<StudentDashboardResponse>>
+    : IRequestHandler<GetStudentDashboardOrchestrator, RequestResult<StudentDashboardResponse>>
     {
 
         private readonly IMediator _mediator;
@@ -22,7 +20,7 @@ namespace ExaminationSystem.Features.StudentDashboard
 
         public async Task<RequestResult<StudentDashboardResponse>> Handle(
 
-            GetStudentDashboardQuery request, CancellationToken ct)
+            GetStudentDashboardOrchestrator request, CancellationToken ct)
         {
             var cacheKey = $"dashboard_student_{request.StudentId}";
 
