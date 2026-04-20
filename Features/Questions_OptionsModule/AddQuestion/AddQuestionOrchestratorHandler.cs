@@ -1,4 +1,8 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.Command
+﻿using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Commands.CreateOptionsForQuestion;
+using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Commands.CreateQuestion;
+using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Queries.GetQuiz;
+
+namespace ExaminationSystem.Features.Questions_OptionsModule.Command
 {
     public class AddQuestionOrchestratorHandler
       : IRequestHandler<AddQuestionOrchestratorCommand, RequestResult<AddQuestionResponse>>
@@ -15,8 +19,7 @@
         public async Task<RequestResult<AddQuestionResponse>> Handle(
             AddQuestionOrchestratorCommand request, CancellationToken ct)
         {
-            //  Validate Quiz exists and returned
-            var quizResult = await _mediator.Send(new GetQuizQuery(request.QuizId), ct);
+            var quizResult = await _mediator.Send(new GetQuizByIdQuery(request.QuizId), ct);
 
             if (!quizResult.IsSuccess)
                 return RequestResult<AddQuestionResponse>.Failure(
@@ -25,13 +28,11 @@
 
             var quiz = quizResult.Data;
 
-            // Validate Quiz is not Published
             if (quiz.Status == QuizStatus.Published)
                 return RequestResult<AddQuestionResponse>.Failure(
                     "Cannot add question to published quiz",
                     RequestErrorCode.Conflict);
 
-            // Get Next OrderIndex
             var orderResult = await _mediator.Send(
                 new GetNextQuestionOrderQuery(request.QuizId), ct);
 
@@ -43,7 +44,6 @@
             var nextOrder = orderResult.Data.OrderIndex;
 
 
-            // Create Question
             var createQuestionResult = await _mediator.Send(new CreateQuestionCommand
             (
                   request.QuizId,
@@ -58,10 +58,8 @@
                     createQuestionResult.Message,
                     createQuestionResult.requestErrorCode);
             }
-
             var questionId = createQuestionResult.Data.QuestionId;
 
-            // Create Options
             var optionsCommand = new CreateOptionsForQuestionCommand(questionId, request.Options);
             var createOptionsResult = await _mediator.Send(optionsCommand, ct);
 

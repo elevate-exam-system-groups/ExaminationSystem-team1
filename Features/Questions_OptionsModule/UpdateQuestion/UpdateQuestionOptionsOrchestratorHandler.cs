@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
+﻿using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Commands.UpdateQuestionOnly;
+
+namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
 {
     public class UpdateQuestionOptionsOrchestratorHandler
           : IRequestHandler<UpdateQuestionOptionsOrchestrator, RequestResult<UpdateQuestionResponse>>
@@ -15,7 +17,6 @@
         public async Task<RequestResult<UpdateQuestionResponse>> Handle(
             UpdateQuestionOptionsOrchestrator request, CancellationToken ct)
         {
-            // Update Question text + explanation
             var updateQuestionResult = await _mediator.Send(
                 new UpdateQuestionOnlyCommand(request.Id, request.Text, request.Explanation), ct);
 
@@ -25,7 +26,6 @@
                     updateQuestionResult.Message, updateQuestionResult.requestErrorCode);
             }
 
-            // Update Options
             var updateOptionsResult = await _mediator.Send(
                 new UpdateOptionsCommand(request.Id, request.Options), ct);
 

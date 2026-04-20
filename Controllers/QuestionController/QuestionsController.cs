@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion;
 using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion;
+using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion;
+using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion.DTOs;
+using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Dtos;
+using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Dtos;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {

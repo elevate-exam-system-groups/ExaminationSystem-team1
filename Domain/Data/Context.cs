@@ -1,3 +1,8 @@
+using System.Reflection;
+using ExaminationSystem.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 namespace ExaminationSystem.Domain.Data
 {
     public class Context : IdentityDbContext<User>//DbContext

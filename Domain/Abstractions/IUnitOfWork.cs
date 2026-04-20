@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using ExaminationSystem.Domain.Models;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ExaminationSystem.Domain.Abstractions
 {
