@@ -4,6 +4,10 @@ using ExaminationSystem.Domain.Implementations;
 using ExaminationSystem.Features.Account.Shared.Services;
 using ExaminationSystem.Features.Account.Shared;
 using Module = Autofac.Module;
+using AutoMapper;
+using ExaminationSystem.Controllers.DiplomaController.ViewModels;
+using System.Reflection;
+using FluentValidation;
 
 namespace ExaminationSystem.Configurations
 {
