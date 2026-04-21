@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.AnswerQuestion.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Requests
 {
     public record RecordAnswerCommandRequest(Guid QuestionId, Guid SelectedOptionId, Guid AttemptId)
         : IRequest<RequestResult<bool>>;
@@ -37,6 +37,28 @@
                     .Failure(validationErrors, RequestErrorCode.ValidationError);
             }
 
+
+            var AttemptAnswerId = _attemptAnswersRepository
+             .Get(a => a.QuizAttemptId == request.AttemptId &&
+              a.QuestionId == request.QuestionId)
+             .Select(a => a.Id)
+             .FirstOrDefault();
+
+
+            if (AttemptAnswerId != Guid.Empty)
+            {
+                var existingAnswer = new AttemptAnswer
+                {
+                    QuestionId = request.QuestionId,
+                    Id = AttemptAnswerId,
+                    SelectedOptionId = request.SelectedOptionId
+                };
+
+                _attemptAnswersRepository.UpdateInclude(existingAnswer, nameof(existingAnswer.SelectedOptionId));
+                await _attemptAnswersRepository.SaveChangesAsync();
+                return RequestResult<bool>.Success(true);
+            }
+
             _attemptAnswersRepository.Add(new AttemptAnswer
             {
                 Id = Guid.NewGuid(),
@@ -44,6 +66,7 @@
                 SelectedOptionId = request.SelectedOptionId,
                 QuizAttemptId = request.AttemptId
             });
+
             await _attemptAnswersRepository.SaveChangesAsync();
 
             return RequestResult<bool>.Success(true);

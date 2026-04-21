@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.AnswerQuestion.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Requests
 {
     public record CheckOptionBelongsToQuestionQueryRequest(Guid optionId, Guid questionId)
         : IRequest<RequestResult<bool>>;

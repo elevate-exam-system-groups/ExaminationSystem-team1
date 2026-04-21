@@ -1,7 +1,6 @@
-﻿using ExaminationSystem.Features.AnswerQuestion.Requests;
-using ExaminationSystem.Features.Common.GetCurrentLoggedStudentID;
+﻿using ExaminationSystem.Features.Common.GetCurrentLoggedStudentID;
 
-namespace ExaminationSystem.Features.AnswerQuestion.Orchestrators
+namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Orchestrators
 {
     public record AnswerQuestionOrchestrator(Guid attemptId, Guid QuestionId, Guid SelectedOptionId)
         : IRequest<RequestResult<bool>>;
@@ -51,6 +50,16 @@ namespace ExaminationSystem.Features.AnswerQuestion.Orchestrators
                     .Failure(LoggedStudentId.Message, LoggedStudentId.requestErrorCode);
             }
 
+            var checkAttemptValidationResult = await _mediator
+           .Send(new CheckStudentOwnTheAttemptQueryRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
+
+            if (!checkAttemptValidationResult.IsSuccess)
+            {
+                return RequestResult<bool>
+                    .Failure(checkAttemptValidationResult.Message,
+                    checkAttemptValidationResult.requestErrorCode);
+            }
+
 
             var isTimerValid = await _mediator
                 .Send(new CheckQuizTimerHasElapsedQueryRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
@@ -64,18 +73,8 @@ namespace ExaminationSystem.Features.AnswerQuestion.Orchestrators
                     .Failure(isTimerValid.Message, isTimerValid.requestErrorCode);
             }
 
-            var CheckInProgressStatus = await _mediator
-                .Send(new CheckInProgressQuizAttemptStatusQuerRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
-
-            var checkAttemptValidationResult = await _mediator
-             .Send(new CheckStudentOwnTheAttemptQueryRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
-
-            if (!checkAttemptValidationResult.IsSuccess)
-            {
-                return RequestResult<bool>
-                    .Failure(checkAttemptValidationResult.Message,
-                    checkAttemptValidationResult.requestErrorCode);
-            }
+            //var CheckInProgressStatus = await _mediator
+            //    .Send(new CheckInProgressQuizAttemptStatusQuerRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
 
             var quizID = await _mediator
                .Send(new GetQuizIdForCurrentQuestionQueryRequest(request.QuestionId), cancellationToken);

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExaminationSystem.Domain.Data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260416184239_init")]
+    [Migration("20260421192354_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -554,9 +554,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsPasswordResetTokenUsed")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -572,12 +569,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PasswordResetTokenExpiry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PasswordResetTokenHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
