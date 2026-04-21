@@ -50,7 +50,8 @@ namespace ExaminationSystem
                 await context.Database.MigrateAsync(); // Update identity database
 
                 var userManager = Services.GetRequiredService<UserManager<User>>();
-                await ContextSeed.SeedUserAsync(userManager); // Seed Data
+                var roleManager = Services.GetRequiredService<RoleManager<IdentityRole>>();
+                await ContextSeed.SeedAsync(context, userManager, roleManager); // Seed Data
             }
             catch (Exception ex)
             {

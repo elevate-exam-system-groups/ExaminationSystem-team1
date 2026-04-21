@@ -1,8 +1,8 @@
-﻿using Autofac;
+using Autofac;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Implementations;
 using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.AuthModule.Shared;
+using ExaminationSystem.Features.Account.Shared;
 using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations

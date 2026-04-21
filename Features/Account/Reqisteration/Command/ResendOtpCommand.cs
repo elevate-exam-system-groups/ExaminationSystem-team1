@@ -1,8 +1,8 @@
-﻿using ExaminationSystem.Domain.Data;
+using ExaminationSystem.Domain.Data;
 using ExaminationSystem.Domain.Models;
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.AuthModule.Shared;
+using ExaminationSystem.Features.Account.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

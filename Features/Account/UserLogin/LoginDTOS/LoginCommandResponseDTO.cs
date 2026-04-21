@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginDTOS
+namespace ExaminationSystem.Features.Account.UserLogin.DTOs
 {
     public class LoginCommandResponseDTO
     {

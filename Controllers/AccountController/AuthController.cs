@@ -1,11 +1,10 @@
-﻿using ExaminationSystem.Controllers.AccountController.ViewModels.LoginViewModels;
-using ExaminationSystem.Controllers.AccountController.ViewModels.PasswordViewModels;
-using ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword;
+using ExaminationSystem.Features.Account.Reqisteration.DTOs;
+using ExaminationSystem.Features.Account.UserLogin.Command;
 using ExaminationSystem.Features.Account.Reqisteration.Command;
-using ExaminationSystem.Features.AuthModule.Account.Command;
-using ExaminationSystem.Features.AuthModule.Account.DTOs;
-using ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands;
-
+using ExaminationSystem.Features.Account.UserLogin.DTOs;
+using ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword;
+using ExaminationSystem.Controllers.AccountController.ViewModels.LoginViewModels;
+using ExaminationSystem.Controllers.AccountController.ViewModels.PasswordViewModels;
 
 namespace ExaminationSystem.Controllers.AccountController
 {

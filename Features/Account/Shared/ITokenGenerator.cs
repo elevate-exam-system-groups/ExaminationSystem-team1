@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.AuthModule.Shared
+namespace ExaminationSystem.Features.Account.Shared
 {
     public interface ITokenGenerator
     {

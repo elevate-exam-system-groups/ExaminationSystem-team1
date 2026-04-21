@@ -1,15 +1,15 @@
-﻿using ExaminationSystem.Domain.Data;
+using ExaminationSystem.Domain.Data;
 using ExaminationSystem.Domain.Models;
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using ExaminationSystem.Features.Account.Shared.Services;
 using ExaminationSystem.Features.AuthModule.Account.DTOs;
-using ExaminationSystem.Features.AuthModule.Shared;
 using FluentValidation;
 using MediatR;
+using ExaminationSystem.Features.Account.Reqisteration.DTOs;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 
-namespace ExaminationSystem.Features.AuthModule.Account.Command
+namespace ExaminationSystem.Features.Account.Reqisteration.Command
 {
     public record RegisterCommand(RegisterDTO registerDTO) : IRequest<RequestResult<string>>;
 
