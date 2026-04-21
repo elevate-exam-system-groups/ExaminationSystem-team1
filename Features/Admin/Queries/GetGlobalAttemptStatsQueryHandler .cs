@@ -32,5 +32,3 @@ namespace ExaminationSystem.Features.Admin.Queries
         }
     }
 }
-}
-

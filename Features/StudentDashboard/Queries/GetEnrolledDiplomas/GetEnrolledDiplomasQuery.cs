@@ -5,6 +5,6 @@ namespace ExaminationSystem.Features.StudentDashboard
     namespace ExaminationSystem.Features.StudentDashboard.Queries
     {
         public record GetEnrolledDiplomasQuery(string StudentId)
-            : IRequest<RequestResult<List<EnrolledDiplomaDto>>>;
+            : IRequest<RequestResult<EnrolledDiplomaIdsDto>>;
     }
 }

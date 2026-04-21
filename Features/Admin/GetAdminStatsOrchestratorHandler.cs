@@ -36,8 +36,8 @@ namespace ExaminationSystem.Features.Admin
 
             var response = new AdminStatsResponse(
                 usersResult.Data.TotalUsers,
-                activeResult.Data,
-                quizzesResult.Data,
+                activeResult.Data.ActiveUsersToday,
+                quizzesResult.Data.TotalQuizzes,
                 attemptsResult.Data.TotalAttempts,
                 attemptsResult.Data.AvgPassRate
             );

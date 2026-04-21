@@ -9,14 +9,14 @@ using ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCount;
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiplomas
 {
     public class GetEnrolledDiplomasQueryHandler
-          : IRequestHandler<GetEnrolledDiplomasQuery, RequestResult<List<EnrolledDiplomaDto>>>
+          : IRequestHandler<GetEnrolledDiplomasQuery, RequestResult<EnrolledDiplomaIdsDto>>
     {
 
         private readonly IMediator _mediator;
         public GetEnrolledDiplomasQueryHandler(IMediator mediator)
             => _mediator = mediator;
 
-        public async Task<RequestResult<List<EnrolledDiplomaDto>>> Handle(
+        public async Task<RequestResult<EnrolledDiplomaIdsDto>> Handle(
             GetEnrolledDiplomasQuery request, CancellationToken ct)
         {
 
@@ -26,7 +26,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiploma
             var diplomaIds = idsResult.Data!.DiplomaIds;
 
             if (!diplomaIds.Any())
-                return RequestResult<List<EnrolledDiplomaDto>>.Success(new());
+                return RequestResult<EnrolledDiplomaIdsDto>.Success(new EnrolledDiplomaIdsDto(new()));
 
             var diplomasResult = await _mediator.Send(
                 new GetDiplomaDetailsQuery(diplomaIds), ct);
@@ -58,7 +58,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiploma
                 ))
                 .ToList();
 
-            return RequestResult<List<EnrolledDiplomaDto>>.Success(result);
+            return RequestResult<EnrolledDiplomaIdsDto>.Success(new EnrolledDiplomaIdsDto(result));
         }
 
         private decimal CalculateProgress(int total, int completed)
