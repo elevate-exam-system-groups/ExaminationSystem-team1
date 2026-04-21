@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.Shared.Requests.CheckDiplomaHasEnrollments
+﻿namespace ExaminationSystem.Features.DiplomaModule.Shared.Requests
 {
     public record CheckDiplomaHasEnrollmentsQueryRequest(Guid DiplomaId) : IRequest<RequestResult<bool>>;
 

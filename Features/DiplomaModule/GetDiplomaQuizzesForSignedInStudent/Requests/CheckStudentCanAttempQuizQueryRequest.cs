@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.CheckStudentCanAttempQuiz
+﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests
 {
     public record CheckStudentCanAttempQuizQueryRequest(Guid quizId, string StudentId) : IRequest<RequestResult<bool>>;
 

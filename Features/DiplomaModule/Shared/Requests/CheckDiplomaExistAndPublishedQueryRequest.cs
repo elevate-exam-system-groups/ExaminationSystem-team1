@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.Shared.Requests.CheckDiplomaExistAndPublished
+﻿namespace ExaminationSystem.Features.DiplomaModule.Shared.Requests
 {
     public record CheckDiplomaExistAndPublishedQueryRequest(Guid DiplomaId) :
         IRequest<RequestResult<bool>>;

@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.CheckLoggedStudentEnrolledInDiploma
+﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests
 {
     public record CheckLoggedStudentEnrolledInDiplomaQueryRequest(Guid DiplomaId, string StudentId)
         : IRequest<RequestResult<bool>>;
