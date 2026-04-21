@@ -57,7 +57,6 @@
     <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetStudentQuizzesAttemptsForDiploma\DTOS\GetQuizAttemptsDTO.cs" />
     <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\Requests\GetStudentQuizzesAttemptsForDiploma\GetStudentQuizzesAttemptsForDiplomaQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\Shared\Requests\CheckDiplomaExistAndPublished\CheckDiplomaExistAndPublishedQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\GetCurrentLoggedStudentID\GetCurrentLoggedStudentIdRequest.cs" />
     <Compile Include="Features\DiplomaModule\Shared\Requests\GetPublishedDiplomaRecord\DTOS\GetPublishedDiplomaByIdDTO.cs" />
     <Compile Include="Features\DiplomaModule\Shared\Requests\GetPublishedDiplomaRecord\GetPublishedDiplomaByIdQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\Shared\Requests\CheckDiplomaHasEnrollments\CheckDiplomaHasEnrollmentsQueryRequest.cs" />
@@ -105,6 +104,10 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Domain\Data\DataSeed\" />
+    <Folder Include="Features\AnswerQuestion\DTOS\" />
+    <Folder Include="Features\PublishUnpublishQuiz\DTOS\" />
+    <Folder Include="Features\PublishUnpublishQuiz\Orchestrators\" />
+    <Folder Include="Features\PublishUnpublishQuiz\Requests\" />
     <Folder Include="Features\QuizModule\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>

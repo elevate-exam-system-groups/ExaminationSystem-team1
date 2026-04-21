@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetCurrentLoggedStudentID
+namespace ExaminationSystem.Features.Common.GetCurrentLoggedStudentID
 {
     public record GetCurrentLoggedStudentIdRequest() : IRequest<RequestResult<string>>;
 
