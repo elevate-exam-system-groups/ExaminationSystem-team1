@@ -1,10 +1,10 @@
-﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
-using ExaminationSystem.Features.AuthModule.Shared;
-using ExaminationSystem.Features.AuthModule.UserLogin.LoginDTOS;
+using ExaminationSystem.Features.Account.Shared;
+using ExaminationSystem.Features.Account.UserLogin.DTOs;
+using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using FluentValidation;
 using System.Security.Cryptography;
 
-namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
+namespace ExaminationSystem.Features.Account.UserLogin.Command
 {
     #region Request
 

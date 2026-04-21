@@ -51,10 +51,7 @@ namespace ExaminationSystem
 
                 var userManager = Services.GetRequiredService<UserManager<User>>();
                 var roleManager = Services.GetRequiredService<RoleManager<IdentityRole>>();
-                //await ContextSeed.SeedUserAsync(userManager, roleManager); // Seed Data
-                var studentId = await ContextSeed.SeedUserAsync(userManager, roleManager);
-                await ContextSeed.SeedDataAsync(context, studentId);
-                //await ContextSeed.SeedDataAsync(context); // Seed Data
+                await ContextSeed.SeedAsync(context, userManager, roleManager); // Seed Data
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace ExaminationSystem.Features.AuthModule.Shared
+namespace ExaminationSystem.Features.Account.Shared
 {
     public class TokenGenerator : ITokenGenerator
     {
