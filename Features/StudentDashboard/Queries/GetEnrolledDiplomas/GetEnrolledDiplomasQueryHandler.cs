@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
-using ExaminationSystem.Features.StudentDashboard.ExaminationSystem.Features.StudentDashboard.Queries;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizzesCount;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails;
@@ -9,14 +8,14 @@ using ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCount;
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiplomas
 {
     public class GetEnrolledDiplomasQueryHandler
-          : IRequestHandler<GetEnrolledDiplomasQuery, RequestResult<EnrolledDiplomaIdsDto>>
+          : IRequestHandler<GetEnrolledDiplomasQuery, RequestResult<EnrolledDiplomasListDto>>
     {
 
         private readonly IMediator _mediator;
         public GetEnrolledDiplomasQueryHandler(IMediator mediator)
             => _mediator = mediator;
 
-        public async Task<RequestResult<EnrolledDiplomaIdsDto>> Handle(
+        public async Task<RequestResult<EnrolledDiplomasListDto>> Handle(
             GetEnrolledDiplomasQuery request, CancellationToken ct)
         {
 
@@ -26,7 +25,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiploma
             var diplomaIds = idsResult.Data!.DiplomaIds;
 
             if (!diplomaIds.Any())
-                return RequestResult<EnrolledDiplomaIdsDto>.Success(new EnrolledDiplomaIdsDto(new()));
+                return RequestResult<EnrolledDiplomasListDto>.Success(new EnrolledDiplomasListDto(new()));
 
             var diplomasResult = await _mediator.Send(
                 new GetDiplomaDetailsQuery(diplomaIds), ct);
@@ -58,7 +57,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiploma
                 ))
                 .ToList();
 
-            return RequestResult<EnrolledDiplomaIdsDto>.Success(new EnrolledDiplomaIdsDto(result));
+            return RequestResult<EnrolledDiplomasListDto>.Success(new EnrolledDiplomasListDto(result));
         }
 
         private decimal CalculateProgress(int total, int completed)

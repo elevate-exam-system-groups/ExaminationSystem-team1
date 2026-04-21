@@ -1,36 +1,35 @@
 ﻿using ExaminationSystem.Domain.Data;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
     public class TransactionMiddleware
     {
-        Context _context;
-        public TransactionMiddleware(Context context)
-        {
-            _context = context;
-        }
 
-        public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
+        private readonly RequestDelegate _next;
+        public TransactionMiddleware(RequestDelegate next)
+            => _next = next;
+
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             if (!httpContext.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
             {
-                IDbContextTransaction transaction = default;
+                var dbContext = httpContext.RequestServices.GetRequiredService<Context>();
+                await using var transaction = await dbContext.Database.BeginTransactionAsync();
 
                 try
                 {
-                    transaction = _context.Database.BeginTransaction();
-
-                    await next(httpContext);
-
-                    transaction.Commit();
+                    await _next(httpContext);
+                    await transaction.CommitAsync();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    transaction.Rollback();
-
+                    await transaction.RollbackAsync();
                     throw;
                 }
+            }
+            else
+            {
+                await _next(httpContext);
             }
         }
     }

@@ -1,4 +1,9 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
+﻿using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Commands.DeleteOptions;
+using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Commands.DeleteQuestionOnly;
+using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Queries.CheckActiveAttempts;
+using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Queries.GetQuestionInfo;
+
+namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
 {
     public class DeleteQuestionOrchestratorHandler
         : IRequestHandler<DeleteQuestionOrchestrator, RequestResult<DeleteResponse>>
@@ -16,7 +21,7 @@
         public async Task<RequestResult<DeleteResponse>> Handle(
             DeleteQuestionOrchestrator request, CancellationToken ct)
         {
-            // Get question info 
+
             var questionInfo = await _mediator.Send(
                  new GetQuestionInfoQuery(request.Id), ct);
 
@@ -27,7 +32,6 @@
 
             var result = questionInfo.Data;
 
-            // Cannot delete from published quiz
             if (result.QuizStatus == QuizStatus.Published)
             {
                 return RequestResult<DeleteResponse>.Failure(
@@ -35,7 +39,6 @@
                     RequestErrorCode.Conflict);
             }
 
-            // Check for active attempts
             var checkAttemptsResult = await _mediator.Send(
                 new CheckActiveAttemptsQuery(result.QuizId), ct);
             if (!checkAttemptsResult.IsSuccess)
@@ -65,6 +68,8 @@
                     deleteQuestionResult.Message,
                     deleteQuestionResult.requestErrorCode);
             }
+
+            await _unitOfWork.SaveChangesAsync(); 
 
             return RequestResult<DeleteResponse>.Success(
                 new DeleteResponse(true),

@@ -1,10 +1,8 @@
 ﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
 
-namespace ExaminationSystem.Features.StudentDashboard
+namespace ExaminationSystem.Features.StudentDashboard.Queries
 {
-    namespace ExaminationSystem.Features.StudentDashboard.Queries
-    {
-        public record GetEnrolledDiplomasQuery(string StudentId)
-            : IRequest<RequestResult<EnrolledDiplomaIdsDto>>;
-    }
+    public record GetEnrolledDiplomasQuery(string StudentId)
+        : IRequest<RequestResult<EnrolledDiplomasListDto>>;
 }
+

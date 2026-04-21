@@ -1,13 +1,13 @@
 ﻿using ExaminationSystem.Features.Admin.DTOs;
 
-namespace ExaminationSystem.Features.Admin.Queries
+namespace ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes
 {
-    public class GetTotalQuizzesQueryHandler 
+    public class GetTotalQuizzesQueryHandler
         : IRequestHandler<GetTotalQuizzesQuery, RequestResult<TotalQuizzesDto>>
     {
 
         private readonly IGeneralRepository<Quiz> _quizRepo;
-        public GetTotalQuizzesQueryHandler(IGeneralRepository<Quiz> quizRepo) 
+        public GetTotalQuizzesQueryHandler(IGeneralRepository<Quiz> quizRepo)
             => _quizRepo = quizRepo;
 
         public async Task<RequestResult<TotalQuizzesDto>> Handle

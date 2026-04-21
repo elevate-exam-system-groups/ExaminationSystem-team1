@@ -1,5 +1,9 @@
 ﻿using ExaminationSystem.Features.Admin.DTOs;
 using ExaminationSystem.Features.Admin.Queries;
+using ExaminationSystem.Features.Admin.Queries.GetActiveUsersToday;
+using ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate;
+using ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes;
+using ExaminationSystem.Features.Admin.Queries.GetTotalUsers;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ExaminationSystem.Features.Admin

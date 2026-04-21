@@ -10,5 +10,4 @@
         bool? IsPassed,
         DateTime? SubmittedAt
     );
-
 }

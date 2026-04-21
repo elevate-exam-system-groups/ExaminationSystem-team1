@@ -1,5 +1,5 @@
 ﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
-using ExaminationSystem.Features.StudentDashboard.ExaminationSystem.Features.StudentDashboard.Queries;
+using ExaminationSystem.Features.StudentDashboard.Queries;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts;
 using Microsoft.Extensions.Caching.Memory;
@@ -27,15 +27,20 @@ namespace ExaminationSystem.Features.StudentDashboard
             if (_cache.TryGetValue(cacheKey, out StudentDashboardResponse? cached))
                 return RequestResult<StudentDashboardResponse>.Success(cached!);
 
-            var diplomasTask = await _mediator.Send(new GetEnrolledDiplomasQuery(request.StudentId), ct);
-            var attemptsTask = await _mediator.Send(new GetRecentAttemptsQuery(request.StudentId), ct);
-            var statsTask = await _mediator.Send(new GetOverallStatsQuery(request.StudentId), ct);
+            var diplomasResult = await _mediator.Send(new GetEnrolledDiplomasQuery(request.StudentId), ct);
+            var attemptsResult = await _mediator.Send(new GetRecentAttemptsQuery(request.StudentId), ct);
+            var statsResult = await _mediator.Send(new GetOverallStatsQuery(request.StudentId), ct);
 
+
+            if (!diplomasResult.IsSuccess || !attemptsResult.IsSuccess || !statsResult.IsSuccess)
+                return RequestResult<StudentDashboardResponse>.Failure(
+                    "Failed to load dashboard data",
+                    RequestErrorCode.InternalServerError);
 
             var response = new StudentDashboardResponse(
-                diplomasTask.Data!,
-                attemptsTask.Data!,
-                statsTask.Data!
+                diplomasResult.Data.EnrolledDiplomas, 
+                attemptsResult.Data!,
+                statsResult.Data!
             );
 
             _cache.Set(cacheKey, response, TimeSpan.FromSeconds(60));

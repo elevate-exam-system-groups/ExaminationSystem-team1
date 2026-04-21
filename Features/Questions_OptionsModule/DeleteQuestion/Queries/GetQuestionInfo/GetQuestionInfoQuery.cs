@@ -2,5 +2,4 @@
 {
     public record GetQuestionInfoQuery(Guid QuestionId)
         : IRequest<RequestResult<QuestionInfoDto>>;
-
 }

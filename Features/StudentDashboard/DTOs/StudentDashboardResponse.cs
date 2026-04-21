@@ -5,5 +5,4 @@
      List<RecentAttemptDto> RecentQuizAttempts,
      OverallStatsDto OverallStats
     );
-
 }
