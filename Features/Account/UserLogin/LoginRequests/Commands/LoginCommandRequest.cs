@@ -95,6 +95,10 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
                 return RequestResult<LoginCommandResponseDTO>
                     .Failure("Invalid email or password", RequestErrorCode.InvalidCredentials);
 
+            user.LastLoginAt = DateTime.UtcNow;
+            await _userManager.UpdateAsync(user);
+
+
             // 6. Generate Access Token
             var token = _tokenGenerator.GenerateAccessToken(user);
 

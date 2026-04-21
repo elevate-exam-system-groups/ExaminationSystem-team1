@@ -6,23 +6,23 @@ using ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiplomaIds;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCount;
 
-namespace ExaminationSystem.Features.StudentDashboard.Commands.GetEnrolledDiplomas
+namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiplomas
 {
-    public class GetEnrolledDiplomasCommandHandler
-          : IRequestHandler<GetEnrolledDiplomasCommand, RequestResult<List<EnrolledDiplomaDto>>>
+    public class GetEnrolledDiplomasQueryHandler
+          : IRequestHandler<GetEnrolledDiplomasQuery, RequestResult<List<EnrolledDiplomaDto>>>
     {
 
         private readonly IMediator _mediator;
-        public GetEnrolledDiplomasCommandHandler(IMediator mediator)
+        public GetEnrolledDiplomasQueryHandler(IMediator mediator)
             => _mediator = mediator;
 
         public async Task<RequestResult<List<EnrolledDiplomaDto>>> Handle(
-            GetEnrolledDiplomasCommand request, CancellationToken ct)
+            GetEnrolledDiplomasQuery request, CancellationToken ct)
         {
 
             var idsResult = await _mediator.Send(
                 new GetEnrolledDiplomaIdsQuery(request.StudentId), ct);
-            
+
             var diplomaIds = idsResult.Data!.DiplomaIds;
 
             if (!diplomaIds.Any())

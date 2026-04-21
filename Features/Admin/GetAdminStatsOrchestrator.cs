@@ -2,5 +2,5 @@
 
 namespace ExaminationSystem.Features.Admin
 {
-    public record GetAdminStatsQuery : IRequest<RequestResult<AdminStatsResponse>>;
+    public record GetAdminStatsOrchestrator : IRequest<RequestResult<AdminStatsResponse>>;
 }

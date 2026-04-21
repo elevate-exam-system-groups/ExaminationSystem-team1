@@ -6,10 +6,7 @@ namespace ExaminationSystem.Domain.Models
     public class User : IdentityUser
     {
         public string FullName { get; set; }
-
-        //public string Email { get; set; }
-        //public string PasswordHash { get; set; }
-        //public Role Role { get; set; }
+        public DateTime? LastLoginAt { get; set; }
         public AccountStatus accountStatus { get; set; } = AccountStatus.Active;
 
         // Navigation properties

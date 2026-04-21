@@ -27,7 +27,7 @@ namespace ExaminationSystem.Features.StudentDashboard
             if (_cache.TryGetValue(cacheKey, out StudentDashboardResponse? cached))
                 return RequestResult<StudentDashboardResponse>.Success(cached!);
 
-            var diplomasTask = await _mediator.Send(new GetEnrolledDiplomasCommand(request.StudentId), ct);
+            var diplomasTask = await _mediator.Send(new GetEnrolledDiplomasQuery(request.StudentId), ct);
             var attemptsTask = await _mediator.Send(new GetRecentAttemptsQuery(request.StudentId), ct);
             var statsTask = await _mediator.Send(new GetOverallStatsQuery(request.StudentId), ct);
 

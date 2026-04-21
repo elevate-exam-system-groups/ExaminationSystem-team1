@@ -1,4 +1,5 @@
 ﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds
 {
@@ -18,9 +19,8 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizId
 
             var quizIds = await _attemptRepo
                 .Get(a => a.StudentId == request.StudentId
-                       && request.DiplomaIds.Contains(a.Quiz.DiplomaId)
-                       && a.Status != QuizAttemptStatus.InProgress
-                       && !a.isDeleted)
+                       && request.DiplomaIds.Contains(a.Quiz.DiplomaId))
+                .Completed()
                 .Select(a => a.QuizId)
                 .Distinct()
                 .ToListAsync(ct);

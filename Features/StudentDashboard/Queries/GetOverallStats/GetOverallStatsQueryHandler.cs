@@ -1,9 +1,10 @@
 ﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
 {
     public class GetOverallStatsQueryHandler
-    : IRequestHandler<GetOverallStatsQuery, RequestResult<OverallStatsDto>>
+     : IRequestHandler<GetOverallStatsQuery, RequestResult<OverallStatsDto>>
     {
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
@@ -13,26 +14,30 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
         public async Task<RequestResult<OverallStatsDto>> Handle(
             GetOverallStatsQuery request, CancellationToken ct)
         {
-            var attempts = await _attemptRepo
-                .Get(a => a.StudentId == request.StudentId
-                       && a.Status != QuizAttemptStatus.InProgress
-                       && !a.isDeleted)
-                .Select(a => new { a.Score, a.IsPassed })
-                .ToListAsync(ct);
+            var stats = await _attemptRepo
+                .Get(a => a.StudentId == request.StudentId)
+                .Completed()
+                .GroupBy(a => 1) 
+                .Select(g => new
+                {
+                    Total = g.Count(),
+                    AvgScore = g.Average(a => (decimal?)a.Score ?? 0),
+                    PassedCount = g.Count(a => a.IsPassed == true)
+                })
+                .FirstOrDefaultAsync(ct);
 
-            if (!attempts.Any())
+            if (stats == null || stats.Total == 0)
                 return RequestResult<OverallStatsDto>.Success(new OverallStatsDto(0, 0, 0));
 
-            var total = attempts.Count;
-            var avgScore = attempts.Average(a => a.Score ?? 0);
-            var passedCount = attempts.Count(a => a.IsPassed == true);
-            var passRate = (decimal)passedCount / total * 100;
+            var passRate = Math.Round((decimal)stats.PassedCount / stats.Total * 100, 1);
+            var avgScore = Math.Round(stats.AvgScore, 1);
 
             return RequestResult<OverallStatsDto>.Success(new OverallStatsDto(
-                total,
-                Math.Round(avgScore, 1),
-                Math.Round(passRate, 1)
+                stats.Total,
+                avgScore,
+                passRate
             ));
         }
     }
+
 }

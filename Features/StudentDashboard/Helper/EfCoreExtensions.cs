@@ -22,8 +22,10 @@ namespace ExaminationSystem.Features.StudentDashboard.Helper
             => query.Where(q => q.Status == QuizStatus.Published && !q.isDeleted);
 
         public static IQueryable<Diploma> Published(this IQueryable<Diploma> query)
-            => query.Where(d => !d.isDeleted);
+            => query.Where(d => d.Status == DiplomaStatus.Published && !d.isDeleted);
 
+        public static IQueryable<QuizAttempt> Completed(this IQueryable<QuizAttempt> query)
+           => query.Where(a => a.Status != QuizAttemptStatus.InProgress && !a.isDeleted);
 
     }
 }

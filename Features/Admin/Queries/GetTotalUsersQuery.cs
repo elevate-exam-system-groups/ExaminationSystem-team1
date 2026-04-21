@@ -1,4 +1,4 @@
 ﻿namespace ExaminationSystem.Features.Admin.Queries
 {
-    public record GetTotalUsersQuery : IRequest<int>;
+    public record GetTotalUsersQuery : IRequest<RequestResult<int>>;
 }

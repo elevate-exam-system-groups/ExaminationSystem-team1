@@ -1,13 +1,19 @@
 ﻿namespace ExaminationSystem.Features.Admin.Queries
 {
-    public class GetTotalUsersQueryHandler : IRequestHandler<GetTotalUsersQuery, int>
+    public class GetTotalUsersQueryHandler 
+        : IRequestHandler<GetTotalUsersQuery, RequestResult<int>>
     {
 
-        private readonly IGeneralRepository<User> _userRepo;
-        public GetTotalUsersQueryHandler(IGeneralRepository<User> userRepo)
-            => _userRepo = userRepo;
+        private readonly UserManager<User> _userManager;
+        public GetTotalUsersQueryHandler(UserManager<User> userManager) 
+            => _userManager = userManager;
 
-        public async Task<int> Handle(GetTotalUsersQuery request, CancellationToken ct)
-            => await _userRepo.Get(u => !u.isDeleted).CountAsync(ct);
+        public async Task<RequestResult<int>> Handle
+            (GetTotalUsersQuery request, CancellationToken ct)
+        {
+            var count = await _userManager.Users.CountAsync(ct);
+            return RequestResult<int>.Success(count);
+        }
+
     }
 }
