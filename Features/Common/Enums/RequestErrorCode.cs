@@ -12,17 +12,19 @@
         UpdateSuccess = 200,
         EmailAlreadyRegistered = 209,
         Forbidden = 403,
+        Gone = 410,
+        UnprocessableEntity = 421,
         ValidationError = 422,
         PasswordPolicyViolation = 422,
         NotFound = 404,
         Conflict = 409,
         InternalServerError = 500,
 
-        UserNotFound ,
-        InvalidToken ,
+        UserNotFound,
+        InvalidToken,
         PasswordResetFailed,
         EmailSendFailed,
         EmailAlreadyExists,
-        AccountNotVerified 
+        AccountNotVerified
     }
 }

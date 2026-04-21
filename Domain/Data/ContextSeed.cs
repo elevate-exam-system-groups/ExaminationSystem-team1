@@ -23,7 +23,24 @@ namespace ExaminationSystem.Domain.Data
 
         public static async Task SeedUserAsync(UserManager<User> userManager)
         {
-            if (!userManager.Users.Any())
+            Converters = { new JsonStringEnumConverter() },
+            PropertyNameCaseInsensitive = true
+        };
+        public static async Task<string> SeedUserAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            #region Seed roles
+
+            string[] roles = { "Admin", "Student" };
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
+
+            #endregion
+
+            #region Seed Admin  
+            if (await userManager.FindByEmailAsync("SuperAdmin@gmail.com") is null)
             {
                 var admin = new User()
                 {
@@ -34,6 +51,64 @@ namespace ExaminationSystem.Domain.Data
                     accountStatus = AccountStatus.Active,
                     EmailConfirmed = true
                 };
+                var result = await userManager.CreateAsync(admin, "Abc@123");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                }
+            }
+            #endregion
+
+            #region Seed Student
+            //if (await userManager.FindByEmailAsync("student@gmail.com") is null)
+            //{
+            //    var student = new User
+            //    {
+            //        Id = "a0000001-0000-0000-0000-000000000001",
+            //        FullName = "Test Student",
+            //        Email = "student@gmail.com",
+            //        UserName = "student@gmail.com",
+            //        PhoneNumber = "0123456789",
+            //        accountStatus = AccountStatus.Active,
+            //        EmailConfirmed = true
+            //    };
+            //    var result = await userManager.CreateAsync(student, "Abc@123");
+            //    if (result.Succeeded)
+            //    {
+            //        await userManager.AddToRoleAsync(student, "Student");
+            //    }
+            //}
+            string studentId = "";
+            var existingStudent = await userManager.FindByEmailAsync("student@gmail.com");
+            if (existingStudent is null)
+            {
+                var student = new User
+                {
+                    FullName = "Test Student",
+                    Email = "student@gmail.com",
+                    UserName = "student@gmail.com",
+                    accountStatus = AccountStatus.Active,
+                    EmailConfirmed = true
+                };
+                var result = await userManager.CreateAsync(student, "Abc@123");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(student, "Student");
+                    studentId = student.Id; // الـ Id الحقيقي بعد الـ create
+                }
+            }
+            else
+            {
+                studentId = existingStudent.Id;
+            }
+
+            return studentId;
+            #endregion
+        }
+
+        public static async Task SeedDataAsync(Context context, string studentId)
+        {
+            #region Diplomas
 
                 var result = await userManager.CreateAsync(admin, "P@ssw0rd123!");
                 if (result.Succeeded)
