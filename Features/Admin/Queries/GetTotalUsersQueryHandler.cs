@@ -1,18 +1,20 @@
-﻿namespace ExaminationSystem.Features.Admin.Queries
+﻿using ExaminationSystem.Features.Admin.DTOs.ExaminationSystem.Features.Admin.DTOs;
+
+namespace ExaminationSystem.Features.Admin.Queries
 {
     public class GetTotalUsersQueryHandler 
-        : IRequestHandler<GetTotalUsersQuery, RequestResult<int>>
+        : IRequestHandler<GetTotalUsersQuery, RequestResult<TotalUsersDto>>
     {
 
         private readonly UserManager<User> _userManager;
         public GetTotalUsersQueryHandler(UserManager<User> userManager) 
             => _userManager = userManager;
 
-        public async Task<RequestResult<int>> Handle
+        public async Task<RequestResult<TotalUsersDto>> Handle
             (GetTotalUsersQuery request, CancellationToken ct)
         {
             var count = await _userManager.Users.CountAsync(ct);
-            return RequestResult<int>.Success(count);
+            return RequestResult<TotalUsersDto>.Success(new TotalUsersDto(count));
         }
 
     }

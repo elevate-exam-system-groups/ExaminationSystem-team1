@@ -4,7 +4,8 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace ExaminationSystem.Features.Admin
 {
-    public class GetAdminStatsOrchestratorHandler : IRequestHandler<GetAdminStatsOrchestrator, RequestResult<AdminStatsResponse>>
+    public class GetAdminStatsOrchestratorHandler 
+        : IRequestHandler<GetAdminStatsOrchestrator, RequestResult<AdminStatsResponse>>
     {
         private readonly IMediator _mediator;
         private readonly IMemoryCache _cache;
@@ -34,7 +35,7 @@ namespace ExaminationSystem.Features.Admin
                     ("Failed to retrieve stats", RequestErrorCode.InternalServerError);
 
             var response = new AdminStatsResponse(
-                usersResult.Data,
+                usersResult.Data.TotalUsers,
                 activeResult.Data,
                 quizzesResult.Data,
                 attemptsResult.Data.TotalAttempts,

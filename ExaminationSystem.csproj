@@ -88,7 +88,6 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Domain\Data\DataSeed\" />
-    <Folder Include="Features\Admin\Commands\" />
     <Folder Include="Features\QuizModule\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.Admin.DTOs.ExaminationSystem.Features.AdminDashboard.DTOs;
+﻿using ExaminationSystem.Features.Admin.DTOs;
 
 namespace ExaminationSystem.Features.Admin.Queries
 {
