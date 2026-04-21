@@ -9,7 +9,8 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
         : IRequest<RequestResult<ResetPasswordResponse>>;
 
 
-    public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, RequestResult<ResetPasswordResponse>>
+    public class ResetPasswordHandler 
+        : IRequestHandler<ResetPasswordCommand, RequestResult<ResetPasswordResponse>>
     {
 
         private readonly UserManager<User> _userManager;

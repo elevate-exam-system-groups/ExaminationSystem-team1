@@ -27,7 +27,7 @@ namespace ExaminationSystem.Features.Admin
             var usersResult = await _mediator.Send(new GetTotalUsersQuery(), ct);
             var activeResult = await _mediator.Send(new GetActiveUsersTodayQuery(), ct);
             var quizzesResult = await _mediator.Send(new GetTotalQuizzesQuery(), ct);
-            var attemptsResult = await _mediator.Send(new GetGlobalAttemptStatsQuery(), ct);
+            var attemptsResult = await _mediator.Send(new GetAttemptsAvgPassRateQuery(), ct);
 
             if (!usersResult.IsSuccess || !activeResult.IsSuccess ||
                 !quizzesResult.IsSuccess || !attemptsResult.IsSuccess)

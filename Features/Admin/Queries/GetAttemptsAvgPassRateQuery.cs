@@ -2,5 +2,5 @@
 
 namespace ExaminationSystem.Features.Admin.Queries
 {
-    public record GetGlobalAttemptStatsQuery : IRequest<RequestResult<AttemptStatsDto>>;
+    public record GetAttemptsAvgPassRateQuery : IRequest<RequestResult<AttemptAvgPassRateDto>>;
 }
