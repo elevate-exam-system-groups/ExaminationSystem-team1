@@ -1,5 +1,4 @@
-﻿
-namespace ExaminationSystem.Features.QuizModule.UnpublishQuiz.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.UnpublishQuiz.Queries
 {
     public record CheckQuizHasCurrentAttemptsQueryRequest(Guid quizId) : IRequest<RequestResult<bool>>;
 

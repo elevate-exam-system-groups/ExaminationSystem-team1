@@ -1,5 +1,7 @@
 ﻿using ExaminationSystem.Features.QuizModule.Shared;
-using ExaminationSystem.Features.QuizModule.UnpublishQuiz.Requests;
+using ExaminationSystem.Features.QuizModule.Shared.Commands;
+using ExaminationSystem.Features.QuizModule.UnpublishQuiz.Queries;
+
 
 namespace ExaminationSystem.Features.QuizModule.UnpublishQuiz.Orchestrators
 {

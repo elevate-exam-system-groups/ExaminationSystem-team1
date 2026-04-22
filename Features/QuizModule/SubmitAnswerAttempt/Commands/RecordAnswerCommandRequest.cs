@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Commands
 {
     public record RecordAnswerCommandRequest(Guid QuestionId, Guid SelectedOptionId, Guid AttemptId)
         : IRequest<RequestResult<bool>>;

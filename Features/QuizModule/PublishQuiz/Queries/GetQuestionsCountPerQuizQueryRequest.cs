@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Queries
 {
     public record GetQuestionsCountPerQuizQueryRequest(Guid quizId) : IRequest<RequestResult<int>>;
 

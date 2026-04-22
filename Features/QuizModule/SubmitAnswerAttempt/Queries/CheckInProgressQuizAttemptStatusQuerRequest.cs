@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Queries
 {
     public record CheckInProgressQuizAttemptStatusQuerRequest(Guid attemptId, string studentId)
         : IRequest<RequestResult<bool>>;

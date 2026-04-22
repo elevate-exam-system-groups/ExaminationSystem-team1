@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Queries
 {
     public record CheckAllQuizQuestionsHasValidOptionsQueryRequest(Guid quizId) : IRequest<RequestResult<bool>>;
 

@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Queries
 {
     public record CheckAttemptValidationQueryRequest(Guid attemptId, string studentId) : IRequest<RequestResult<bool>>;
 
