@@ -3,16 +3,10 @@
     public class UpdateOptionsCommandHandler
       : IRequestHandler<UpdateOptionsCommand, RequestResult<UpdateQuestionResponse>>
     {
-        private readonly IGeneralRepository<Option> _optionRepo;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateOptionsCommandHandler(
-            IGeneralRepository<Option> optionRepo,
-            IUnitOfWork unitOfWork)
-        {
-            _optionRepo = optionRepo;
-            _unitOfWork = unitOfWork;
-        }
+        private readonly IGeneralRepository<Option> _optionRepo;
+        public UpdateOptionsCommandHandler(IGeneralRepository<Option> optionRepo)
+           => _optionRepo = optionRepo;
 
         public async Task<RequestResult<UpdateQuestionResponse>> Handle(
             UpdateOptionsCommand request, CancellationToken ct)
@@ -52,6 +46,7 @@
                 }
             }
 
+            await _optionRepo.SaveChangesAsync();
 
             return RequestResult<UpdateQuestionResponse>.Success(
                 new UpdateQuestionResponse(request.QuestionId),

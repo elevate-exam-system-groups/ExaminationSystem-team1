@@ -21,6 +21,8 @@
                 });
             }
 
+            await _optionRepo.SaveChangesAsync(); 
+
             return RequestResult<bool>.Success(true, "Options created successfully");
         }
     }

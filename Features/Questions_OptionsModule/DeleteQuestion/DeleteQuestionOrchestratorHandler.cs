@@ -10,13 +10,8 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
     {
 
         private readonly IMediator _mediator;
-        private readonly IUnitOfWork _unitOfWork;
-        public DeleteQuestionOrchestratorHandler(
-            IMediator mediator, IUnitOfWork unitOfWork)
-        {
-            _mediator = mediator;
-            _unitOfWork = unitOfWork;
-        }
+        public DeleteQuestionOrchestratorHandler(IMediator mediator)
+         => _mediator = mediator;
 
         public async Task<RequestResult<DeleteResponse>> Handle(
             DeleteQuestionOrchestrator request, CancellationToken ct)
@@ -41,13 +36,14 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
 
             var checkAttemptsResult = await _mediator.Send(
                 new CheckActiveAttemptsQuery(result.QuizId), ct);
+
             if (!checkAttemptsResult.IsSuccess)
                 return RequestResult<DeleteResponse>.Failure(
                       "Cannot delete question while there are active quiz attempts.",
                     RequestErrorCode.Conflict);
 
 
-            // Delete options
+        
             var deleteOptionsResult = await _mediator.Send(
                 new DeleteOptionsCommand(request.Id), ct);
 
@@ -58,7 +54,7 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
                     deleteOptionsResult.requestErrorCode);
             }
 
-            // Delete question
+
             var deleteQuestionResult = await _mediator.Send(
                 new DeleteQuestionOnlyCommand(request.Id), ct);
 
@@ -69,7 +65,6 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
                     deleteQuestionResult.requestErrorCode);
             }
 
-            await _unitOfWork.SaveChangesAsync(); 
 
             return RequestResult<DeleteResponse>.Success(
                 new DeleteResponse(true),

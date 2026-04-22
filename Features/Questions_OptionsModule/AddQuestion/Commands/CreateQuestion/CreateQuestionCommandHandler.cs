@@ -21,6 +21,8 @@
 
             _questionRepo.Add(question);
 
+            await _questionRepo.SaveChangesAsync();
+
             return RequestResult<CreateQuestionResponse>.Success(
                 new CreateQuestionResponse(question.Id), "Question Created.");
         }

@@ -34,6 +34,8 @@
                 }
             }
 
+            await _optionRepo.SaveChangesAsync();
+
             return RequestResult<DeleteResponse>.Success(
                 new DeleteResponse(true),
                 $"{optionIds.Count} options deleted");

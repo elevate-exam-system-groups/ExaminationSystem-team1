@@ -18,7 +18,7 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Comm
         public async Task<RequestResult<DeleteResponse>> Handle(
             DeleteQuestionOnlyCommand request, CancellationToken ct)
         {
-            
+
             var validationResult = await _mediator.Send(
                 new GetQuestionByIdQuery(request.QuestionId), ct);
 
@@ -32,6 +32,8 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Comm
                 nameof(Question.isDeleted),
                 nameof(Question.DeletedAt)
             );
+
+            _questionRepo.SaveChangesAsync();
 
             return RequestResult<DeleteResponse>.Success(
                 new DeleteResponse(true),

@@ -1,4 +1,6 @@
 ﻿
+using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Queries.GetQuestionForEdit;
+
 namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Commands.UpdateQuestionOnly
 {
     public class UpdateQuestionOnlyCommandHandler
@@ -19,21 +21,21 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Comm
             UpdateQuestionOnlyCommand request, CancellationToken ct)
         {
 
-            // douplicated validation [Orchestrator]
-            //var questionDTO = await _mediator.Send(
-            //    new GetQuestionByIdQuery(request.QuestionId), ct);
 
-            //if (!questionDTO.IsSuccess)
-            //    return RequestResult<UpdateQuestionResponse>.Failure(
-            //        questionDTO.Message, questionDTO.requestErrorCode);
+            var questionDTO = await _mediator.Send(
+                new GetQuestionByIdQuery(request.QuestionId), ct);
+
+            if (!questionDTO.IsSuccess)
+                return RequestResult<UpdateQuestionResponse>.Failure(
+                    questionDTO.Message, questionDTO.requestErrorCode);
 
 
-            //var Result = questionDTO.Data;
+            var Result = questionDTO.Data;
 
-            //if (Result.QuizStatus == QuizStatus.Published)
-            //    return RequestResult<UpdateQuestionResponse>.Failure(
-            //        "Cannot update question in a published quiz. Unpublish quiz first.",
-            //        RequestErrorCode.Conflict);
+            if (Result.QuizStatus == QuizStatus.Published)
+                return RequestResult<UpdateQuestionResponse>.Failure(
+                    "Cannot update question in a published quiz. Unpublish quiz first.",
+                    RequestErrorCode.Conflict);
 
             _questionRepo.UpdateInclude(new Question
             {
@@ -47,6 +49,7 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Comm
                nameof(Question.UpdatedAt)
            );
 
+            await _questionRepo.SaveChangesAsync();
 
             return RequestResult<UpdateQuestionResponse>.Success(
                 new UpdateQuestionResponse(request.QuestionId),
