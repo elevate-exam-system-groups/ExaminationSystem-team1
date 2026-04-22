@@ -10,7 +10,7 @@ namespace ExaminationSystem.Controllers.StudentController
     [Route("api/student")]
     [ApiController]
     [Authorize(Roles = "Student")]
-    public class StudentDashboardController : BaseApiController
+    public class StudentDashboardController : ControllerBase
     {
 
         private readonly IMediator _mediator;
@@ -32,7 +32,6 @@ namespace ExaminationSystem.Controllers.StudentController
                 return BadRequest(ResponseViewModel<StudentDashboardResponseVm>.Failure(
                     result.Message ?? "Failed to load dashboard"));
 
-            // Map DTO → ViewModel
             var vm = new StudentDashboardResponseVm(
                 result.Data.EnrolledDiplomas.Select(d => new EnrolledDiplomaVm(
                     d.DiplomaId, d.Title, d.Description,
