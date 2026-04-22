@@ -1,4 +1,6 @@
 ﻿using ExaminationSystem.Features.Common.GetCurrentLoggedStudentID;
+using ExaminationSystem.Features.QuizModule.Shared;
+using ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Requests;
 
 namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Orchestrators
 {

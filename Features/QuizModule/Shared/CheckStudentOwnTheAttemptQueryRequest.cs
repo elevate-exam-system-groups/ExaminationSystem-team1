@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.Shared
 {
     public record CheckStudentOwnTheAttemptQueryRequest(Guid attemptId, string studentId)
         : IRequest<RequestResult<bool>>;
