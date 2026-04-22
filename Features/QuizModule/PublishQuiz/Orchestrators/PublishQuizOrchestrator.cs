@@ -49,7 +49,7 @@ namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Orchestrators
             var QuestionsCount = await _mediator
                 .Send(new GetQuestionsCountPerQuizQueryRequest(request.quizId), cancellationToken);
 
-            if (QuestionsCount.Data == 0)
+            if (QuestionsCount.Data < 1)
             {
                 return RequestResult<bool>
                     .Failure("Quiz has no questions.", RequestErrorCode.Conflict);

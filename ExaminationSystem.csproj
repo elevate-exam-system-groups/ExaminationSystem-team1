@@ -126,8 +126,8 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
+    <Folder Include="Controllers\QuizController\ViewModels\" />
     <Folder Include="Domain\Data\DataSeed\" />
-    <Folder Include="Features\QuizModule\UnpublishQuiz\DTOS\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>
 

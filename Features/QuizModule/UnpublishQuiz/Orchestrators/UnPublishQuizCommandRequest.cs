@@ -36,27 +36,34 @@ namespace ExaminationSystem.Features.QuizModule.UnpublishQuiz.Orchestrators
                 return RequestResult<bool>
                     .Failure(validationErrors, RequestErrorCode.ValidationError);
             }
+
             var isQuizPublished = await _mediator
                 .Send(new CheckQuizPublishStateQueryRequest(request.quizId), cancellationToken);
+
             if (!isQuizPublished.Data)
             {
                 return RequestResult<bool>
                     .Failure("Quiz is already unpublished.", RequestErrorCode.Conflict);
             }
+
             var hasAttempts = await _mediator
                 .Send(new CheckQuizHasCurrentAttemptsQueryRequest(request.quizId), cancellationToken);
+
             if (hasAttempts.Data)
             {
                 return RequestResult<bool>
                     .Failure("Cannot unpublish quiz with attempts.", RequestErrorCode.Conflict);
             }
+
             var result = await _mediator
                 .Send(new UpdateQuizStatusCommandRequest(request.quizId, QuizStatus.Draft), cancellationToken);
+
             if (!result.Data)
             {
                 return RequestResult<bool>
                     .Failure("Failed to unpublish quiz.", RequestErrorCode.InternalServerError);
             }
+
             return RequestResult<bool>.Success(true);
         }
     }
