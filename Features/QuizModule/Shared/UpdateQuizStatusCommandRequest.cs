@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Requests
+﻿namespace ExaminationSystem.Features.QuizModule.Shared
 {
     public record UpdateQuizStatusCommandRequest(Guid QuizId, QuizStatus NewStatus) : IRequest<RequestResult<bool>>;
 

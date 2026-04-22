@@ -72,9 +72,9 @@
     <Compile Include="Features\DiplomaModule\Shared\Orchestrators\GetPuplishedDiplomaByIdWithQuizzesOrchestrator\DTOS\GetPuplishedDiplomaQuizzesByIdDTO.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Orchestrators\PublishQuizOrchestrator.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Requests\CheckAllQuizQuestionsHasValidOptionsQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\PublishQuiz\Requests\CheckQuizPublishStateQueryRequest.cs" />
+    <Compile Include="Features\QuizModule\Shared\CheckQuizPublishStateQueryRequest.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Requests\GetQuestionsCountPerQuizQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\PublishQuiz\Requests\UpdateQuizStatusCommandRequest.cs" />
+    <Compile Include="Features\QuizModule\Shared\UpdateQuizStatusCommandRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Orchestrators\AnswerQuestionOrchestrator.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Requests\AutoSubmitAttemptCommandRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Requests\CheckAttemptValidationQueryRequest.cs" />
@@ -85,6 +85,8 @@
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Requests\CheckStudentOwnTheAttemptQueryRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Requests\GetQuizIdForCurrentQuestionQueryRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Requests\RecordAnswerCommandRequest.cs" />
+    <Compile Include="Features\QuizModule\UnpublishQuiz\Orchestrators\UnPublishQuizCommandRequest.cs" />
+    <Compile Include="Features\QuizModule\UnpublishQuiz\Requests\CheckQuizHasCurrentAttemptsQueryRequest.cs" />
   </ItemGroup>
 
   <ItemGroup>
