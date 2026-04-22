@@ -72,25 +72,14 @@
     <Compile Include="Features\DiplomaModule\Shared\Orchestrators\GetPuplishedDiplomaByIdWithQuizzesOrchestrator\DTOS\GetPuplishedDiplomaQuizzesByIdDTO.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Orchestrators\PublishQuizOrchestrator.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Queries\CheckAllQuizQuestionsHasValidOptionsQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\Shared\Queries\CheckQuizPublishStateQueryRequest.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Queries\GetQuestionsCountPerQuizQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\Shared\Commands\UpdateQuizStatusCommandRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Orchestrators\AnswerQuestionOrchestrator.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Commands\AutoSubmitAttemptCommandRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckAttemptValidationQueryRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckInProgressQuizAttemptStatusQuerRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckOptionBelongsToQuestionQueryRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckQuestionBelongsToQuizQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\Shared\Queries\CheckQuizTimerHasElapsedQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\Shared\Queries\CheckStudentOwnTheAttemptQueryRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\GetQuizIdForCurrentQuestionQueryRequest.cs" />
     <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Commands\RecordAnswerCommandRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitQuiz\Orchestrators\SubmitQuizAttemptOrchestrator.cs" />
-    <Compile Include="Features\QuizModule\SubmitQuiz\Requests\Queries\GetAttemptResult\GetAttemptScoreQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitQuiz\Requests\Queries\GetAttemptResult\DTO\GetAttemptResultDTO.cs" />
-    <Compile Include="Features\QuizModule\SubmitQuiz\Requests\Queries\IsQuizAttemptSubmittedQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitQuiz\Requests\Commands\SaveAttemptResultCommandRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitQuiz\Requests\Commands\UpdateQuizAttemptStatusCommandRequest.cs" />
     <Compile Include="Features\QuizModule\UnpublishQuiz\Orchestrators\UnPublishQuizCommandRequest.cs" />
     <Compile Include="Features\QuizModule\UnpublishQuiz\Queries\CheckQuizHasCurrentAttemptsQueryRequest.cs" />
   </ItemGroup>
@@ -129,6 +118,7 @@
     <Folder Include="Controllers\QuizController\ViewModels\" />
     <Folder Include="Domain\Data\DataSeed\" />
     <Folder Include="Controllers\Shared\Filters\" />
+    <Folder Include="Features\Common\Attempts\Orchestrators\" />
   </ItemGroup>
 
 </Project>

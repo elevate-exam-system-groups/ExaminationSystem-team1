@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace ExaminationSystem.Features.Common.GetCurrentLoggedStudentID
+namespace ExaminationSystem.Features.Common.User.GetCurrentLoggedStudentID
 {
     public record GetCurrentLoggedStudentIdRequest() : IRequest<RequestResult<string>>;
 

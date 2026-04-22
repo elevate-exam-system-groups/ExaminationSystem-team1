@@ -1,9 +1,9 @@
-using ExaminationSystem.Features.Common.GetCurrentLoggedStudentID;
+
+using ExaminationSystem.Features.Common.User.GetCurrentLoggedStudentID;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzes.Requests.GetDiplomaQuizzesForLoggedStudent;
 using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.DTOS;
 using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests;
 using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.GetQuizSummaryForStudent;
-using ExaminationSystem.Features.DiplomaModule.Shared.Requests;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzes.Requests.GetDiplomaQuizzesForLoggedStudent;
 
 
 namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Orchestrators

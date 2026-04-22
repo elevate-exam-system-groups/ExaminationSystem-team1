@@ -1,12 +1,12 @@
-﻿namespace ExaminationSystem.Features.QuizModule.Shared
+﻿namespace ExaminationSystem.Features.Common.Attempts.Queries
 {
-    public record CheckStudentOwnTheAttemptQueryRequest(Guid attemptId, string studentId)
+    public record CheckStudentAttemptOwnershipQuery(Guid attemptId, string studentId)
         : IRequest<RequestResult<bool>>;
 
-    public class CheckStudentOwnTheAttemptQueryRequestValidator
-        : AbstractValidator<CheckStudentOwnTheAttemptQueryRequest>
+    public class CheckStudentAttemptOwnershipQueryValidator
+        : AbstractValidator<CheckStudentAttemptOwnershipQuery>
     {
-        public CheckStudentOwnTheAttemptQueryRequestValidator()
+        public CheckStudentAttemptOwnershipQueryValidator()
         {
             RuleFor(x => x.attemptId)
                 .NotEmpty().WithMessage("Attempt ID is required");
@@ -15,17 +15,17 @@
         }
     }
 
-    public class CheckStudentOwnTheAttemptQueryRequestHandler
-        : IRequestHandler<CheckStudentOwnTheAttemptQueryRequest, RequestResult<bool>>
+    public class CheckStudentAttemptOwnershipQueryHandler
+        : IRequestHandler<CheckStudentAttemptOwnershipQuery, RequestResult<bool>>
     {
         private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
-        private readonly IValidator<CheckStudentOwnTheAttemptQueryRequest> _validator;
-        public CheckStudentOwnTheAttemptQueryRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CheckStudentOwnTheAttemptQueryRequest> validator)
+        private readonly IValidator<CheckStudentAttemptOwnershipQuery> _validator;
+        public CheckStudentAttemptOwnershipQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CheckStudentAttemptOwnershipQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;
         }
-        public async Task<RequestResult<bool>> Handle(CheckStudentOwnTheAttemptQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<bool>> Handle(CheckStudentAttemptOwnershipQuery request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
@@ -38,18 +38,19 @@
                                             .Failure(validationErrors, RequestErrorCode.ValidationError);
                 return result;
             }
-            var doesStudentOwnTheAttempt = _quizAttemptsRepository
+
+            var doesStudentOwnAttempt = await _quizAttemptsRepository
                .Get(qa => qa.Id == request.attemptId &&
                     qa.StudentId == request.studentId)
-               .Any();
+               .AnyAsync(cancellationToken);
 
-            if (!doesStudentOwnTheAttempt)
+            if (!doesStudentOwnAttempt)
             {
                 return RequestResult<bool>
                     .Failure("Student does not own this attempt", RequestErrorCode.Forbidden);
             }
 
-            return RequestResult<bool>.Success(doesStudentOwnTheAttempt);
+            return RequestResult<bool>.Success(doesStudentOwnAttempt);
         }
     }
 

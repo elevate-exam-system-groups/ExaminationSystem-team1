@@ -55,7 +55,7 @@ namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Orchestrator
             }
 
             var checkAttemptValidationResult = await _mediator
-           .Send(new CheckStudentOwnTheAttemptQueryRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
+           .Send(new CheckStudentAttemptOwnershipQuery(request.attemptId, LoggedStudentId.Data!), cancellationToken);
 
             if (!checkAttemptValidationResult.IsSuccess)
             {
@@ -66,7 +66,7 @@ namespace ExaminationSystem.Features.QuizModule.SubmitAnswerAttempt.Orchestrator
 
 
             var isTimerValid = await _mediator
-                .Send(new CheckQuizTimerHasElapsedQueryRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
+                .Send(new IsQuizTimerExpiredQuery(request.attemptId, LoggedStudentId.Data!), cancellationToken);
 
             if (!isTimerValid.IsSuccess)
             {

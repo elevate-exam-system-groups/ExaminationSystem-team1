@@ -1,13 +1,11 @@
 using Autofac;
-using ExaminationSystem.Controllers.Shared.Middlewares;
-using ExaminationSystem.Domain.Implementations;
-using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.Account.Shared;
-using Module = Autofac.Module;
 using AutoMapper;
 using ExaminationSystem.Controllers.DiplomaController.ViewModels;
-using System.Reflection;
-using FluentValidation;
+using ExaminationSystem.Controllers.Shared.Middlewares;
+using ExaminationSystem.Domain.Implementations;
+using ExaminationSystem.Features.Account.Shared;
+using ExaminationSystem.Features.Account.Shared.Services;
+using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations
 {

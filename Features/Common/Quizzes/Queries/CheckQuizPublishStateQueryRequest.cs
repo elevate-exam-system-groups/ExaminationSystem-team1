@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.QuizModule.Shared
+﻿namespace ExaminationSystem.Features.Common.Quizzes.Queries
 {
     public record CheckQuizPublishStateQueryRequest(Guid quizId) : IRequest<RequestResult<bool>>;
 

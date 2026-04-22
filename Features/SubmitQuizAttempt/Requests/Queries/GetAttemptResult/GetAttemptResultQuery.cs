@@ -1,62 +1,62 @@
-﻿using ExaminationSystem.Features.QuizModule.SubmitQuiz.Requests.Queries.GetAttemptResult.DTO;
+﻿using ExaminationSystem.Features.SubmitQuizAttempt.Requests.Queries.GetAttemptResult.DTO;
 
-namespace ExaminationSystem.Features.QuizModule.SubmitQuiz.Requests.Queries.GetAttemptResult
+namespace ExaminationSystem.Features.SubmitQuizAttempt.Requests.Queries.GetAttemptResult
 {
-    public record GetAttemptScoreQueryRequest(Guid attemptId) : IRequest<RequestResult<GetAttemptResultDTO>>;
+    public record GetAttemptResultQuery(Guid attemptId) : IRequest<RequestResult<AttemptResultDTO>>;
 
 
-    public class GetAttemptScoreQueryRequestValidator : AbstractValidator<GetAttemptScoreQueryRequest>
+    public class GetAttemptResultQueryValidator : AbstractValidator<GetAttemptResultQuery>
     {
-        public GetAttemptScoreQueryRequestValidator()
+        public GetAttemptResultQueryValidator()
         {
             RuleFor(x => x.attemptId)
                 .NotEmpty().WithMessage("Attempt ID is required");
         }
     }
 
-    public class GetAttemptScoreQueryRequestHandler
-        : IRequestHandler<GetAttemptScoreQueryRequest, RequestResult<GetAttemptResultDTO>>
+    public class GetAttemptResultQueryHandler
+        : IRequestHandler<GetAttemptResultQuery, RequestResult<AttemptResultDTO>>
     {
         private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
-        private readonly IValidator<GetAttemptScoreQueryRequest> _validator;
-        public GetAttemptScoreQueryRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<GetAttemptScoreQueryRequest> validator)
+        private readonly IValidator<GetAttemptResultQuery> _validator;
+        public GetAttemptResultQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<GetAttemptResultQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;
         }
-        public async Task<RequestResult<GetAttemptResultDTO>> Handle(GetAttemptScoreQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<AttemptResultDTO>> Handle(GetAttemptResultQuery request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
                 var validationErrors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                var result = RequestResult<GetAttemptResultDTO>
+                var result = RequestResult<AttemptResultDTO>
                                             .Failure(validationErrors, RequestErrorCode.ValidationError);
                 return result;
             }
 
-            var attemptData = _quizAttemptsRepository
+            var attemptData = await _quizAttemptsRepository
              .Get(qa => qa.Id == request.attemptId)
              .Select(qa => new
              {
-                 TotalQuestions = qa.Quiz.Questions.Count,
+                 TotalQuestions = qa.Quiz.Questions.Count(),
                  CorrectAnswers = qa.UserAnswers
                   .Count(a => a.SelectedOption.IsCorrect),
                  qa.Quiz.PassScore
-             }).FirstOrDefault();
+             }).FirstOrDefaultAsync();
 
             if (attemptData is null || attemptData.TotalQuestions == 0)
             {
-                return RequestResult<GetAttemptResultDTO>
+                return RequestResult<AttemptResultDTO>
                     .Failure("Attempt not found or quiz has no questions", RequestErrorCode.NotFound);
             }
 
             decimal score = (decimal)attemptData.CorrectAnswers / attemptData.TotalQuestions * 100;
 
             bool isPassed = score >= attemptData.PassScore;
-            var resultDTO = new GetAttemptResultDTO(score, isPassed);
+            var resultDTO = new AttemptResultDTO(score, isPassed);
 
-            return RequestResult<GetAttemptResultDTO>.Success(resultDTO);
+            return RequestResult<AttemptResultDTO>.Success(resultDTO);
         }
     }
 }

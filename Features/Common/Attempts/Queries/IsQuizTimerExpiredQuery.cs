@@ -1,12 +1,12 @@
-﻿namespace ExaminationSystem.Features.QuizModule.Shared
+﻿namespace ExaminationSystem.Features.Common.Attempts.Queries
 {
-    public record CheckQuizTimerHasElapsedQueryRequest(Guid attemptId, string studentId)
+    public record IsQuizTimerExpiredQuery(Guid attemptId, string studentId)
         : IRequest<RequestResult<bool>>;
 
-    public class CheckQuizTimerHasElapsedQueryRequestValidator
-        : AbstractValidator<CheckQuizTimerHasElapsedQueryRequest>
+    public class IsQuizTimerExpiredQueryValidator
+        : AbstractValidator<IsQuizTimerExpiredQuery>
     {
-        public CheckQuizTimerHasElapsedQueryRequestValidator()
+        public IsQuizTimerExpiredQueryValidator()
         {
             RuleFor(x => x.attemptId)
                 .NotEmpty().WithMessage("Quiz ID is required");
@@ -15,17 +15,17 @@
         }
     }
 
-    public class CheckQuizTimerHasElapsedQueryRequestHandler
-        : IRequestHandler<CheckQuizTimerHasElapsedQueryRequest, RequestResult<bool>>
+    public class IsQuizTimerExpiredQueryHandler
+        : IRequestHandler<IsQuizTimerExpiredQuery, RequestResult<bool>>
     {
         private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
-        private readonly IValidator<CheckQuizTimerHasElapsedQueryRequest> _validator;
-        public CheckQuizTimerHasElapsedQueryRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CheckQuizTimerHasElapsedQueryRequest> validator)
+        private readonly IValidator<IsQuizTimerExpiredQuery> _validator;
+        public IsQuizTimerExpiredQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<IsQuizTimerExpiredQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;
         }
-        public async Task<RequestResult<bool>> Handle(CheckQuizTimerHasElapsedQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<bool>> Handle(IsQuizTimerExpiredQuery request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
@@ -35,18 +35,13 @@
                                             .Failure(validationErrors, RequestErrorCode.ValidationError);
                 return result;
             }
-            bool hasQuizTimerElapsed = _quizAttemptsRepository
+            bool hasQuizTimerElapsed = await _quizAttemptsRepository
                .Get(qa => qa.Id == request.attemptId &&
                     qa.StudentId == request.studentId &&
                     qa.Status == QuizAttemptStatus.InProgress &&
                     DateTime.UtcNow > qa.DeadLine)
-               .Any();
+               .AnyAsync();
 
-            if (hasQuizTimerElapsed)
-            {
-                return RequestResult<bool>
-                    .Failure("Timer has elapsed", RequestErrorCode.Gone);
-            }
             return RequestResult<bool>.Success(hasQuizTimerElapsed);
         }
     }
