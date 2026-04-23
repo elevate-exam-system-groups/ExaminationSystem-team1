@@ -3,7 +3,7 @@ using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Commands
 using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Queries.CheckActiveAttempts;
 using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Queries.GetQuestionInfo;
 
-namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
+namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Orchestrators
 {
     public class DeleteQuestionOrchestratorHandler
         : IRequestHandler<DeleteQuestionOrchestrator, RequestResult<DeleteResponse>>
@@ -44,7 +44,7 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
 
             if (!checkAttemptsResult.IsSuccess)
                 return RequestResult<DeleteResponse>.Failure(
-                    checkAttemptsResult.Message, 
+                    checkAttemptsResult.Message,
                     checkAttemptsResult.requestErrorCode);
 
             if (checkAttemptsResult.Data.HasActiveAttempts)
