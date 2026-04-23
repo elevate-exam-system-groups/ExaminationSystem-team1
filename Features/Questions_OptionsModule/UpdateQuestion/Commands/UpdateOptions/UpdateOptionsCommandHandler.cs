@@ -1,16 +1,17 @@
 ﻿namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Commands
 {
     public class UpdateOptionsCommandHandler
-      : IRequestHandler<UpdateOptionsCommand, RequestResult<UpdateQuestionResponse>>
+      : IRequestHandler<UpdateOptionsCommand, RequestResult<UpdateOptionResponse>>
     {
 
         private readonly IGeneralRepository<Option> _optionRepo;
         public UpdateOptionsCommandHandler(IGeneralRepository<Option> optionRepo)
            => _optionRepo = optionRepo;
 
-        public async Task<RequestResult<UpdateQuestionResponse>> Handle(
+        public async Task<RequestResult<UpdateOptionResponse>> Handle(
             UpdateOptionsCommand request, CancellationToken ct)
         {
+
             var existingOptions = await _optionRepo
                 .Get(o => o.QuestionId == request.QuestionId)
                 .ToListAsync(ct);
@@ -18,7 +19,8 @@
             var incomingIds = request.Options
                 .Where(o => o.Id.HasValue)
                 .Select(o => o.Id!.Value)
-                .ToHashSet();
+                .ToList();
+                //.ToHashSet();
 
             foreach (var opt in existingOptions.Where(o => !incomingIds.Contains(o.Id)))
                 _optionRepo.SoftDelete(opt);
@@ -48,8 +50,8 @@
 
             await _optionRepo.SaveChangesAsync();
 
-            return RequestResult<UpdateQuestionResponse>.Success(
-                new UpdateQuestionResponse(request.QuestionId),
+            return RequestResult<UpdateOptionResponse>.Success(
+                new UpdateOptionResponse(true),
                 "Options updated successfully");
         }
     }

@@ -1,18 +1,18 @@
 ﻿namespace ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Queries
 {
 
-    public class GetNextQuestionOrderQueryHandler
-        : IRequestHandler<GetNextQuestionOrderQuery, RequestResult<NextQuestionOrderDto>>
+    public class CalculateNextQuestionOrderQueryHandler
+        : IRequestHandler<CalculateNextQuestionOrderQuery, RequestResult<NextQuestionOrderDto>>
     {
 
         private readonly IGeneralRepository<Question> _questionRepo;
-        public GetNextQuestionOrderQueryHandler(IGeneralRepository<Question> questionRepo)
+        public CalculateNextQuestionOrderQueryHandler(IGeneralRepository<Question> questionRepo)
             => _questionRepo = questionRepo;
 
         public async Task<RequestResult<NextQuestionOrderDto>> Handle(
-            GetNextQuestionOrderQuery request,
-            CancellationToken ct)
+            CalculateNextQuestionOrderQuery request, CancellationToken ct)
         {
+
             var maxOrder = await _questionRepo
                 .Get(q => q.QuizId == request.QuizId && !q.isDeleted)
                 .MaxAsync(q => (int?)q.OrderIndex, ct) ?? 0;

@@ -20,7 +20,7 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Comm
         {
 
             var validationResult = await _mediator.Send(
-                new GetQuestionByIdQuery(request.QuestionId), ct);
+                new GetQuestionUpdateStatusQuery(request.QuestionId), ct);
 
             _questionRepo.UpdateInclude(
                 new Question

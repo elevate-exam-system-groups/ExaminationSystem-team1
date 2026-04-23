@@ -1,4 +1,4 @@
 ﻿namespace ExaminationSystem.Controllers.QuestionController.ViewModels
 {
-    public record OptionViewModel(string Text ,bool IsCorrect);
+    public record UpdateQuestionResponseVM(bool isSuccess);
 }

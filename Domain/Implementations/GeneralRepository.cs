@@ -1,8 +1,4 @@
-﻿using ExaminationSystem.Domain.Abstractions;
-using ExaminationSystem.Domain.Data;
-using ExaminationSystem.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using ExaminationSystem.Domain.Data;
 using System.Linq.Expressions;
 
 namespace ExaminationSystem.Domain.Implementations

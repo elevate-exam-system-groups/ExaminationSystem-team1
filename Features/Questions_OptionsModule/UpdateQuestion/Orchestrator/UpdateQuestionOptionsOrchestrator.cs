@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion
+﻿namespace ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Orchestrator
 {
     public record UpdateQuestionOptionsOrchestrator : IRequest<RequestResult<UpdateQuestionResponse>>
     {
