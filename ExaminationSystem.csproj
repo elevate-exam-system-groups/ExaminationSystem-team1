@@ -73,13 +73,9 @@
     <Compile Include="Features\QuizModule\PublishQuiz\Orchestrators\PublishQuizOrchestrator.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Queries\CheckAllQuizQuestionsHasValidOptionsQueryRequest.cs" />
     <Compile Include="Features\QuizModule\PublishQuiz\Queries\GetQuestionsCountPerQuizQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Orchestrators\AnswerQuestionOrchestrator.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckAttemptValidationQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckInProgressQuizAttemptStatusQuerRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckOptionBelongsToQuestionQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\CheckQuestionBelongsToQuizQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Queries\GetQuizIdForCurrentQuestionQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\SubmitAnswerAttempt\Commands\RecordAnswerCommandRequest.cs" />
+    <Compile Include="Features\QuizModule\Shared\Commands\UpdateQuizStatusCommandRequest.cs" />
+    <Compile Include="Features\QuizModule\Shared\Queries\GetQuizDurationInMinutesQuery.cs" />
+    <Compile Include="Features\QuizModule\Shared\Queries\IsQuizPublishedQuery.cs" />
     <Compile Include="Features\QuizModule\UnpublishQuiz\Orchestrators\UnPublishQuizCommandRequest.cs" />
     <Compile Include="Features\QuizModule\UnpublishQuiz\Queries\CheckQuizHasCurrentAttemptsQueryRequest.cs" />
   </ItemGroup>
@@ -118,7 +114,6 @@
     <Folder Include="Controllers\QuizController\ViewModels\" />
     <Folder Include="Domain\Data\DataSeed\" />
     <Folder Include="Controllers\Shared\Filters\" />
-    <Folder Include="Features\Common\Attempts\Orchestrators\" />
   </ItemGroup>
 
 </Project>

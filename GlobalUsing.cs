@@ -4,6 +4,7 @@ global using ExaminationSystem.Controllers.Shared.Enums;
 global using ExaminationSystem.Domain.Abstractions;
 global using ExaminationSystem.Domain.Models;
 global using ExaminationSystem.Domain.Models.Enums;
+global using ExaminationSystem.Extensions;
 global using ExaminationSystem.Features.Common;
 global using ExaminationSystem.Features.Common.Enums;
 global using ExaminationSystem.Features.DiplomaModule.Shared.Orchestrators.GetPuplishedDiplomaByIdWithQuizzesOrchestrator.DTOS;

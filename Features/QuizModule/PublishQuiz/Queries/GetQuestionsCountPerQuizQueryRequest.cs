@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Queries
+﻿
+
+namespace ExaminationSystem.Features.QuizModule.PublishQuiz.Queries
 {
     public record GetQuestionsCountPerQuizQueryRequest(Guid quizId) : IRequest<RequestResult<int>>;
 
@@ -24,15 +26,10 @@
         public async Task<RequestResult<int>> Handle(GetQuestionsCountPerQuizQueryRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator
-                .ValidateAsync(request, cancellationToken);
+              .ValidateRequestAsync<GetQuestionsCountPerQuizQueryRequest, int>(request, cancellationToken);
 
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string
-                    .Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return RequestResult<int>
-                    .Failure(validationErrors, RequestErrorCode.ValidationError);
-            }
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             int questionsCount = await _questionsRepository
                 .Get(q => q.QuizId == request.quizId)

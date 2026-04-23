@@ -1,7 +1,8 @@
 ﻿
-using ExaminationSystem.Features.Common.Quizzes.Commands;
-using ExaminationSystem.Features.Common.Quizzes.Queries;
+using ExaminationSystem.Features.QuizModule.Shared.Commands;
+using ExaminationSystem.Features.QuizModule.Shared.Queries;
 using ExaminationSystem.Features.QuizModule.UnpublishQuiz.Queries;
+
 
 
 namespace ExaminationSystem.Features.QuizModule.UnpublishQuiz.Orchestrators
@@ -31,17 +32,13 @@ namespace ExaminationSystem.Features.QuizModule.UnpublishQuiz.Orchestrators
         public async Task<RequestResult<bool>> Handle(UnPublishQuizCommandRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator
-                .ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string
-                    .Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return RequestResult<bool>
-                    .Failure(validationErrors, RequestErrorCode.ValidationError);
-            }
+              .ValidateRequestAsync<UnPublishQuizCommandRequest, bool>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var isQuizPublished = await _mediator
-                .Send(new CheckQuizPublishStateQueryRequest(request.quizId), cancellationToken);
+                .Send(new IsQuizPublishedQuery(request.quizId), cancellationToken);
 
             if (!isQuizPublished.Data)
             {

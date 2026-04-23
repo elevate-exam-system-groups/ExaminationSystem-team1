@@ -1,9 +1,10 @@
 ﻿using ExaminationSystem.Controllers.AttemptController.ViewModels;
-using ExaminationSystem.Features.SubmitQuizAttempt.Orchestrators;
+using ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators;
+
 
 namespace ExaminationSystem.Controllers.AttemptController
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class AttemptController : ControllerBase
     {
