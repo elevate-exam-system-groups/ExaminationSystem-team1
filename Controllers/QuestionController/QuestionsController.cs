@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion;
 using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Orchestrator;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Add;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Update;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Delete;
 using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Orchestrator;
+using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Orchestrators;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {
