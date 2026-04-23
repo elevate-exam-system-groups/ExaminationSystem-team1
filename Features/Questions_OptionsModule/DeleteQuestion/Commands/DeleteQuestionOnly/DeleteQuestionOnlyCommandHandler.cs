@@ -19,21 +19,10 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Comm
             DeleteQuestionOnlyCommand request, CancellationToken ct)
         {
 
-            var validationResult = await _mediator.Send(
-                new GetQuestionUpdateStatusQuery(request.QuestionId), ct);
+            var questionToDelete = new Question { Id = request.QuestionId };
+            _questionRepo.SoftDelete(questionToDelete);
 
-            _questionRepo.UpdateInclude(
-                new Question
-                {
-                    Id = request.QuestionId,
-                    isDeleted = true,
-                    DeletedAt = DateTime.UtcNow
-                },
-                nameof(Question.isDeleted),
-                nameof(Question.DeletedAt)
-            );
-
-            _questionRepo.SaveChangesAsync();
+            await _questionRepo.SaveChangesAsync();
 
             return RequestResult<DeleteResponse>.Success(
                 new DeleteResponse(true),

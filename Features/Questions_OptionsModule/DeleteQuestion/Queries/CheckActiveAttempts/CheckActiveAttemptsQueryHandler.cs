@@ -11,23 +11,13 @@
         public async Task<RequestResult<ActiveAttemptsDto>> Handle(
             CheckActiveAttemptsQuery request, CancellationToken ct)
         {
-            var activeAttempts = await _attemptRepo
+            var activeAttemptsCount = await _attemptRepo
                 .Get(a => a.QuizId == request.QuizId
                        && a.Status == QuizAttemptStatus.InProgress)
-                .ToListAsync(ct);
+                .CountAsync(ct);
 
-            var hasActiveAttempts = activeAttempts.Any();
-
-            if (hasActiveAttempts)
-            {
-                return RequestResult<ActiveAttemptsDto>.Failure(
-                    $"Cannot delete question while there are {activeAttempts.Count} active quiz attempt(s).",
-                    RequestErrorCode.Conflict);
-            }
-
-            var result = new ActiveAttemptsDto(request.QuizId, false, 0);
-
-            return RequestResult<ActiveAttemptsDto>.Success(result);
+            return RequestResult<ActiveAttemptsDto>.Success(
+                new ActiveAttemptsDto(request.QuizId, activeAttemptsCount > 0, activeAttemptsCount));
         }
     }
 }

@@ -14,7 +14,7 @@
             var questionInfo = await _questionRepo
                 .Get(q => q.Id == request.QuestionId && !q.isDeleted)
                 .Select(q => new QuestionInfoDto(
-                    q.Id,
+                    //q.Id,
                     q.QuizId,
                     q.Quiz.Status
                 )).FirstOrDefaultAsync(ct);

@@ -12,33 +12,29 @@
             DeleteOptionsCommand request, CancellationToken ct)
         {
 
-            var optionIds = await _optionRepo
+            var optionsToDelete = await _optionRepo
                 .Get(o => o.QuestionId == request.QuestionId && !o.isDeleted)
-                .Select(o => o.Id)
                 .ToListAsync(ct);
 
-            if (optionIds.Any())
+            if (!optionsToDelete.Any())
             {
-                foreach (var id in optionIds)
-                {
-                    _optionRepo.UpdateInclude(
-                        new Option
-                        {
-                            Id = id,
-                            isDeleted = true,
-                            DeletedAt = DateTime.UtcNow
-                        },
-                        nameof(Option.isDeleted),
-                        nameof(Option.DeletedAt)
-                    );
-                }
+                return RequestResult<DeleteResponse>.Success(
+                    new DeleteResponse(true),
+                    "No options found to delete");
             }
+
+            // alternative => ExecuteUpdate
+            foreach (var option in optionsToDelete)
+            {
+                _optionRepo.SoftDelete(option);
+            }
+
 
             await _optionRepo.SaveChangesAsync();
 
             return RequestResult<DeleteResponse>.Success(
                 new DeleteResponse(true),
-                $"{optionIds.Count} options deleted");
+                $"options deleted");  
         }
     }
 

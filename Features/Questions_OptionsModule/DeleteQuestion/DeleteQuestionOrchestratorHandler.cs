@@ -17,6 +17,11 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
             DeleteQuestionOrchestrator request, CancellationToken ct)
         {
 
+            if (request.Id == Guid.Empty)
+                return RequestResult<DeleteResponse>.Failure(
+                    "Invalid Question ID", RequestErrorCode.ValidationError);
+
+
             var questionInfo = await _mediator.Send(
                  new GetQuestionInfoQuery(request.Id), ct);
 
@@ -39,11 +44,18 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
 
             if (!checkAttemptsResult.IsSuccess)
                 return RequestResult<DeleteResponse>.Failure(
-                      "Cannot delete question while there are active quiz attempts.",
+                    checkAttemptsResult.Message, 
+                    checkAttemptsResult.requestErrorCode);
+
+            if (checkAttemptsResult.Data.HasActiveAttempts)
+            {
+                return RequestResult<DeleteResponse>.Failure(
+                    $"Cannot delete: {checkAttemptsResult.Data.ActiveAttemptsCount} " +
+                    $"student(s) are currently taking this quiz.",
                     RequestErrorCode.Conflict);
+            }
 
 
-        
             var deleteOptionsResult = await _mediator.Send(
                 new DeleteOptionsCommand(request.Id), ct);
 
@@ -70,6 +82,8 @@ namespace ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion
                 new DeleteResponse(true),
                 "Question and all options deleted successfully");
         }
+
+
 
     }
 }
