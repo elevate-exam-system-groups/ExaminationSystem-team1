@@ -32,14 +32,11 @@ namespace ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests
 
         public async Task<RequestResult<UpdateDiplomaResponseDTO>> Handle(UpdateDiplomaCommandRequest request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _validator
+             .ValidateRequestAsync<UpdateDiplomaCommandRequest, UpdateDiplomaResponseDTO>(request, cancellationToken);
 
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return RequestResult<UpdateDiplomaResponseDTO>
-                    .Failure(validationErrors, RequestErrorCode.ValidationError);
-            }
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var existingDiploma = new Diploma
             {

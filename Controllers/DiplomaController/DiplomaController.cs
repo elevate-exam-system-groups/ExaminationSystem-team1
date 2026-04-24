@@ -4,7 +4,7 @@ using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.DTOS;
 using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.Request;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Orchestrators;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators;
 using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
 
 
@@ -63,7 +63,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         [HttpDelete]
         public async Task<ResponseViewModel<bool>> DeleteDiploma(Guid diplomaID)
         {
-            var result = await _mediator.Send(new DeleteDiplomaCommandRequest(diplomaID));
+            var result = await _mediator.Send(new DeleteDiplomaCommand(diplomaID));
             if (!result.IsSuccess)
             {
                 return ResponseViewModel<bool>
@@ -76,7 +76,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         [HttpGet]
         public async Task<ResponseViewModel<GetAllDiplomasPaginatedResponseVM>> GetAllDiplomas([FromQuery] AllDiplomasPaginatedRequestVM requestVM)
         {
-            var result = await _mediator.Send(new GetDiplomasQueryRequest(requestVM.Page, requestVM.PerPage));
+            var result = await _mediator.Send(new GetAllDiplomasQuery(requestVM.Page, requestVM.PerPage));
             if (!result.IsSuccess)
             {
                 return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>
@@ -101,21 +101,21 @@ namespace ExaminationSystem.Controllers.DiplomaController
         }
 
         [HttpGet]
-        public async Task<ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>> GetDiplomaQuizzesForLoggedStudent(Guid diplomaRequestID)
+        public async Task<ResponseViewModel<List<GetDiplomaQuizzesForLoggedStudenResponseVM>>> GetDiplomaQuizzesForLoggedStudent(Guid diplomaRequestID, string StudentId)
         {
             var requestResponse = await _mediator
-                .Send(new GetDiplomaQuizzesForLoggedStudentOrchestrator(diplomaRequestID));
+                .Send(new GetDiplomaQuizzesForLoggedStudentOrchestrator(diplomaRequestID, StudentId));
 
             if (!requestResponse.IsSuccess)
             {
-                return ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>
+                return ResponseViewModel<List<GetDiplomaQuizzesForLoggedStudenResponseVM>>
                     .Failure(requestResponse.Message, (ResponseVmErrorCode?)requestResponse.requestErrorCode);
             }
 
             var responseVM = _mapper
-                .Map<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>(requestResponse.Data);
+                .Map<List<GetDiplomaQuizzesForLoggedStudenResponseVM>>(requestResponse.Data);
 
-            return ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>.Success(responseVM);
+            return ResponseViewModel<List<GetDiplomaQuizzesForLoggedStudenResponseVM>>.Success(responseVM);
         }
 
     }

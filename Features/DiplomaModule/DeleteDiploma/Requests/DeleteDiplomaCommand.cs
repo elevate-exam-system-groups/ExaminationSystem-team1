@@ -1,10 +1,12 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
+﻿using ExaminationSystem.Features.QuizModule.PublishQuiz.Orchestrators;
+
+namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
 {
-    public record DeleteDiplomaCommandRequest(Guid DiplomaId) : IRequest<RequestResult<bool>> { }
+    public record DeleteDiplomaCommand(Guid DiplomaId) : IRequest<RequestResult<bool>> { }
 
     #region Validator
 
-    public class DeleteDiplomaCommandValidator : AbstractValidator<DeleteDiplomaCommandRequest>
+    public class DeleteDiplomaCommandValidator : AbstractValidator<DeleteDiplomaCommand>
     {
         public DeleteDiplomaCommandValidator()
         {
@@ -16,27 +18,23 @@
 
     #region Handler
 
-    public class DeleteDiplomaCommandHandler : IRequestHandler<DeleteDiplomaCommandRequest, RequestResult<bool>>
+    public class DeleteDiplomaCommandHandler : IRequestHandler<DeleteDiplomaCommand, RequestResult<bool>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
-        private readonly IValidator<DeleteDiplomaCommandRequest> _Validator;
+        private readonly IValidator<DeleteDiplomaCommand> _validator;
 
-        public DeleteDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository, IValidator<DeleteDiplomaCommandRequest> validator)
+        public DeleteDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository, IValidator<DeleteDiplomaCommand> validator)
         {
             _diplomaRepository = diplomaRepository;
-            _Validator = validator;
+            _validator = validator;
         }
-        public async Task<RequestResult<bool>> Handle(DeleteDiplomaCommandRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<bool>> Handle(DeleteDiplomaCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = await _Validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _validator
+              .ValidateRequestAsync<DeleteDiplomaCommand, bool>(request, cancellationToken);
 
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                var result = RequestResult<bool>
-                                            .Failure(validationErrors, RequestErrorCode.ValidationError);
-                return result;
-            }
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var existingDiploma = _diplomaRepository.GetById(request.DiplomaId).FirstOrDefault();
 

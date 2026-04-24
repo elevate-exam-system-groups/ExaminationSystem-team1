@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzes.Requests.GetDiplomaQuizzesForLoggedStudent.DTOS
+﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetDiplomaQuizzes.DTOS
 {
     public record GetDiplomaQuizzesDTO
     (

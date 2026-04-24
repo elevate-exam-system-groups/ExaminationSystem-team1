@@ -1,14 +1,12 @@
-
-using ExaminationSystem.Features.Common.User.GetCurrentLoggedStudentID;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzes.Requests.GetDiplomaQuizzesForLoggedStudent;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.DTOS;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.GetQuizSummaryForStudent;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.DTOS;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetDiplomaQuizzes;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetQuizSummaryForStudent;
 
 
-namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Orchestrators
+namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators
 {
-    public record GetDiplomaQuizzesForLoggedStudentOrchestrator(Guid diplomaId)
+    public record GetDiplomaQuizzesForLoggedStudentOrchestrator(Guid diplomaId, string StudentId)
         : IRequest<RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>>;
 
     public class GetDiplomaQuizzesForLoggedStudentOrchestratorValidator : AbstractValidator<GetDiplomaQuizzesForLoggedStudentOrchestrator>
@@ -36,6 +34,13 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
         public async Task<RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>> Handle(
             GetDiplomaQuizzesForLoggedStudentOrchestrator request, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator
+              .ValidateRequestAsync<GetDiplomaQuizzesForLoggedStudentOrchestrator,
+              List<GetDiplomaQuizzesForLoggedStudentDTO>>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
+
             var isDiplomaExistAndPublished = await _mediator
                 .Send(new CheckDiplomaExistAndPublishedQueryRequest(request.diplomaId), cancellationToken);
 
@@ -45,17 +50,17 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
                 .Failure(isDiplomaExistAndPublished.Message, isDiplomaExistAndPublished.requestErrorCode);
             }
 
-            var LoggedStudentIdResult = await _mediator
-                .Send(new GetCurrentLoggedStudentIdRequest(), cancellationToken);
+            //var LoggedStudentIdResult = await _mediator
+            //    .Send(new GetCurrentLoggedStudentIdRequest(), cancellationToken);
 
-            if (!LoggedStudentIdResult.IsSuccess)
-            {
-                return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
-               .Failure(LoggedStudentIdResult.Message, LoggedStudentIdResult.requestErrorCode);
-            }
+            //if (!LoggedStudentIdResult.IsSuccess)
+            //{
+            //    return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
+            //   .Failure(LoggedStudentIdResult.Message, LoggedStudentIdResult.requestErrorCode);
+            //}
 
             var isEnrolledResult = await _mediator
-                .Send(new CheckLoggedStudentEnrolledInDiplomaQueryRequest(request.diplomaId, LoggedStudentIdResult.Data!), cancellationToken);
+                .Send(new CheckLoggedStudentEnrolledInDiplomaQueryRequest(request.diplomaId, request.StudentId), cancellationToken);
 
             if (!isEnrolledResult.IsSuccess)
             {
@@ -88,26 +93,28 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
             //var QuizzesAttempts = QuizzesAttemptsResult.Data!;
 
             var QuizSummaryResultresponse = await Task.WhenAll(
-             DiplomaQuizzes.Select(quiz => _mediator
-                           .Send(new GetQuizSummaryForStudentQueryRequest(
+             DiplomaQuizzes
+             .Select(quiz => _mediator
+             .Send(new GetQuizSummaryForStudentQueryRequest(
              quiz.QuizId,
-            LoggedStudentIdResult.Data!,
-            quiz.MaxAttempts
+             request.StudentId,
+             quiz.MaxAttempts
              ), cancellationToken))
 );
 
-            var result = DiplomaQuizzes.Select((quiz, index) =>
-     new GetDiplomaQuizzesForLoggedStudentDTO(
-         quiz.QuizId,
-         quiz.Title,
-         QuizSummaryResultresponse[index].Data!.AttemptCount,
-         quiz.DurationInMinutes,
-         quiz.PassScore,
-         quiz.MaxAttempts,
-         QuizSummaryResultresponse[index].Data!.CanAttempt,
-         QuizSummaryResultresponse[index].Data!.LastScore,
-         quiz.Status
-     )).ToList();
+            var result = DiplomaQuizzes
+                .Select((quiz, index) =>
+                new GetDiplomaQuizzesForLoggedStudentDTO(
+                quiz.QuizId,
+                quiz.Title,
+                QuizSummaryResultresponse[index].Data!.AttemptCount,
+                quiz.DurationInMinutes,
+                quiz.PassScore,
+                quiz.MaxAttempts,
+                QuizSummaryResultresponse[index].Data!.CanAttempt,
+                QuizSummaryResultresponse[index].Data!.LastScore,
+                quiz.Status
+                )).ToList();
 
             return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>.Success(result);
 

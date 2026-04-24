@@ -1,6 +1,6 @@
-﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.GetQuizSummaryForStudent.DTOS;
+﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetQuizSummaryForStudent.DTOS;
 
-namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.GetQuizSummaryForStudent
+namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetQuizSummaryForStudent
 {
     public record GetQuizSummaryForStudentQueryRequest(Guid QuizId, string StudentId, int? MaxAttempts)
         : IRequest<RequestResult<GetQuizSummaryDTO>>;
@@ -36,15 +36,11 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
         public async Task<RequestResult<GetQuizSummaryDTO>> Handle(
             GetQuizSummaryForStudentQueryRequest request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string.Join(", ",
-                    validationResult.Errors.Select(e => e.ErrorMessage));
-                return RequestResult<GetQuizSummaryDTO>
-                    .Failure(validationErrors, RequestErrorCode.ValidationError);
+            var validationResult = await _validator
+             .ValidateRequestAsync<GetQuizSummaryForStudentQueryRequest, GetQuizSummaryDTO>(request, cancellationToken);
 
-            }
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var attempts = _quizAttemptRepository
                 .Get(qa => qa.StudentId == request.StudentId && qa.QuizId == request.QuizId)

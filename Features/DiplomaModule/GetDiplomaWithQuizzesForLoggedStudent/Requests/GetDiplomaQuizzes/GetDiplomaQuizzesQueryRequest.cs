@@ -1,6 +1,6 @@
-﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzes.Requests.GetDiplomaQuizzesForLoggedStudent.DTOS;
+﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetDiplomaQuizzes.DTOS;
 
-namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzes.Requests.GetDiplomaQuizzesForLoggedStudent
+namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetDiplomaQuizzes
 {
     public record GetDiplomaQuizzesQueryRequest(Guid DiplomaId)
         : IRequest<RequestResult<List<GetDiplomaQuizzesDTO>>>;
@@ -30,12 +30,12 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzes.Requests.Ge
 
         public async Task<RequestResult<List<GetDiplomaQuizzesDTO>>> Handle(GetDiplomaQuizzesQueryRequest request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return RequestResult<List<GetDiplomaQuizzesDTO>>
-                .Failure(validationResult.Errors.First().ErrorMessage);
-            }
+            var validationResult = await _validator
+               .ValidateRequestAsync<GetDiplomaQuizzesQueryRequest,
+                List<GetDiplomaQuizzesDTO>>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var Diplomaquizzes = _quizRepository.Get(q => q.DiplomaId == request.DiplomaId)
                 .Select(q => new GetDiplomaQuizzesDTO

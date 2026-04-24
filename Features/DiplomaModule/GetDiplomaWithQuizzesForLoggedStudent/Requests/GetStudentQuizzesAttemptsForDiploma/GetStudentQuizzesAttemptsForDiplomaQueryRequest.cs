@@ -1,6 +1,6 @@
-﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.GetStudentQuizzesAttemptsForDiploma.DTOS;
+﻿using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetStudentQuizzesAttemptsForDiploma.DTOS;
 
-namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Requests.GetStudentQuizzesAttemptsForDiploma
+namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Requests.GetStudentQuizzesAttemptsForDiploma
 {
     public record GetStudentQuizzesAttemptsForDiplomaQueryRequest(Guid DiplomaId, string StudentId)
         : IRequest<RequestResult<List<GetQuizAttemptsDTO>>>;
