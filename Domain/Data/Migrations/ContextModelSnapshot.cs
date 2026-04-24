@@ -393,7 +393,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.ToTable("Quizzes");
                 });
 
-            modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -551,9 +551,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsPasswordResetTokenUsed")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -569,12 +566,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PasswordResetTokenExpiry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PasswordResetTokenHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -802,7 +793,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("ExaminationSystem.Domain.Models.QuizAttempt", "QuizAttempt")
+                    b.HasOne("ExaminationSystem.Domain.Models.Quiz", "Quiz")
                         .WithMany("UserAnswers")
                         .HasForeignKey("QuizAttemptId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -816,7 +807,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Navigation("Question");
 
-                    b.Navigation("QuizAttempt");
+                    b.Navigation("Quiz");
 
                     b.Navigation("SelectedOption");
                 });
@@ -884,7 +875,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Navigation("Diploma");
                 });
 
-            modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
                 {
                     b.HasOne("ExaminationSystem.Domain.Models.Quiz", "Quiz")
                         .WithMany("QuizAttempts")
@@ -1002,7 +993,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Navigation("QuizAttempts");
                 });
 
-            modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
                 {
                     b.Navigation("UserAnswers");
                 });

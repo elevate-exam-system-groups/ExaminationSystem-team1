@@ -124,6 +124,8 @@ namespace ExaminationSystem.Domain.Implementations
         public void AddRange(IEnumerable<T> entities)
          => _dbSet.AddRange(entities);
 
+
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

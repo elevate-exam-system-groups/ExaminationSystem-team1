@@ -1,14 +1,15 @@
-﻿global using ExaminationSystem.Controllers.QuestionController.ViewModels;
+global using ExaminationSystem.Controllers.QuestionController.ViewModels;
 global using ExaminationSystem.Controllers.Shared;
 global using ExaminationSystem.Controllers.Shared.Enums;
 global using ExaminationSystem.Domain.Abstractions;
 global using ExaminationSystem.Domain.Models;
 global using ExaminationSystem.Domain.Models.Enums;
+global using ExaminationSystem.Extensions;
 global using ExaminationSystem.Features.Common;
 global using ExaminationSystem.Features.Common.Enums;
 global using ExaminationSystem.Features.DiplomaModule.Shared.Orchestrators.GetPuplishedDiplomaByIdWithQuizzesOrchestrator.DTOS;
-global using ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetDiplomaQuizCountRequest;
-global using ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetPublishedDiplomaRecord;
+global using ExaminationSystem.Features.DiplomaModule.Shared.Requests;
+global using ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetPublishedDiplomaRecord; // This is a directory/namespace now
 global using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Commands;
 global using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.DTOs;
 global using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Queries;

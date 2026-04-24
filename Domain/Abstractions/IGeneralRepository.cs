@@ -4,13 +4,13 @@ namespace ExaminationSystem.Domain.Abstractions
 {
     public interface IGeneralRepository<T> where T : BaseModel
     {
-        // Read
+
         public IQueryable<T> GetAll();
         public IQueryable<T> GetById(Guid id);
         public IQueryable<T> Get(Expression<Func<T, bool>> expression);
         public IQueryable<T> GetByIdWithTracking(Guid id);
 
-        // Write
+
         public void Add(T entity);
 
         public Guid AddAndReturnId(T entity);

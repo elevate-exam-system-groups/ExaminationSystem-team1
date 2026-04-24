@@ -1,10 +1,11 @@
-﻿using Autofac;
+using Autofac;
 using AutoMapper;
+using ExaminationSystem.Controllers.AttemptController.ViewModels;
 using ExaminationSystem.Controllers.DiplomaController.ViewModels;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Implementations;
+using ExaminationSystem.Features.Account.Shared;
 using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.AuthModule.Shared;
 using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations
@@ -50,6 +51,7 @@ namespace ExaminationSystem.Configurations
                 var config = new MapperConfiguration(cfg =>
                 {
                     cfg.AddProfile<ViewDiplomaQuizzesResponseVMProfile>();
+                    cfg.AddProfile<StartAttemptVMProfile>();
 
                 });
                 return config;

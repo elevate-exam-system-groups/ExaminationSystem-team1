@@ -1,33 +1,36 @@
-﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
-using System.Text.Json;
+using ExaminationSystem.Domain.Models.Enums;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ExaminationSystem.Domain.Models;
 using System.Text.Json.Serialization;
+using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 
 namespace ExaminationSystem.Domain.Data
 {
     public static class ContextSeed
     {
-        private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+        public static async Task SeedAsync(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            Converters = { new JsonStringEnumConverter() },
-            PropertyNameCaseInsensitive = true
-        };
-        public static async Task<string> SeedUserAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            #region Seed roles
+            await SeedRolesAsync(roleManager);
+            await SeedUserAsync(userManager);
+            await SeedDataAsync(context);
+        }
 
-            string[] roles = { "Admin", "Student" };
-            foreach (var role in roles)
+        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.Roles.Any())
             {
-                if (!await roleManager.RoleExistsAsync(role))
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                await roleManager.CreateAsync(new IdentityRole(Role.Admin.ToString()));
+                await roleManager.CreateAsync(new IdentityRole(Role.Student.ToString()));
             }
+        }
 
-            #endregion
-
-            #region Seed Admin  
-            if (await userManager.FindByEmailAsync("SuperAdmin@gmail.com") is null)
+        private static async Task SeedUserAsync(UserManager<User> userManager)
+        {
+            if (!userManager.Users.Any())
             {
-                var admin = new User
+                // Seed Admin
+                var admin = new User()
                 {
                     FullName = "SuperAdmin",
                     Email = "SuperAdmin@gmail.com",
@@ -36,152 +39,112 @@ namespace ExaminationSystem.Domain.Data
                     accountStatus = AccountStatus.Active,
                     EmailConfirmed = true
                 };
-                var result = await userManager.CreateAsync(admin, "Abc@123");
+
+                var result = await userManager.CreateAsync(admin, "P@ssw0rd123!");
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, "Admin");
+                    await userManager.AddToRoleAsync(admin, Role.Admin.ToString());
                 }
-            }
-            #endregion
 
-            #region Seed Student
-            //if (await userManager.FindByEmailAsync("student@gmail.com") is null)
-            //{
-            //    var student = new User
-            //    {
-            //        Id = "a0000001-0000-0000-0000-000000000001",
-            //        FullName = "Test Student",
-            //        Email = "student@gmail.com",
-            //        UserName = "student@gmail.com",
-            //        PhoneNumber = "0123456789",
-            //        accountStatus = AccountStatus.Active,
-            //        EmailConfirmed = true
-            //    };
-            //    var result = await userManager.CreateAsync(student, "Abc@123");
-            //    if (result.Succeeded)
-            //    {
-            //        await userManager.AddToRoleAsync(student, "Student");
-            //    }
-            //}
-            string studentId = "";
-            var existingStudent = await userManager.FindByEmailAsync("student@gmail.com");
-            if (existingStudent is null)
-            {
-                var student = new User
+                // Seed Student
+                var student = new User()
                 {
-                    FullName = "Test Student",
+                    FullName = "Sample Student",
                     Email = "student@gmail.com",
-                    UserName = "student@gmail.com",
+                    UserName = "student",
+                    PhoneNumber = "01122334455",
                     accountStatus = AccountStatus.Active,
                     EmailConfirmed = true
                 };
-                var result = await userManager.CreateAsync(student, "Abc@123");
+
+                result = await userManager.CreateAsync(student, "P@ssw0rd123!");
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(student, "Student");
-                    studentId = student.Id; // الـ Id الحقيقي بعد الـ create
+                    await userManager.AddToRoleAsync(student, Role.Student.ToString());
                 }
             }
-            else
-            {
-                studentId = existingStudent.Id;
-            }
-
-            return studentId;
-            #endregion
         }
 
-        public static async Task SeedDataAsync(Context context, string studentId)
+        private static async Task SeedDataAsync(Context context)
         {
-            #region Diplomas
-
             if (!context.Diplomas.Any())
             {
-                var data = File.ReadAllText("Domain/Data/DataSeed/Diplomas.json");
-                var diplomas = JsonSerializer.Deserialize<List<Diploma>>(data, _jsonOptions);
-                if (diplomas?.Count > 0)
+                var diplomas = new List<Diploma>
                 {
-                    //foreach (var diploma in diplomas)
-                    //{
-                    //    await context.Diplomas.AddRangeAsync(diploma);
-                    //}
-                    await context.Diplomas.AddRangeAsync(diplomas);
-                    await context.SaveChangesAsync();
-                }
-            }
-            #endregion
+                    new Diploma
+                    {
+                        Title = ".NET Web Development",
+                        Description = "Comprehensive track for building modern web apps with ASP.NET Core.",
+                        Status = DiplomaStatus.Published,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy = "System"
+                    },
+                    new Diploma
+                    {
+                        Title = "Frontend Mastery with Angular",
+                        Description = "Master modern frontend development using Angular.",
+                        Status = DiplomaStatus.Published,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy = "System"
+                    }
+                };
 
-            #region Quizzes
-            if (!context.Quizzes.Any())
-            {
-                var data = File.ReadAllText("Domain/Data/DataSeed/Quizzes.json");
-                var Quizzes = JsonSerializer.Deserialize<List<Quiz>>(data, _jsonOptions);
-                if (Quizzes?.Count > 0)
+                context.Diplomas.AddRange(diplomas);
+                await context.SaveChangesAsync();
+
+                // Seed Quizzes for the first diploma
+                var quiz = new Quiz
                 {
-                    //foreach (var quiz in Quizzes)
-                    //{
-                    //    await context.Quizzes.AddRangeAsync(quiz);
-                    //}
-                    await context.Quizzes.AddRangeAsync(Quizzes);
-                    await context.SaveChangesAsync();
-                }
-            }
-            #endregion
+                    DiplomaId = diplomas[0].Id,
+                    Title = "C# Fundamentals",
+                    Instructions = "Answer all questions. Passing score is 60%.",
+                    PassScore = 60,
+                    DurationInMinutes = 30,
+                    Status = QuizStatus.Published,
+                    PublishedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = "System"
+                };
 
-            #region Questions
-            if (!context.Questions.Any())
-            {
-                var data = File.ReadAllText("Domain/Data/DataSeed/Questions.json");
-                var Questions = JsonSerializer.Deserialize<List<Question>>(data, _jsonOptions);
-                if (Questions?.Count > 0)
+                context.Quizzes.Add(quiz);
+                await context.SaveChangesAsync();
+
+                // Seed Questions and Options
+                var question1 = new Question
                 {
-                    //foreach (var question in Questions)
-                    //{
-                    //    await context.Questions.AddRangeAsync(question);
-                    //}
-                    await context.Questions.AddRangeAsync(Questions);
-                    await context.SaveChangesAsync();
-                }
-            }
-            #endregion
+                    QuizId = quiz.Id,
+                    Text = "What is the base class for all types in C#?",
+                    OrderIndex = 1,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = "System"
+                };
 
-            #region Options
-            if (!context.Options.Any())
-            {
-                var data = File.ReadAllText("Domain/Data/DataSeed/Options.json");
-                var Options = JsonSerializer.Deserialize<List<Option>>(data, _jsonOptions);
-                if (Options?.Count > 0)
+                var question2 = new Question
                 {
-                    //foreach (var option in Options)
-                    //{
-                    //    await context.Options.AddRangeAsync(option);
-                    //}
-                    await context.Options.AddRangeAsync(Options);
-                    await context.SaveChangesAsync();
-                }
-            }
-            #endregion
+                    QuizId = quiz.Id,
+                    Text = "Which keyword is used to define a constant in C#?",
+                    OrderIndex = 2,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = "System"
+                };
 
-            #region Enrollments
+                context.Questions.AddRange(question1, question2);
+                await context.SaveChangesAsync();
 
-            if (!context.Enrollments.Any())
-            {
-                var enrollments = new List<Enrollment>
-        {
-            new Enrollment
-            {
-                Id = Guid.Parse("e1000000-0000-0000-0000-000000000001"),
-                StudentId = studentId,
-                DiplomaId = Guid.Parse("d1000000-0000-0000-0000-000000000001"),
-                EnrollmentDate = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow
-            }
-        };
-                await context.Enrollments.AddRangeAsync(enrollments);
+                var options = new List<Option>
+                {
+                    new Option { QuestionId = question1.Id, Text = "System.Object", IsCorrect = true, CreatedBy = "System" },
+                    new Option { QuestionId = question1.Id, Text = "System.Base", IsCorrect = false, CreatedBy = "System" },
+                    new Option { QuestionId = question1.Id, Text = "System.Root", IsCorrect = false, CreatedBy = "System" },
+                    
+                    new Option { QuestionId = question2.Id, Text = "const", IsCorrect = true, CreatedBy = "System" },
+                    new Option { QuestionId = question2.Id, Text = "static", IsCorrect = false, CreatedBy = "System" },
+                    new Option { QuestionId = question2.Id, Text = "readonly", IsCorrect = false, CreatedBy = "System" }
+                };
+
+                context.Options.AddRange(options);
                 await context.SaveChangesAsync();
             }
-            #endregion
-
         }
     }
 }

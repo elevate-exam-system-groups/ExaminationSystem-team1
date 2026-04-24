@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
+using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExaminationSystem.Domain.Models
@@ -16,9 +16,9 @@ namespace ExaminationSystem.Domain.Models
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
 
-        public string? PasswordResetTokenHash { get; set; }
-        public DateTime? PasswordResetTokenExpiry { get; set; }
-        public bool IsPasswordResetTokenUsed { get; set; }
+        // Removed redundant properties: 
+        // PasswordResetTokenHash, PasswordResetTokenExpiry, IsPasswordResetTokenUsed
+        // These are handled by the PasswordResetTokens collection below.
 
         public DateTime? ForgotPasswordLockoutEnd { get; set; }
         public int ForgotPasswordAttempts { get; set; }

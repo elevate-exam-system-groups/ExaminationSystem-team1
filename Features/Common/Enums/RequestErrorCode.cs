@@ -12,12 +12,15 @@
         UpdateSuccess = 200,
         EmailAlreadyRegistered = 209,
         Forbidden = 403,
+        NotFound = 404,
         Gone = 410,
+        Conflict = 409,
+
         UnprocessableEntity = 421,
         ValidationError = 422,
         PasswordPolicyViolation = 422,
-        NotFound = 404,
-        Conflict = 409,
+        QuizHasEnrollments = 430,
+
         InternalServerError = 500,
 
         UserNotFound,

@@ -6,7 +6,7 @@
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public CheckActiveAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-          =>   _attemptRepo = attemptRepo;
+          => _attemptRepo = attemptRepo;
 
         public async Task<RequestResult<ActiveAttemptsDto>> Handle(
             CheckActiveAttemptsQuery request, CancellationToken ct)
@@ -25,7 +25,7 @@
                     RequestErrorCode.Conflict);
             }
 
-            var result = new ActiveAttemptsDto(request.QuizId, false,0);
+            var result = new ActiveAttemptsDto(request.QuizId, false, 0);
 
             return RequestResult<ActiveAttemptsDto>.Success(result);
         }

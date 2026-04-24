@@ -16,7 +16,12 @@ namespace ExaminationSystem
 
             #region Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -51,10 +56,7 @@ namespace ExaminationSystem
 
                 var userManager = Services.GetRequiredService<UserManager<User>>();
                 var roleManager = Services.GetRequiredService<RoleManager<IdentityRole>>();
-                //await ContextSeed.SeedUserAsync(userManager, roleManager); // Seed Data
-                var studentId = await ContextSeed.SeedUserAsync(userManager, roleManager);
-                await ContextSeed.SeedDataAsync(context, studentId);
-                //await ContextSeed.SeedDataAsync(context); // Seed Data
+                await ContextSeed.SeedAsync(context, userManager, roleManager); // Seed Data
             }
             catch (Exception ex)
             {
