@@ -17,9 +17,9 @@
     public class CheckInProgressQuizAttemptStatusQuerRequestHandler
         : IRequestHandler<CheckInProgressQuizAttemptStatusQuerRequest, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
         private readonly IValidator<CheckInProgressQuizAttemptStatusQuerRequest> _validator;
-        public CheckInProgressQuizAttemptStatusQuerRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CheckInProgressQuizAttemptStatusQuerRequest> validator)
+        public CheckInProgressQuizAttemptStatusQuerRequestHandler(IGeneralRepository<Quiz> quizAttemptsRepository, IValidator<CheckInProgressQuizAttemptStatusQuerRequest> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;

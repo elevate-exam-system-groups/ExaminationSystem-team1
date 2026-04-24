@@ -9,7 +9,6 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators
 {
     public record StartQuizAttemptOrchestrator(Guid QuizId, string StudentId)
         : IRequest<RequestResult<StartAttemptDTO>>;
-
     public class StartQuizAttemptOrchestratorValidator : AbstractValidator<StartQuizAttemptOrchestrator>
     {
         public StartQuizAttemptOrchestratorValidator()
@@ -70,6 +69,16 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators
                        $"{InProgressAttempt.Data.Value}", RequestErrorCode.Conflict);
             }
 
+            var metaData = await _mediator
+               .Send(new GetQuizMetaDataQuery(request.QuizId), cancellationToken);
+
+            if (!metaData.IsSuccess)
+            {
+                return RequestResult<StartAttemptDTO>
+                    .Failure(metaData.Message, metaData.requestErrorCode);
+            }
+
+
             var CreateAttemptResult = await _mediator
             .Send(new CreateAttemptRecordCommand(request.QuizId, request.StudentId), cancellationToken);
 
@@ -79,10 +88,28 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators
                     .Failure(CreateAttemptResult.Message, CreateAttemptResult.requestErrorCode);
             }
 
-            var metaData = await _mediator
-                .Send(new GetQuizAttemptMetaData(CreateAttemptResult.Data), cancellationToken);
+            var shuffledQuestions = metaData.Data.Questions
+                        .OrderBy(_ => Guid.NewGuid())
+                        .Select(q => q with
+                        {
+                            Options = q.Options
+                           .OrderBy(_ => Guid.NewGuid())
+                           .ToList()
+                        })
+                           .ToList();
 
-            throw new NotImplementedException();
+            var shuffledMeta = metaData.Data with
+            {
+                Questions = shuffledQuestions
+            };
+
+            var startAttemptDTO = new StartAttemptDTO
+            (
+                CreateAttemptResult.Data,
+                shuffledMeta
+            );
+
+            return RequestResult<StartAttemptDTO>.Success(startAttemptDTO);
         }
     }
 }

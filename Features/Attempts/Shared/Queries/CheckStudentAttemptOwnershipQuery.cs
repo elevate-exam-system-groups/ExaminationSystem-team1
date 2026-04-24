@@ -18,9 +18,9 @@
     public class CheckStudentAttemptOwnershipQueryHandler
         : IRequestHandler<CheckStudentAttemptOwnershipQuery, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
         private readonly IValidator<CheckStudentAttemptOwnershipQuery> _validator;
-        public CheckStudentAttemptOwnershipQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CheckStudentAttemptOwnershipQuery> validator)
+        public CheckStudentAttemptOwnershipQueryHandler(IGeneralRepository<Quiz> quizAttemptsRepository, IValidator<CheckStudentAttemptOwnershipQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;

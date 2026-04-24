@@ -15,9 +15,9 @@
     public class CanStudentAttemptQuizQueryHandler
         : IRequestHandler<CanStudentAttemptQuizQuery, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
         private readonly IValidator<CanStudentAttemptQuizQuery> _validator;
-        public CanStudentAttemptQuizQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CanStudentAttemptQuizQuery> validator)
+        public CanStudentAttemptQuizQueryHandler(IGeneralRepository<Quiz> quizAttemptsRepository, IValidator<CanStudentAttemptQuizQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;

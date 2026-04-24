@@ -4,8 +4,8 @@
             : IRequestHandler<CheckActiveAttemptsQuery, RequestResult<ActiveAttemptsDto>>
     {
 
-        private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
-        public CheckActiveAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
+        private readonly IGeneralRepository<Quiz> _attemptRepo;
+        public CheckActiveAttemptsQueryHandler(IGeneralRepository<Quiz> attemptRepo)
           =>   _attemptRepo = attemptRepo;
 
         public async Task<RequestResult<ActiveAttemptsDto>> Handle(

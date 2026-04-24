@@ -19,9 +19,9 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
     public class GetLastAttemptScoreForLoggedStudentQueryRequestHandler
         : IRequestHandler<GetLastAttemptScoreForLoggedStudentQueryRequest, RequestResult<decimal?>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
 
-        public GetLastAttemptScoreForLoggedStudentQueryRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository)
+        public GetLastAttemptScoreForLoggedStudentQueryRequestHandler(IGeneralRepository<Quiz> quizAttemptsRepository)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
         }

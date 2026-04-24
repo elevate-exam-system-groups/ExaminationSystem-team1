@@ -5,6 +5,6 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators.DTO
     public record StartAttemptDTO
     (
         Guid AttemptId,
-        AttemptMetaDataDTO metaData
+        QuizMetaDataDTO metaData
     );
 }

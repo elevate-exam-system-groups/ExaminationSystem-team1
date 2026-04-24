@@ -14,9 +14,9 @@
     public class IsAttemptSubmittedQueryHandler
         : IRequestHandler<IsAttemptSubmittedQuery, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
         private readonly IValidator<IsAttemptSubmittedQuery> _validator;
-        public IsAttemptSubmittedQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<IsAttemptSubmittedQuery> validator)
+        public IsAttemptSubmittedQueryHandler(IGeneralRepository<Quiz> quizAttemptsRepository, IValidator<IsAttemptSubmittedQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;

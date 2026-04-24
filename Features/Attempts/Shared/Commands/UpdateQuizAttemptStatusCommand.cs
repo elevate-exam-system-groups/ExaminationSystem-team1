@@ -17,9 +17,9 @@
     public class UpdateQuizAttemptStatusCommandHandler
         : IRequestHandler<UpdateQuizAttemptStatusCommand, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
         private readonly IValidator<UpdateQuizAttemptStatusCommand> _validator;
-        public UpdateQuizAttemptStatusCommandHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<UpdateQuizAttemptStatusCommand> validator)
+        public UpdateQuizAttemptStatusCommandHandler(IGeneralRepository<Quiz> quizAttemptsRepository, IValidator<UpdateQuizAttemptStatusCommand> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;
@@ -45,14 +45,14 @@
                 return RequestResult<bool>.Failure("Quiz attemptExists not found.", RequestErrorCode.NotFound);
             }
 
-            var attempt = new QuizAttempt
+            var attempt = new Quiz
             {
                 Id = request.AttemptId,
                 Status = request.Status,
                 SubmittedAt = request.Status == QuizAttemptStatus.Submitted ? DateTime.UtcNow : null
             };
 
-            _quizAttemptsRepository.UpdateInclude(attempt, nameof(QuizAttempt.Status), nameof(QuizAttempt.SubmittedAt));
+            _quizAttemptsRepository.UpdateInclude(attempt, nameof(Quiz.Status), nameof(Quiz.SubmittedAt));
 
             await _quizAttemptsRepository.SaveChangesAsync();
 

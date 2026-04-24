@@ -9,10 +9,10 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Commands
     public class CreateAttemptRecordCommandHandler
         : IRequestHandler<CreateAttemptRecordCommand, RequestResult<Guid>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptRepository;
         private readonly IMediator _mediator;
 
-        public CreateAttemptRecordCommandHandler(IGeneralRepository<QuizAttempt> quizAttemptRepository, IMediator mediator)
+        public CreateAttemptRecordCommandHandler(IGeneralRepository<Quiz> quizAttemptRepository, IMediator mediator)
         {
             _quizAttemptRepository = quizAttemptRepository;
             _mediator = mediator;
@@ -27,7 +27,7 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Commands
                 return RequestResult<Guid>
                     .Failure(durationResult.Message, durationResult.requestErrorCode);
 
-            Guid newAttemptId = _quizAttemptRepository.AddAndReturnId(new QuizAttempt
+            Guid newAttemptId = _quizAttemptRepository.AddAndReturnId(new Quiz
             {
                 Id = Guid.NewGuid(),
                 QuizId = request.QuizId,

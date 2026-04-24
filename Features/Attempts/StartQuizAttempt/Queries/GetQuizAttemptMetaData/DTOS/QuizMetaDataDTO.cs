@@ -1,6 +1,6 @@
 ﻿namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Queries.GetQuizAttemptMetaData.DTOS
 {
-    public record AttemptMetaDataDTO
+    public record QuizMetaDataDTO
     (
       Guid DiplomaId,
       string QuizTitle,

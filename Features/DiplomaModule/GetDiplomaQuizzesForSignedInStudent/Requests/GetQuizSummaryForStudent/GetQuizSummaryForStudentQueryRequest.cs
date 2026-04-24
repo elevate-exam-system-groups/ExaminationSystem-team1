@@ -22,11 +22,11 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
     public class GetQuizSummaryForStudentQueryRequestHandler
     : IRequestHandler<GetQuizSummaryForStudentQueryRequest, RequestResult<GetQuizSummaryDTO>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _quizAttemptRepository;
+        private readonly IGeneralRepository<Quiz> _quizAttemptRepository;
         private readonly IValidator<GetQuizSummaryForStudentQueryRequest> _validator;
 
         public GetQuizSummaryForStudentQueryRequestHandler(
-            IGeneralRepository<QuizAttempt> quizAttemptRepository,
+            IGeneralRepository<Quiz> quizAttemptRepository,
             IValidator<GetQuizSummaryForStudentQueryRequest> validator)
         {
             _quizAttemptRepository = quizAttemptRepository;
