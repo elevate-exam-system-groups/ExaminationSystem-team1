@@ -5,32 +5,32 @@ namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
     public class TransactionMiddleware
     {
-        Context _context;
-        public TransactionMiddleware(Context context)
+        RequestDelegate _next;
+        public TransactionMiddleware(RequestDelegate next)
         {
-            _context = context;
+            _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
+        public async Task InvokeAsync(HttpContext httpContext, Context context)
         {
             if (!httpContext.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
             {
                 IDbContextTransaction transaction = default;
-
                 try
                 {
-                    transaction = _context.Database.BeginTransaction();
-
-                    await next(httpContext);
-
-                    transaction.Commit();
+                    transaction = await context.Database.BeginTransactionAsync();
+                    await _next(httpContext);
+                    await transaction.CommitAsync();
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
-
+                    await transaction.RollbackAsync();
                     throw;
                 }
+            }
+            else
+            {
+                await _next(httpContext);
             }
         }
     }

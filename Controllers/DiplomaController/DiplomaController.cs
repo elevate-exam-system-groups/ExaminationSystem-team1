@@ -4,8 +4,10 @@ using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
 using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.DTOS;
 using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.Request;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent;
+using ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.Orchestrators;
 using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
+
+
 
 namespace ExaminationSystem.Controllers.DiplomaController
 {
@@ -99,10 +101,10 @@ namespace ExaminationSystem.Controllers.DiplomaController
         }
 
         [HttpGet]
-        public async Task<ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>> GetDiplomaQuizzes(Guid diplomaRequestID)
+        public async Task<ResponseViewModel<List<GetDiplomaQuizzesForSignedInStudenResponseVM>>> GetDiplomaQuizzesForLoggedStudent(Guid diplomaRequestID)
         {
             var requestResponse = await _mediator
-                .Send(new GetDiplomaQuizzesForSignedInStudentQueryRequest(diplomaRequestID));
+                .Send(new GetDiplomaQuizzesForLoggedStudentOrchestrator(diplomaRequestID));
 
             if (!requestResponse.IsSuccess)
             {

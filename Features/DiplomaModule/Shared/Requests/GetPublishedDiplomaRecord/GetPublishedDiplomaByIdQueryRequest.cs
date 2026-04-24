@@ -1,8 +1,9 @@
-﻿using ExaminationSystem.Features.DiplomaModule.GetPublishedDiplomaRecord.DTOS;
+﻿using ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetPublishedDiplomaRecord.DTOS;
 
-namespace ExaminationSystem.Features.DiplomaModule.GetPublishedDiplomaRecord
+namespace ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetPublishedDiplomaRecord
 {
-    public record GetPublishedDiplomaByIdQueryRequest(Guid DiplomaId) : IRequest<RequestResult<GetPublishedDiplomaByIDResponseDTO>>;
+    public record GetPublishedDiplomaByIdQueryRequest(Guid DiplomaId)
+        : IRequest<RequestResult<GetPublishedDiplomaByIdDTO>>;
 
     public class GetDiplomaByIdQueryRequestValidator : AbstractValidator<GetPublishedDiplomaByIdQueryRequest>
     {
@@ -13,7 +14,8 @@ namespace ExaminationSystem.Features.DiplomaModule.GetPublishedDiplomaRecord
         }
     }
 
-    public class GetDiplomaByIdQueryHandler : IRequestHandler<GetPublishedDiplomaByIdQueryRequest, RequestResult<GetPublishedDiplomaByIDResponseDTO>>
+    public class GetDiplomaByIdQueryHandler
+        : IRequestHandler<GetPublishedDiplomaByIdQueryRequest, RequestResult<GetPublishedDiplomaByIdDTO>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
         private readonly IValidator<GetPublishedDiplomaByIdQueryRequest> _validator;
@@ -22,7 +24,7 @@ namespace ExaminationSystem.Features.DiplomaModule.GetPublishedDiplomaRecord
             _diplomaRepository = diplomaRepository;
             _validator = validator;
         }
-        public async Task<RequestResult<GetPublishedDiplomaByIDResponseDTO>> Handle(GetPublishedDiplomaByIdQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<GetPublishedDiplomaByIdDTO>> Handle(GetPublishedDiplomaByIdQueryRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
@@ -30,9 +32,10 @@ namespace ExaminationSystem.Features.DiplomaModule.GetPublishedDiplomaRecord
                 var validationErrors = string.Join(", ",
                                             validationResult.Errors.Select(e => e.ErrorMessage));
 
-                return RequestResult<GetPublishedDiplomaByIDResponseDTO>
+                return RequestResult<GetPublishedDiplomaByIdDTO>
                        .Failure(validationErrors, RequestErrorCode.ValidationError);
             }
+
             var diploma = _diplomaRepository
                                          .Get(d => d.Id == request.DiplomaId && d.Status == DiplomaStatus.Published)
                                          .Select(d => new
@@ -41,23 +44,21 @@ namespace ExaminationSystem.Features.DiplomaModule.GetPublishedDiplomaRecord
                                              d.Title,
                                              d.Description,
                                              d.Status,
-                                             QuizzesCount = d.Quizzes.Count(q => !q.isDeleted)
                                          })
                                          .FirstOrDefault();
 
             if (diploma is null)
             {
-                return RequestResult<GetPublishedDiplomaByIDResponseDTO>
+                return RequestResult<GetPublishedDiplomaByIdDTO>
                        .Failure("Diploma not found", RequestErrorCode.NotFound);
             }
-            var responseDTO = new GetPublishedDiplomaByIDResponseDTO(
+            var responseDTO = new GetPublishedDiplomaByIdDTO(
                 diploma.Id,
                 diploma.Title,
                 diploma.Description,
-                diploma.Status,
-                diploma.QuizzesCount);
+                diploma.Status);
 
-            return RequestResult<GetPublishedDiplomaByIDResponseDTO>
+            return RequestResult<GetPublishedDiplomaByIdDTO>
                    .Success(responseDTO, "Diploma retrieved successfully", RequestErrorCode.Success);
         }
     }

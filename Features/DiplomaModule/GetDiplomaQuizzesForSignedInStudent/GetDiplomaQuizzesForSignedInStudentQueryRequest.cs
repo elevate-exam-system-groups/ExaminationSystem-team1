@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent
 {
-    public record GetDiplomaQuizzesForSignedInStudentQueryRequest(Guid DiplomaId) : IRequest<RequestResult<List<ViewDiplomaQuizzesResponseDTO>>>;
+    public record GetDiplomaQuizzesForSignedInStudentQueryRequest(Guid DiplomaId) : IRequest<RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>>;
 
     public class GetDiplomaQuizzesForSignedInStudentQueryRequestValidator : AbstractValidator<GetDiplomaQuizzesForSignedInStudentQueryRequest>
     {
@@ -14,7 +14,7 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
         }
     }
 
-    public class GetDiplomaQuizzesForSignedInStudentQueryRequestHandler : IRequestHandler<GetDiplomaQuizzesForSignedInStudentQueryRequest, RequestResult<List<ViewDiplomaQuizzesResponseDTO>>>
+    public class GetDiplomaQuizzesForSignedInStudentQueryRequestHandler : IRequestHandler<GetDiplomaQuizzesForSignedInStudentQueryRequest, RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
         private readonly IGeneralRepository<Quiz> _quizRepository;
@@ -32,41 +32,33 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
         }
 
 
-        public async Task<RequestResult<List<ViewDiplomaQuizzesResponseDTO>>> Handle(GetDiplomaQuizzesForSignedInStudentQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>> Handle(GetDiplomaQuizzesForSignedInStudentQueryRequest request, CancellationToken cancellationToken)
         {
             var diploma = _diplomaRepository
                 .Get(d => d.Id == request.DiplomaId && d.Status == DiplomaStatus.Published);
 
             if (diploma == null || !diploma.Any())
             {
-                return RequestResult<List<ViewDiplomaQuizzesResponseDTO>>
+                return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
                     .Failure("Diploma not found or not published", RequestErrorCode.NotFound);
             }
             var studentID = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            bool isEnrolled = diploma.Any((d => d.Enrollments.Any(e => e.StudentId == studentID)));
+            bool isEnrolled = diploma.Any(d => d.Enrollments.Any(e => e.StudentId == studentID));
 
             if (!isEnrolled)
             {
-                return RequestResult<List<ViewDiplomaQuizzesResponseDTO>>
+                return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
                     .Failure("Student is not enrolled in this diploma", RequestErrorCode.Forbidden);
             }
 
             var Quizzes = _quizRepository
                 .Get(q => q.DiplomaId == request.DiplomaId && q.Status == QuizStatus.Published);
 
-            //var quizID = Quizzes.Select(q => q.Id)   ;
-
             var attemptsQuery = _studentQuizAttemptRepository
                 .Get(qa => qa.StudentId == studentID);
 
-            //var lastScore = _studentQuizAttemptRepository
-            //    .Get(qa => qa.StudentId == studentID && qa.QuizId == quizID.FirstOrDefault())
-            //    .OrderByDescending(qa => qa.SubmittedAt)
-            //    .Select(qa => qa.Score)
-            //    .FirstOrDefault();
-
-            var response = await Quizzes.Select(q => new ViewDiplomaQuizzesResponseDTO
+            var response = await Quizzes.Select(q => new GetDiplomaQuizzesForLoggedStudentDTO
             (
                q.Id,
                q.Title,
@@ -85,7 +77,7 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
             )).ToListAsync(cancellationToken);
 
 
-            return RequestResult<List<ViewDiplomaQuizzesResponseDTO>>.Success(response);
+            return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>.Success(response);
         }
     }
 }

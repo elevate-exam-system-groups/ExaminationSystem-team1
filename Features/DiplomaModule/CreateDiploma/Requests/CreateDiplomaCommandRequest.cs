@@ -1,6 +1,5 @@
 ﻿using ExaminationSystem.Features.DiplomaModule.CreateDiploma.DTOS;
 
-
 namespace ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests
 {
     #region Request

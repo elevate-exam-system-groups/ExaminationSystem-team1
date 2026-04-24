@@ -1,6 +1,6 @@
 ﻿namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInStudent.DTOS
 {
-    public record ViewDiplomaQuizzesResponseDTO
+    public record GetDiplomaQuizzesForLoggedStudentDTO
     (
         Guid QuizId,
         string QuizTitle,

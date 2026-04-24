@@ -1,5 +1,4 @@
-﻿
-namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
+﻿namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
 {
     public record DeleteDiplomaCommandRequest(Guid DiplomaId) : IRequest<RequestResult<bool>> { }
 
@@ -20,13 +19,11 @@ namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
     public class DeleteDiplomaCommandHandler : IRequestHandler<DeleteDiplomaCommandRequest, RequestResult<bool>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
-        private readonly IGeneralRepository<Enrollment> _enrollmentRepository;
         private readonly IValidator<DeleteDiplomaCommandRequest> _Validator;
 
-        public DeleteDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository, IGeneralRepository<Enrollment> enrollmentRepository, IValidator<DeleteDiplomaCommandRequest> validator)
+        public DeleteDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository, IValidator<DeleteDiplomaCommandRequest> validator)
         {
             _diplomaRepository = diplomaRepository;
-            _enrollmentRepository = enrollmentRepository;
             _Validator = validator;
         }
         public async Task<RequestResult<bool>> Handle(DeleteDiplomaCommandRequest request, CancellationToken cancellationToken)
@@ -48,19 +45,9 @@ namespace ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests
                 return RequestResult<bool>.Failure("Diploma not found", RequestErrorCode.NotFound);
             }
 
-            #region Check Using diploma repo
-            //var hasEnrollments = _diplomaRepository.GetById(request.DiplomaId)
-            //                                   .SelectMany(d => d.Enrollments)
-            //                                   .Any();
-            // if (hasEnrollments)
-            //{
-            //    return RequestResult<bool>.Failure("Cannot delete diploma with existing enrollments", 
-            //                                        RequestErrorCode.Conflict);
-            //} 
-            #endregion
-
-            var hasEnrollments = _enrollmentRepository.Get(e => e.DiplomaId == request.DiplomaId).Any();
-
+            var hasEnrollments = _diplomaRepository.Get(d => d.Id == request.DiplomaId)
+                                               .SelectMany(d => d.Enrollments)
+                                               .Any();
             if (hasEnrollments)
             {
                 return RequestResult<bool>.Failure("Cannot delete diploma with existing enrollments",
