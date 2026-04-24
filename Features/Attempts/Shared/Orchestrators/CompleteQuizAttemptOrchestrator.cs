@@ -4,23 +4,43 @@ using ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Requests.Commands;
 using ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Requests.Queries.GetAttemptResult;
 
 
-namespace ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators.ManageSubmission
+namespace ExaminationSystem.Features.Attempts.Shared.Orchestrators
 {
-    public record FinalizeAttemptSubmissionOrchestrator(Guid AttemptId, QuizAttemptStatus Status)
+    public record CompleteQuizAttemptOrchestrator(Guid AttemptId, QuizAttemptStatus Status)
         : IRequest<RequestResult<SubmitAttemptResultDto>>;
 
-    public class FinalizeAttemptSubmissionOrchestratorHandler
-        : IRequestHandler<FinalizeAttemptSubmissionOrchestrator, RequestResult<SubmitAttemptResultDto>>
+    public class CompleteQuizAttemptOrchestratorValidator
+        : AbstractValidator<CompleteQuizAttemptOrchestrator>
+    {
+        public CompleteQuizAttemptOrchestratorValidator()
+        {
+            RuleFor(x => x.AttemptId)
+                .NotEmpty().WithMessage("Attempt ID is required");
+            RuleFor(x => x.Status)
+                .IsInEnum().WithMessage("Invalid attempt status");
+        }
+    }
+
+    public class CompleteQuizAttemptOrchestratorHandler
+        : IRequestHandler<CompleteQuizAttemptOrchestrator, RequestResult<SubmitAttemptResultDto>>
     {
         private readonly IMediator _mediator;
+        private readonly IValidator<CompleteQuizAttemptOrchestrator> _validator;
 
-        public FinalizeAttemptSubmissionOrchestratorHandler(IMediator mediator)
+        public CompleteQuizAttemptOrchestratorHandler(IMediator mediator, IValidator<CompleteQuizAttemptOrchestrator> validator)
         {
             _mediator = mediator;
+            _validator = validator;
         }
 
-        public async Task<RequestResult<SubmitAttemptResultDto>> Handle(FinalizeAttemptSubmissionOrchestrator request, CancellationToken cancellationToken)
+        public async Task<RequestResult<SubmitAttemptResultDto>> Handle(CompleteQuizAttemptOrchestrator request, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator
+                .ValidateRequestAsync<CompleteQuizAttemptOrchestrator, SubmitAttemptResultDto>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
+
             var updateResult = await _mediator
                .Send(new UpdateQuizAttemptStatusCommand(request.AttemptId, request.Status), cancellationToken);
 

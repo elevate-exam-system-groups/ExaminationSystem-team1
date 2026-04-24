@@ -1,6 +1,11 @@
-﻿namespace ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Orchestrators
+﻿using ExaminationSystem.Features.Attempts.Shared.Orchestrators;
+using ExaminationSystem.Features.Attempts.Shared.Queries;
+using ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Commands;
+using ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Queries;
+
+namespace ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Orchestrators
 {
-    public record AnswerQuestionOrchestrator(Guid attemptId, Guid QuestionId, Guid SelectedOptionId)
+    public record AnswerQuestionOrchestrator(string StudentId, Guid attemptId, Guid QuestionId, Guid SelectedOptionId)
         : IRequest<RequestResult<bool>>;
 
     public class AnswerQuestionOrchestratorValidator : AbstractValidator<AnswerQuestionOrchestrator>
@@ -11,95 +16,118 @@
                 .NotEmpty().WithMessage("QuestionId is required");
             RuleFor(x => x.SelectedOptionId)
                 .NotEmpty().WithMessage("SelectedOptionId is required");
+            RuleFor(x => x.attemptId)
+                .NotEmpty().WithMessage("AttemptId is required");
+            RuleFor(x => x.StudentId)
+                .NotEmpty().WithMessage("StudentId is required");
         }
 
     }
 
 
-    //public class AnswerQuestionOrchestratorHandler
-    //    : IRequestHandler<AnswerQuestionOrchestrator, RequestResult<bool>>
-    //{
-    //    private readonly IMediator _mediator;
-    //    private readonly IValidator<AnswerQuestionOrchestrator> _validator;
+    public class AnswerQuestionOrchestratorHandler
+        : IRequestHandler<AnswerQuestionOrchestrator, RequestResult<bool>>
+    {
+        private readonly IMediator _mediator;
+        private readonly IValidator<AnswerQuestionOrchestrator> _validator;
 
-    //    public AnswerQuestionOrchestratorHandler(IMediator mediator, IValidator<AnswerQuestionOrchestrator> validator)
-    //    {
-    //        _mediator = mediator;
-    //        _validator = validator;
-    //    }
+        public AnswerQuestionOrchestratorHandler(IMediator mediator, IValidator<AnswerQuestionOrchestrator> validator)
+        {
+            _mediator = mediator;
+            _validator = validator;
+        }
 
-    //    public async Task<RequestResult<bool>> Handle(AnswerQuestionOrchestrator request, CancellationToken cancellationToken)
-    //    {
-    //        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-    //        if (!validationResult.IsValid)
-    //        {
-    //            var validationErrors = string
-    //                .Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-    //            return RequestResult<bool>
-    //                .Failure(validationErrors, RequestErrorCode.ValidationError);
-    //        }
+        public async Task<RequestResult<bool>> Handle(AnswerQuestionOrchestrator request, CancellationToken cancellationToken)
+        {
+            var validationResult = await _validator
+                   .ValidateRequestAsync<AnswerQuestionOrchestrator, bool>(request, cancellationToken);
 
-    //        var LoggedStudentId = await _mediator
-    //            .Send(new GetCurrentLoggedStudentIdRequest(), cancellationToken);
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
-    //        if (!LoggedStudentId.IsSuccess)
-    //        {
-    //            return RequestResult<bool>
-    //                .Failure(LoggedStudentId.Message, LoggedStudentId.requestErrorCode);
-    //        }
+            var isStudentOwnAttempt = await _mediator
+           .Send(new CheckStudentAttemptOwnershipQuery(request.attemptId, request.StudentId), cancellationToken);
 
-    //        var checkAttemptValidationResult = await _mediator
-    //       .Send(new CheckStudentAttemptOwnershipQuery(request.attemptId, LoggedStudentId.Data!), cancellationToken);
+            if (!isStudentOwnAttempt.IsSuccess)
+            {
+                return RequestResult<bool>
+                    .Failure(isStudentOwnAttempt.Message,
+                    isStudentOwnAttempt.requestErrorCode);
+            }
 
-    //        if (!checkAttemptValidationResult.IsSuccess)
-    //        {
-    //            return RequestResult<bool>
-    //                .Failure(checkAttemptValidationResult.Message,
-    //                checkAttemptValidationResult.requestErrorCode);
-    //        }
+            var CheckInProgressStatus = await _mediator
+            .Send(new IsStudentAttemptInProgressQuery(request.attemptId, request.StudentId), cancellationToken);
 
+            if (!CheckInProgressStatus.IsSuccess)
+            {
+                return RequestResult<bool>
+                    .Failure(CheckInProgressStatus.Message,
+                    CheckInProgressStatus.requestErrorCode);
+            }
 
-    //        var isTimerValid = await _mediator
-    //            .Send(new IsQuizTimerExpiredQuery(request.attemptId, LoggedStudentId.Data!), cancellationToken);
+            var isTimerValid = await _mediator
+                .Send(new IsQuizTimerExpiredQuery(request.attemptId, request.StudentId), cancellationToken);
 
-    //        if (!isTimerValid.IsSuccess)
-    //        //{
-    //        //    var AutoSubmitQuizCommandResult = await _mediator
-    //        //        .Send(new AutoSubmitAttemptCommandRequest(request.attemptId), cancellationToken);
+            if (isTimerValid.IsSuccess && isTimerValid.Data == true)
+            {
+                var AutoSubmitQuizCommandResult = await _mediator
+                    .Send(new CompleteQuizAttemptOrchestrator(request.attemptId, QuizAttemptStatus.TimedOut), cancellationToken);
 
-    //            return RequestResult<bool>
-    //                .Failure(isTimerValid.Message, isTimerValid.requestErrorCode);
-    //        }
-
-    //        //var CheckInProgressStatus = await _mediator
-    //        //    .Send(new CheckInProgressQuizAttemptStatusQuerRequest(request.attemptId, LoggedStudentId.Data!), cancellationToken);
-
-    //        var quizID = await _mediator
-    //           .Send(new GetQuizIdForCurrentQuestionQueryRequest(request.QuestionId), cancellationToken);
-
-    //        var isQuestionBelongToQuiz = await _mediator
-    //            .Send(new CheckQuestionBelongsToQuizQueryRequest(request.QuestionId, quizID.Data), cancellationToken);
-
-    //        var isOptionBelongToQuestion = await _mediator
-    //            .Send(new CheckOptionBelongsToQuestionQueryRequest(request.SelectedOptionId, request.QuestionId), cancellationToken);
+                if (!AutoSubmitQuizCommandResult.IsSuccess)
+                {
+                    return RequestResult<bool>
+                        .Failure(AutoSubmitQuizCommandResult.Message,
+                        AutoSubmitQuizCommandResult.requestErrorCode);
+                }
 
 
+                return RequestResult<bool>
+                    .Failure("Timer has been elapsed", RequestErrorCode.Gone);
+            }
 
-    //        var recordAnswerCommandResult = await _mediator
-    //            .Send(new RecordAnswerCommandRequest(
-    //                request.QuestionId,
-    //                request.SelectedOptionId,
-    //                request.attemptId),
-    //                cancellationToken);
+            var quizID = await _mediator
+               .Send(new GetQuizIdByQuestionIdQuery(request.QuestionId), cancellationToken);
 
-    //        if (!recordAnswerCommandResult.IsSuccess)
-    //        {
-    //            return RequestResult<bool>
-    //                .Failure(recordAnswerCommandResult.Message,
-    //                recordAnswerCommandResult.requestErrorCode);
-    //        }
+            if (!quizID.IsSuccess)
+                return RequestResult<bool>
+                    .Failure(quizID.Message, quizID.requestErrorCode);
 
-    //        return RequestResult<bool>.Success(recordAnswerCommandResult.Data);
-    //    }
-    //}
+
+            var isQuestionBelongToQuiz = await _mediator
+                .Send(new DoesQuestionBelongToQuizQuery(request.QuestionId, quizID.Data), cancellationToken);
+
+            if (!isQuestionBelongToQuiz.IsSuccess)
+            {
+                return RequestResult<bool>
+                    .Failure(isQuestionBelongToQuiz.Message,
+                    isQuestionBelongToQuiz.requestErrorCode);
+            }
+
+            var isOptionBelongToQuestion = await _mediator
+                .Send(new DoesOptionBelongToQuestionQuery(request.SelectedOptionId, request.QuestionId), cancellationToken);
+
+            if (!isOptionBelongToQuestion.IsSuccess)
+            {
+                return RequestResult<bool>
+                    .Failure(isOptionBelongToQuestion.Message,
+                    isOptionBelongToQuestion.requestErrorCode);
+            }
+
+            var recordAnswerCommandResult = await _mediator
+                .Send(new RecordAnswerCommandRequest(
+                    request.QuestionId,
+                    request.SelectedOptionId,
+                    request.attemptId),
+                    cancellationToken);
+
+            if (!recordAnswerCommandResult.IsSuccess)
+            {
+                return RequestResult<bool>
+                    .Failure(recordAnswerCommandResult.Message,
+                    recordAnswerCommandResult.requestErrorCode);
+            }
+
+            return RequestResult<bool>.Success(recordAnswerCommandResult.Data);
+        }
+    }
 }

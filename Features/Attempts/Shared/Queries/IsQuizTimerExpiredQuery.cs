@@ -1,4 +1,5 @@
-﻿namespace ExaminationSystem.Features.Attempts.Shared.Queries
+﻿
+namespace ExaminationSystem.Features.Attempts.Shared.Queries
 {
     public record IsQuizTimerExpiredQuery(Guid attemptId, string studentId)
         : IRequest<RequestResult<bool>>;
@@ -27,14 +28,13 @@
         }
         public async Task<RequestResult<bool>> Handle(IsQuizTimerExpiredQuery request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                string? validationErrors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                var result = RequestResult<bool>
-                                            .Failure(validationErrors, RequestErrorCode.ValidationError);
-                return result;
-            }
+            var validationResult = await _validator
+             .ValidateRequestAsync<IsQuizTimerExpiredQuery, bool>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
+
+
             bool hasQuizTimerElapsed = await _quizAttemptsRepository
                .Get(qa => qa.Id == request.attemptId &&
                     qa.StudentId == request.studentId &&

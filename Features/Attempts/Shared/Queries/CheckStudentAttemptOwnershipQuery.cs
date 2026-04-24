@@ -1,4 +1,5 @@
-﻿namespace ExaminationSystem.Features.Attempts.Shared.Queries
+﻿
+namespace ExaminationSystem.Features.Attempts.Shared.Queries
 {
     public record CheckStudentAttemptOwnershipQuery(Guid attemptId, string studentId)
         : IRequest<RequestResult<bool>>;
@@ -27,17 +28,11 @@
         }
         public async Task<RequestResult<bool>> Handle(CheckStudentAttemptOwnershipQuery request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string
-                    .Join(", ",
-                    validationResult.Errors.Select(e => e.ErrorMessage));
+            var validationResult = await _validator
+               .ValidateRequestAsync<CheckStudentAttemptOwnershipQuery, bool>(request, cancellationToken);
 
-                var result = RequestResult<bool>
-                                            .Failure(validationErrors, RequestErrorCode.ValidationError);
-                return result;
-            }
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var doesStudentOwnAttempt = await _quizAttemptsRepository
                .Get(qa => qa.Id == request.attemptId &&

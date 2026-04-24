@@ -17,7 +17,5 @@
 
             return RequestResult<TResponse>.Success(default(TResponse)!, "Validation Succeeded");
         }
-
-
     }
 }

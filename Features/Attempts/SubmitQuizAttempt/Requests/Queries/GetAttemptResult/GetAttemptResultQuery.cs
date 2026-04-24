@@ -26,14 +26,12 @@ namespace ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Requests.Queries
         }
         public async Task<RequestResult<AttemptResultDTO>> Handle(GetAttemptResultQuery request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                var result = RequestResult<AttemptResultDTO>
-                                            .Failure(validationErrors, RequestErrorCode.ValidationError);
-                return result;
-            }
+            var validationResult = await _validator
+                    .ValidateRequestAsync<GetAttemptResultQuery, AttemptResultDTO>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
+
 
             var attemptData = await _quizAttemptsRepository
              .Get(qa => qa.Id == request.attemptId)

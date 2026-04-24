@@ -1,4 +1,5 @@
-﻿namespace ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Commands
+﻿
+namespace ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Commands
 {
     public record RecordAnswerCommandRequest(Guid QuestionId, Guid SelectedOptionId, Guid AttemptId)
         : IRequest<RequestResult<bool>>;
@@ -28,14 +29,11 @@
         }
         public async Task<RequestResult<bool>> Handle(RecordAnswerCommandRequest request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string
-                    .Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return RequestResult<bool>
-                    .Failure(validationErrors, RequestErrorCode.ValidationError);
-            }
+            var validationResult = await _validator
+                     .ValidateRequestAsync<RecordAnswerCommandRequest, bool>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
 
             var AttemptAnswerId = _attemptAnswersRepository
@@ -64,7 +62,8 @@
                 Id = Guid.NewGuid(),
                 QuestionId = request.QuestionId,
                 SelectedOptionId = request.SelectedOptionId,
-                QuizAttemptId = request.AttemptId
+                QuizAttemptId = request.AttemptId,
+                AnsweredAt = DateTime.UtcNow
             });
 
             await _attemptAnswersRepository.SaveChangesAsync();

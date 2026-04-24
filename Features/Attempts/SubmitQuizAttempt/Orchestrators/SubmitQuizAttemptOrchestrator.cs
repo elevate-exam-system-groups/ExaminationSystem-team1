@@ -1,6 +1,6 @@
-﻿using ExaminationSystem.Features.Attempts.Shared.Queries;
+﻿using ExaminationSystem.Features.Attempts.Shared.Orchestrators;
+using ExaminationSystem.Features.Attempts.Shared.Queries;
 using ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators.DTOS;
-using ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators.ManageSubmission;
 
 
 namespace ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators
@@ -35,14 +35,10 @@ namespace ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators
         public async Task<RequestResult<SubmitAttemptResultDto>> Handle(SubmitQuizAttemptOrchestrator request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator
-                .ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string
-                    .Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return RequestResult<SubmitAttemptResultDto>
-                    .Failure(validationErrors, RequestErrorCode.ValidationError);
-            }
+               .ValidateRequestAsync<SubmitQuizAttemptOrchestrator, SubmitAttemptResultDto>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var doesStudentOwnTheAttempt = await _mediator
                 .Send(new CheckStudentAttemptOwnershipQuery(request.attemptId, request.StudentId), cancellationToken);
@@ -68,7 +64,7 @@ namespace ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators
             if (isQuizTimerExpired.Data)
             {
                 var Result = await _mediator
-                    .Send(new FinalizeAttemptSubmissionOrchestrator(request.attemptId, QuizAttemptStatus.TimedOut), cancellationToken);
+                    .Send(new CompleteQuizAttemptOrchestrator(request.attemptId, QuizAttemptStatus.TimedOut), cancellationToken);
 
                 return Result.IsSuccess
                     ? RequestResult<SubmitAttemptResultDto>
@@ -78,7 +74,7 @@ namespace ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators
             }
 
             var FinalResult = await _mediator
-                        .Send(new FinalizeAttemptSubmissionOrchestrator(request.attemptId, QuizAttemptStatus.Submitted), cancellationToken);
+                        .Send(new CompleteQuizAttemptOrchestrator(request.attemptId, QuizAttemptStatus.Submitted), cancellationToken);
 
             return FinalResult.IsSuccess
                 ? RequestResult<SubmitAttemptResultDto>

@@ -23,15 +23,11 @@
         }
         public async Task<RequestResult<bool>> Handle(IsAttemptSubmittedQuery request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string
-                    .Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                var result = RequestResult<bool>
-                                            .Failure(validationErrors, RequestErrorCode.ValidationError);
-                return result;
-            }
+            var validationResult = await _validator
+              .ValidateRequestAsync<IsAttemptSubmittedQuery, bool>(request, cancellationToken);
+
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
             var isAttemptSubmitted = _quizAttemptsRepository
                .Get(qa => qa.Id == request.attemptId &&
