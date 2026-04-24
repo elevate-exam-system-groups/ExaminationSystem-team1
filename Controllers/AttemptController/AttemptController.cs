@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ExaminationSystem.Controllers.AttemptController.ViewModels;
 using ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators;
+using ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Orchestrators;
 using ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators;
 
 
@@ -31,6 +32,27 @@ namespace ExaminationSystem.Controllers.AttemptController
             }
             var vm = _mapper.Map<StartAttemptVM>(result.Data);
             return ResponseViewModel<StartAttemptVM>.Success(vm);
+
+        }
+
+        [HttpPost]
+        public async Task<ResponseViewModel<bool>> AtemptAnswerQuestion(AttemptAnswerVM AnswerVM, CancellationToken cancellationToken)
+        {
+            var Request = await _mediator
+                .Send(new SubmitAnswerOrchestrator(
+                    AnswerVM.StudentId,
+                    AnswerVM.AttemptId,
+                    AnswerVM.QuestionId,
+                    AnswerVM.OprionId),
+                    cancellationToken);
+
+            if (!Request.IsSuccess)
+            {
+                return ResponseViewModel<bool>
+                    .Failure(Request.Message, (ResponseVmErrorCode?)Request.requestErrorCode);
+            }
+
+            return ResponseViewModel<bool>.Success(Request.Data);
 
         }
 

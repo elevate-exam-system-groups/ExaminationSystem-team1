@@ -5,12 +5,12 @@ using ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Queries;
 
 namespace ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Orchestrators
 {
-    public record AnswerQuestionOrchestrator(string StudentId, Guid attemptId, Guid QuestionId, Guid SelectedOptionId)
+    public record SubmitAnswerOrchestrator(string StudentId, Guid attemptId, Guid QuestionId, Guid SelectedOptionId)
         : IRequest<RequestResult<bool>>;
 
-    public class AnswerQuestionOrchestratorValidator : AbstractValidator<AnswerQuestionOrchestrator>
+    public class SubmitAnswerOrchestratorValidator : AbstractValidator<SubmitAnswerOrchestrator>
     {
-        public AnswerQuestionOrchestratorValidator()
+        public SubmitAnswerOrchestratorValidator()
         {
             RuleFor(x => x.QuestionId)
                 .NotEmpty().WithMessage("QuestionId is required");
@@ -25,22 +25,22 @@ namespace ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Orchestrators
     }
 
 
-    public class AnswerQuestionOrchestratorHandler
-        : IRequestHandler<AnswerQuestionOrchestrator, RequestResult<bool>>
+    public class SubmitAnswerOrchestratorHandler
+        : IRequestHandler<SubmitAnswerOrchestrator, RequestResult<bool>>
     {
         private readonly IMediator _mediator;
-        private readonly IValidator<AnswerQuestionOrchestrator> _validator;
+        private readonly IValidator<SubmitAnswerOrchestrator> _validator;
 
-        public AnswerQuestionOrchestratorHandler(IMediator mediator, IValidator<AnswerQuestionOrchestrator> validator)
+        public SubmitAnswerOrchestratorHandler(IMediator mediator, IValidator<SubmitAnswerOrchestrator> validator)
         {
             _mediator = mediator;
             _validator = validator;
         }
 
-        public async Task<RequestResult<bool>> Handle(AnswerQuestionOrchestrator request, CancellationToken cancellationToken)
+        public async Task<RequestResult<bool>> Handle(SubmitAnswerOrchestrator request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator
-                   .ValidateRequestAsync<AnswerQuestionOrchestrator, bool>(request, cancellationToken);
+                   .ValidateRequestAsync<SubmitAnswerOrchestrator, bool>(request, cancellationToken);
 
             if (!validationResult.IsSuccess)
                 return validationResult;
