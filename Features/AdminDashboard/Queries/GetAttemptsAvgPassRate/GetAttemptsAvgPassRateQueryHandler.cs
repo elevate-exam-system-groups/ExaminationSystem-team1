@@ -1,6 +1,6 @@
 ﻿using ExaminationSystem.Features.Admin.DTOs;
+using ExaminationSystem.Features.Common.Helpers;
 using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate
 {

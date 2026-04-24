@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.StudentDashboard.Helper
+﻿namespace ExaminationSystem.Features.Common.Helpers
 {
     public static class StatisticsHelper
     {
@@ -14,6 +14,6 @@
             return Math.Round(score, 1);
         }
 
-      
+
     }
 }

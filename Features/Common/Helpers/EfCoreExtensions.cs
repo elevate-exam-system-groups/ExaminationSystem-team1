@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace ExaminationSystem.Features.StudentDashboard.Helper
+namespace ExaminationSystem.Features.Common.Helpers
 {
     public static class EfCoreExtensions
     {
