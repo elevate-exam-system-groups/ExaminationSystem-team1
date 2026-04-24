@@ -1,16 +1,16 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Attempt;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
 {
     public class GetRecentAttemptsQueryHandler
-     : IRequestHandler<GetRecentAttemptsQuery, RequestResult<List<RecentAttemptDto>>>
+     : IRequestHandler<GetRecentAttemptsQuery, RequestResult<RecentAttemptResponseDto>>
     {
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetRecentAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
             => _attemptRepo = attemptRepo;
 
-        public async Task<RequestResult<List<RecentAttemptDto>>> Handle(
+        public async Task<RequestResult<RecentAttemptResponseDto>> Handle(
             GetRecentAttemptsQuery request, CancellationToken ct)
         {
             var attempts = await _attemptRepo
@@ -28,7 +28,8 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
                     a.SubmittedAt
                 )).ToListAsync(ct);
 
-            return RequestResult<List<RecentAttemptDto>>.Success(attempts);
+            return RequestResult<RecentAttemptResponseDto>.Success(
+                new RecentAttemptResponseDto(attempts));
         }
     }
 }

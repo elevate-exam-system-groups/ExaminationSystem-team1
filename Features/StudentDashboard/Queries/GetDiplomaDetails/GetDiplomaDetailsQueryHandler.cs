@@ -1,4 +1,5 @@
 ﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
 {
@@ -14,16 +15,18 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
             GetDiplomaDetailsQuery request, CancellationToken ct)
         {
             if (!request.DiplomaIds.Any())
-                return RequestResult<DiplomaDetailsDto>.Success(new DiplomaDetailsDto(new()));
+                return RequestResult<DiplomaDetailsDto>.Success(
+                    new DiplomaDetailsDto(new()));
 
             var diplomas = await _diplomaRepo
                 .Get(d => request.DiplomaIds.Contains(d.Id) && !d.isDeleted)
                 .ToDictionaryAsync(
                     k => k.Id,
-                    v => new DiplomaInfo(v.Title, v.Description),
+                    v => new DiplomaInfoDTO(v.Title, v.Description),
                     ct);
 
-            return RequestResult<DiplomaDetailsDto>.Success(new DiplomaDetailsDto(diplomas));
+            return RequestResult<DiplomaDetailsDto>.Success(
+                   new DiplomaDetailsDto(diplomas));
         }
     }
 }

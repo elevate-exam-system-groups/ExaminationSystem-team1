@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Orchestrator;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Add;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Update;
-using ExaminationSystem.Controllers.QuestionController.ViewModels.Delete;
-using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Orchestrator;
-using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Orchestrators;
+using ExaminationSystem.Controllers.QuestionController.Mapping;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {
@@ -15,71 +12,39 @@ namespace ExaminationSystem.Controllers.QuestionController
     {
 
         private readonly IMediator _mediator;
-        public QuestionsController(IMediator mediator) => _mediator = mediator;
+        public QuestionsController(IMediator mediator) 
+            => _mediator = mediator;
 
-       
+
         [HttpPost("quizzes/{quizId:guid}/questions")]
         public async Task<ActionResult<ResponseViewModel<AddQuestionResponseVM>>> Create(
             Guid quizId, [FromBody] AddQuestionVM vm)
         {
-            var command = new AddQuestionOrchestratorCommand
-            {
-                QuizId = quizId,
-                Text = vm.Text,
-                Explanation = vm.Explanation,
-                Options = vm.Options.Select(o => new OptionDto(o.Text, o.IsCorrect)).ToList()
-            };
+            var command = vm.ToCommand(quizId);
 
             var result = await _mediator.Send(command);
 
             var mappedResult = result.IsSuccess
-                ? RequestResult<AddQuestionResponseVM>.Success(
-                    new AddQuestionResponseVM(result.Data.added), result.Message)
-                : RequestResult<AddQuestionResponseVM>.Failure(
-                    result.Message, result.requestErrorCode);
+                ? RequestResult<AddQuestionResponseVM>.Success(result.Data.ToViewModel(), result.Message)
+                : RequestResult<AddQuestionResponseVM>.Failure(result.Message, result.requestErrorCode);
 
             return HandleResult(mappedResult, 201);
         }
-
 
         [HttpPut("questions/{id:guid}")]
         public async Task<ActionResult<ResponseViewModel<UpdateQuestionResponseVM>>> Update(
             Guid id, [FromBody] UpdateQuestionVM vm)
         {
-            var command = new UpdateQuestionOptionsOrchestrator
-            {
-                Id = id,
-                Text = vm.Text,
-                Explanation = vm.Explanation,
-                Options = vm.Options.Select(o => new UpdateOptionDto(o.Id, o.Text, o.IsCorrect)).ToList()
-            };
+            var command = vm.ToCommand(id);
 
             var result = await _mediator.Send(command);
 
             var mappedResult = result.IsSuccess
-                ? RequestResult<UpdateQuestionResponseVM>.Success(
-                    new UpdateQuestionResponseVM(result.Data.updated), result.Message)
-                : RequestResult<UpdateQuestionResponseVM>.Failure(
-                    result.Message, result.requestErrorCode);
+                ? RequestResult<UpdateQuestionResponseVM>.Success(result.Data.ToViewModel(), result.Message)
+                : RequestResult<UpdateQuestionResponseVM>.Failure(result.Message, result.requestErrorCode);
 
             return HandleResult(mappedResult);
         }
-
-
-        [HttpDelete("questions/{id:guid}")]
-        public async Task<ActionResult<ResponseViewModel<DeleteQuestionResponseVM>>> Delete(Guid id)
-        {
-            var result = await _mediator.Send(new DeleteQuestionOrchestrator(id));
-
-            var mappedResult = result.IsSuccess
-                ? RequestResult<DeleteQuestionResponseVM>.Success(
-                    new DeleteQuestionResponseVM(result.Data.Deleted), result.Message)
-                : RequestResult<DeleteQuestionResponseVM>.Failure(
-                    result.Message, result.requestErrorCode);
-
-            return HandleResult(mappedResult);
-        }
-
 
         // Helper Methods (Common Logic) ---
 

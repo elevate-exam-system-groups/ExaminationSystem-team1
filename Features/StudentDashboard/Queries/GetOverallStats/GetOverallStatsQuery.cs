@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.OverallStats;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
 {

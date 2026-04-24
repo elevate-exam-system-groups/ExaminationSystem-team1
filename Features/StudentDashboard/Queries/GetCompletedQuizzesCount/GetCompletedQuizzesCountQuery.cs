@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Quiz;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizzesCount
 {

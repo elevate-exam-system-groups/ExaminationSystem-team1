@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Quiz;
 using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCount
@@ -14,8 +14,9 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCou
         public async Task<RequestResult<TotalQuizzesCountDto>> Handle(
             GetTotalQuizzesCountQuery request, CancellationToken ct)
         {
-            if (!request.DiplomaIds.Any())
-                return RequestResult<TotalQuizzesCountDto>.Success(new TotalQuizzesCountDto(new()));
+            if (!request.DiplomaIds.Any())       //=======================
+                return RequestResult<TotalQuizzesCountDto>.Success(
+                    new TotalQuizzesCountDto(new()));
 
             var counts = await _quizRepo
             .Get(q => request.DiplomaIds.Contains(q.DiplomaId))
@@ -23,7 +24,8 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetTotalQuizzesCou
             .CountByAsync(q => q.DiplomaId, ct);
 
 
-            return RequestResult<TotalQuizzesCountDto>.Success(new TotalQuizzesCountDto(counts));
+            return RequestResult<TotalQuizzesCountDto>.Success(
+                new TotalQuizzesCountDto(counts));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
 {

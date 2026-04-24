@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Quiz;
 using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds
@@ -15,7 +15,8 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizId
             GetCompletedQuizIdsQuery request, CancellationToken ct)
         {
             if (!request.DiplomaIds.Any())
-                return RequestResult<CompletedQuizIdsDto>.Success(new CompletedQuizIdsDto(new()));
+                return RequestResult<CompletedQuizIdsDto>.Success(
+                    new CompletedQuizIdsDto(new()));    //=======================
 
             var quizIds = await _attemptRepo
                 .Get(a => a.StudentId == request.StudentId
@@ -25,7 +26,8 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizId
                 .Distinct()
                 .ToListAsync(ct);
 
-            return RequestResult<CompletedQuizIdsDto>.Success(new CompletedQuizIdsDto(quizIds));
+            return RequestResult<CompletedQuizIdsDto>.Success(
+                new CompletedQuizIdsDto(quizIds));
         }
     }
 }

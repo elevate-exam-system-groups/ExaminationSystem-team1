@@ -1,7 +1,6 @@
-﻿using ExaminationSystem.Controllers.QuestionController;
+﻿using ExaminationSystem.Controllers.StudentController.Mapping;
 using ExaminationSystem.Controllers.StudentController.ViewModels;
-using ExaminationSystem.Features.StudentDashboard;
-using ExaminationSystem.Features.StudentDashboard.DTOs;
+using ExaminationSystem.Features.StudentDashboard.Orchestrator.StudentDashboard;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -16,6 +15,7 @@ namespace ExaminationSystem.Controllers.StudentController
         private readonly IMediator _mediator;
         public StudentDashboardController(IMediator mediator)
             => _mediator = mediator;
+
 
         [HttpGet("dashboard")]
         public async Task<ActionResult<ResponseViewModel<StudentDashboardResponseVm>>> GetDashboard()
@@ -32,21 +32,7 @@ namespace ExaminationSystem.Controllers.StudentController
                 return BadRequest(ResponseViewModel<StudentDashboardResponseVm>.Failure(
                     result.Message ?? "Failed to load dashboard"));
 
-            var vm = new StudentDashboardResponseVm(
-                result.Data.EnrolledDiplomas.Select(d => new EnrolledDiplomaVm(
-                    d.DiplomaId, d.Title, d.Description,
-                    d.TotalQuizzes, d.CompletedQuizzes, d.ProgressPercentage
-                )).ToList(),
-                result.Data.RecentQuizAttempts.Select(a => new RecentAttemptVm(
-                    a.AttemptId, a.QuizId, a.QuizTitle, a.DiplomaTitle,
-                    a.Status, a.Score, a.IsPassed, a.SubmittedAt
-                )).ToList(),
-                new OverallStatsVm(
-                    result.Data.OverallStats.TotalQuizzesTaken,
-                    result.Data.OverallStats.AvgScore,
-                    result.Data.OverallStats.PassRate
-                )
-            );
+            var vm = result.Data.ToViewModel();
 
             return Ok(ResponseViewModel<StudentDashboardResponseVm>.Success(vm));
         }

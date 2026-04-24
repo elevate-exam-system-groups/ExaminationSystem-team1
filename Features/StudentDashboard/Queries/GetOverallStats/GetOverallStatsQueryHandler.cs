@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.OverallStats;
 using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
@@ -27,10 +27,12 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
                 .FirstOrDefaultAsync(ct);
 
             if (stats == null || stats.Total == 0)
-                return RequestResult<OverallStatsDto>.Success(new OverallStatsDto(0, 0, 0));
+                return RequestResult<OverallStatsDto>.Success(
+                    new OverallStatsDto(0, 0, 0));
 
-            var passRate = Math.Round((decimal)stats.PassedCount / stats.Total * 100, 1);
-            var avgScore = Math.Round(stats.AvgScore, 1);
+
+            var passRate = StatisticsHelper.CalculatePassRate(stats.Total , stats.PassedCount);
+            var avgScore = StatisticsHelper.RoundScore(stats.AvgScore);
 
             return RequestResult<OverallStatsDto>.Success(new OverallStatsDto(
                 stats.Total,
