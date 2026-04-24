@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Features.Common.QuizRequests.Queries;
-using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.StartQuizAttempt.Commands
 {
     public record CreateAttemptRecordCommand(Guid QuizId, string StudentId)

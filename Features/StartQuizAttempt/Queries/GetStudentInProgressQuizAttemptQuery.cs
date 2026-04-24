@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.StartQuizAttempt.Queries
 {
     public record GetStudentInProgressQuizAttemptQuery(string StudentId, Guid quizId)

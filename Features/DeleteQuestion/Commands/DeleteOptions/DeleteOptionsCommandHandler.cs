@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.DeleteQuestion.Dtos;
+﻿using ExaminationSystem.Features.DeleteQuestion.Dtos;
 
 namespace ExaminationSystem.Features.DeleteQuestion.Commands.DeleteOptions
 {
@@ -37,7 +36,7 @@ namespace ExaminationSystem.Features.DeleteQuestion.Commands.DeleteOptions
 
             return RequestResult<DeleteResponseDto>.Success(
                 new DeleteResponseDto(true),
-                $"options deleted");  
+                $"options deleted");
         }
     }
 

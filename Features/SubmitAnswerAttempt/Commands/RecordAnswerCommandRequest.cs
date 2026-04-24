@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.SubmitAnswerAttempt.Commands
 {
     public record RecordAnswerCommandRequest(Guid QuestionId, Guid SelectedOptionId, Guid AttemptId)

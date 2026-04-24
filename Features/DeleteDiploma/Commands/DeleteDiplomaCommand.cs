@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.DeleteDiploma.Commands
 {
     public record DeleteDiplomaCommand(Guid DiplomaId) : IRequest<RequestResult<bool>> { }

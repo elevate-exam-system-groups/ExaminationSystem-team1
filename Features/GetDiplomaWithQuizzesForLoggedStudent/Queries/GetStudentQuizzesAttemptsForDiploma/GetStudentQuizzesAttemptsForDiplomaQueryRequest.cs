@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetStudentQuizzesAttemptsForDiploma.DTOS;
+﻿using ExaminationSystem.Features.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetStudentQuizzesAttemptsForDiploma.DTOS;
 
 namespace ExaminationSystem.Features.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetStudentQuizzesAttemptsForDiploma
 {

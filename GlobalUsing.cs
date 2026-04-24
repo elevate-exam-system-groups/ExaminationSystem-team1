@@ -18,5 +18,12 @@ global using Microsoft.IdentityModel.Tokens;
 global using MimeKit;
 global using System.Reflection;
 global using System.Text;
+global using ExaminationSystem.Features.Common.AttemptRequests.Queries;
+global using ExaminationSystem.Features.Common.QuizRequests.Queries;
+global using ExaminationSystem.Features.Common.Request;
+global using ExaminationSystem.Features.StartQuizAttempt.Commands;
+global using ExaminationSystem.Features.StartQuizAttempt.Orchestrators.DTOS;
+global using ExaminationSystem.Features.StartQuizAttempt.Queries;
+global using ExaminationSystem.Features.StartQuizAttempt.Queries.GetQuizAttemptMetaData;
 
 

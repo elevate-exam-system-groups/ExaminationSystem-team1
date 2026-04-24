@@ -2,11 +2,11 @@
 
 namespace ExaminationSystem.Features.PublishQuiz.Queries
 {
-    public record CheckAllQuizQuestionsHasValidOptionsQueryRequest(Guid quizId) : IRequest<RequestResult<bool>>;
+    public record CheckAllQuizQuestionsHasValidOptionsQuery(Guid quizId) : IRequest<RequestResult<bool>>;
 
-    public class CheckAllQuizQuestionsHasValidOptionsQueryRequestValidator : AbstractValidator<CheckAllQuizQuestionsHasValidOptionsQueryRequest>
+    public class CheckAllQuizQuestionsHasValidOptionsQueryValidator : AbstractValidator<CheckAllQuizQuestionsHasValidOptionsQuery>
     {
-        public CheckAllQuizQuestionsHasValidOptionsQueryRequestValidator()
+        public CheckAllQuizQuestionsHasValidOptionsQueryValidator()
         {
             RuleFor(r => r.quizId)
                 .NotEmpty()
@@ -14,22 +14,22 @@ namespace ExaminationSystem.Features.PublishQuiz.Queries
         }
     }
 
-    public class CheckAllQuizQuestionsHasValidOptionsQueryRequestHandler
-        : IRequestHandler<CheckAllQuizQuestionsHasValidOptionsQueryRequest, RequestResult<bool>>
+    public class CheckAllQuizQuestionsHasValidOptionsQueryHandler
+        : IRequestHandler<CheckAllQuizQuestionsHasValidOptionsQuery, RequestResult<bool>>
     {
         private readonly IGeneralRepository<Question> _questionRepository;
-        private readonly IValidator<CheckAllQuizQuestionsHasValidOptionsQueryRequest> _validator;
+        private readonly IValidator<CheckAllQuizQuestionsHasValidOptionsQuery> _validator;
 
-        public CheckAllQuizQuestionsHasValidOptionsQueryRequestHandler(IGeneralRepository<Question> questionRepository, IValidator<CheckAllQuizQuestionsHasValidOptionsQueryRequest> validator)
+        public CheckAllQuizQuestionsHasValidOptionsQueryHandler(IGeneralRepository<Question> questionRepository, IValidator<CheckAllQuizQuestionsHasValidOptionsQuery> validator)
         {
             _questionRepository = questionRepository;
             _validator = validator;
         }
 
-        public async Task<RequestResult<bool>> Handle(CheckAllQuizQuestionsHasValidOptionsQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<bool>> Handle(CheckAllQuizQuestionsHasValidOptionsQuery request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator
-              .ValidateRequestAsync<CheckAllQuizQuestionsHasValidOptionsQueryRequest, bool>(request, cancellationToken);
+              .ValidateRequestAsync<CheckAllQuizQuestionsHasValidOptionsQuery, bool>(request, cancellationToken);
 
             if (!validationResult.IsSuccess)
                 return validationResult;

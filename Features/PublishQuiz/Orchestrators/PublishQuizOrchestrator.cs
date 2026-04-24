@@ -45,7 +45,7 @@ namespace ExaminationSystem.Features.PublishQuiz.Orchestrators
             }
 
             var QuestionsCount = await _mediator
-                .Send(new GetQuestionsCountPerQuizQueryRequest(request.quizId), cancellationToken);
+                .Send(new GetQuestionsCountPerQuizQuery(request.quizId), cancellationToken);
 
             if (QuestionsCount.Data < 1)
             {
@@ -54,7 +54,7 @@ namespace ExaminationSystem.Features.PublishQuiz.Orchestrators
             }
 
             var hasValidQuestions = await _mediator
-                .Send(new CheckAllQuizQuestionsHasValidOptionsQueryRequest(request.quizId), cancellationToken);
+                .Send(new CheckAllQuizQuestionsHasValidOptionsQuery(request.quizId), cancellationToken);
 
             if (!hasValidQuestions.Data)
             {

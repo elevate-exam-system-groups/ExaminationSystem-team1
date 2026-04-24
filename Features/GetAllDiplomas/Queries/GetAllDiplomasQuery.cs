@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.GetAllDiplomas.Queries.DTOS;
+﻿using ExaminationSystem.Features.GetAllDiplomas.Queries.DTOS;
 
 
 namespace ExaminationSystem.Features.GetAllDiplomas.Queries
@@ -54,12 +53,8 @@ namespace ExaminationSystem.Features.GetAllDiplomas.Queries
                 );
             }
 
-            var total = await diplomas.CountAsync();
-            var totalPages = (int)Math.Ceiling(total / (double)request.PerPage);
-            var data = await diplomas
-                .Skip((request.Page - 1) * request.PerPage)
-                .Take(request.PerPage)
-                .ToListAsync();
+            var (data, total, totalPages) = await diplomas
+              .ToPaginatedAsync(request.Page, request.PerPage, cancellationToken);
 
             var responseDTOs = new GetAllDiplomaPaginatedDTO(
                 data,

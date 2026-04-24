@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.UpdateQuestion.Dtos;
+﻿using ExaminationSystem.Features.UpdateQuestion.Dtos;
 
 namespace ExaminationSystem.Features.UpdateQuestion.Commands.UpdateOptions
 {

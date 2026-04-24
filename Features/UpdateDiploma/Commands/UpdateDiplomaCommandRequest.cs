@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.UpdateDiploma.Commands.DTOS;
+﻿using ExaminationSystem.Features.UpdateDiploma.Commands.DTOS;
 
 namespace ExaminationSystem.Features.UpdateDiploma.Commands
 {

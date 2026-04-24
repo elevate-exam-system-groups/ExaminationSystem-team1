@@ -1,7 +1,6 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.SubmitQuizAttempt.Requests.Queries.GetAttemptResult.DTO;
+﻿using ExaminationSystem.Features.SubmitQuizAttempt.Queries.GetAttemptResult.DTO;
 
-namespace ExaminationSystem.Features.SubmitQuizAttempt.Requests.Queries.GetAttemptResult
+namespace ExaminationSystem.Features.SubmitQuizAttempt.Queries.GetAttemptResult
 {
     public record GetAttemptResultQuery(Guid attemptId) : IRequest<RequestResult<AttemptResultDTO>>;
 

@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.UpdateQuestion.Dtos;
+﻿using ExaminationSystem.Features.UpdateQuestion.Dtos;
 
 namespace ExaminationSystem.Features.UpdateQuestion.Queries.QuestionUpdateStatus
 {
@@ -23,7 +22,7 @@ namespace ExaminationSystem.Features.UpdateQuestion.Queries.QuestionUpdateStatus
                 return RequestResult<QuestionUpdateStatusDto>.Failure(
                     "Question not found", RequestErrorCode.NotFound);
 
-         
+
             return RequestResult<QuestionUpdateStatusDto>.Success(Status);
         }
     }

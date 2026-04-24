@@ -1,6 +1,5 @@
-﻿using ExaminationSystem.Features.Common.Request;
-
-namespace ExaminationSystem.Features.SubmitQuizAttempt.Requests.Commands
+﻿
+namespace ExaminationSystem.Features.SubmitQuizAttempt.Commands
 {
     public record SetAttemptResultCommand(Guid AttemptId, decimal Score, bool IsPassed)
         : IRequest<RequestResult<bool>>;

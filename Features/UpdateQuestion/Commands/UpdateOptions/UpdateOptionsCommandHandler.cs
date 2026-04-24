@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.UpdateQuestion.Dtos;
+﻿using ExaminationSystem.Features.UpdateQuestion.Dtos;
 
 namespace ExaminationSystem.Features.UpdateQuestion.Commands.UpdateOptions
 {
@@ -23,7 +22,7 @@ namespace ExaminationSystem.Features.UpdateQuestion.Commands.UpdateOptions
                 .Where(o => o.Id.HasValue)
                 .Select(o => o.Id!.Value)
                 .ToList();
-                //.ToHashSet();
+            //.ToHashSet();
 
             foreach (var opt in existingOptions.Where(o => !incomingIds.Contains(o.Id)))
                 _optionRepo.SoftDelete(opt);

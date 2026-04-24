@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.SubmitAnswerAttempt.Queries
 {
     public record DoesOptionBelongToQuestionQuery(Guid optionId, Guid questionId)

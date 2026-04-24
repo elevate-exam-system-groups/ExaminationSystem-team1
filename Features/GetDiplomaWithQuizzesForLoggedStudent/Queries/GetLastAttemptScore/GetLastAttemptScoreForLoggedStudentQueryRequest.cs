@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetLastAttemptScore
 {
     public record GetLastAttemptScoreForLoggedStudentQueryRequest(Guid quizId, string StudentId) : IRequest<RequestResult<decimal?>>;

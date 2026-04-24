@@ -1,6 +1,4 @@
 ﻿using ExaminationSystem.Features.Common.AttemptRequests.Orchestrators;
-using ExaminationSystem.Features.Common.AttemptRequests.Queries;
-using ExaminationSystem.Features.Common.Request;
 using ExaminationSystem.Features.SubmitAnswerAttempt.Commands;
 using ExaminationSystem.Features.SubmitAnswerAttempt.Queries;
 

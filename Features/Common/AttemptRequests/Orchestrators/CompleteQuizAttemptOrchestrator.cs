@@ -1,8 +1,8 @@
 ﻿using ExaminationSystem.Features.Common.AttemptRequests.Commands;
-using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.SubmitQuizAttempt.Commands;
 using ExaminationSystem.Features.SubmitQuizAttempt.Orchestrators.DTOS;
-using ExaminationSystem.Features.SubmitQuizAttempt.Requests.Commands;
-using ExaminationSystem.Features.SubmitQuizAttempt.Requests.Queries.GetAttemptResult;
+using ExaminationSystem.Features.SubmitQuizAttempt.Queries.GetAttemptResult;
+
 
 
 namespace ExaminationSystem.Features.Common.AttemptRequests.Orchestrators
