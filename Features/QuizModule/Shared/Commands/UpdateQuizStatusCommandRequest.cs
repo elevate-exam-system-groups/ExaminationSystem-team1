@@ -49,7 +49,7 @@
             };
 
             _quizzesRepository.UpdateInclude(quiz, nameof(Quiz.Status));
-            // await _quizzesRepository.SaveChangesAsync();
+            // await _quizRepository.SaveChangesAsync();
 
             return RequestResult<bool>.Success(true);
         }

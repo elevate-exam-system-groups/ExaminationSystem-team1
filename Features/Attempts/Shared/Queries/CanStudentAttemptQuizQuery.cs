@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Features.Attempts.Shared.Queries
+﻿using ExaminationSystem.Features.QuizModule.Shared.Queries;
+
+namespace ExaminationSystem.Features.Attempts.Shared.Queries
 {
     public record CanStudentAttemptQuizQuery(Guid QuizId, string studentId) : IRequest<RequestResult<bool>>;
 
@@ -16,37 +18,33 @@
         : IRequestHandler<CanStudentAttemptQuizQuery, RequestResult<bool>>
     {
         private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
+        private readonly IMediator _mediator;
         private readonly IValidator<CanStudentAttemptQuizQuery> _validator;
-        public CanStudentAttemptQuizQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CanStudentAttemptQuizQuery> validator)
+        public CanStudentAttemptQuizQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<CanStudentAttemptQuizQuery> validator, IMediator mediator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;
+            _mediator = mediator;
         }
         public async Task<RequestResult<bool>> Handle(CanStudentAttemptQuizQuery request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _validator
+             .ValidateRequestAsync<CanStudentAttemptQuizQuery, bool>(request, cancellationToken);
 
-            if (!validationResult.IsValid)
-            {
-                var validationErrors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                var result = RequestResult<bool>
-                                            .Failure(validationErrors, RequestErrorCode.ValidationError);
-                return result;
-            }
+            if (!validationResult.IsSuccess)
+                return validationResult;
 
-            var maxAttempts = await _quizAttemptsRepository
-                                 .Get(qa => qa.QuizId == request.QuizId)
-                                 .Select(qa => qa.Quiz.MaxAttempts)
-                                 .FirstOrDefaultAsync(cancellationToken);
+            var maxAttemptsResult = await _mediator
+                .Send(new GetQuizMaxAttemptsQuery(request.QuizId), cancellationToken);
 
-            if (maxAttempts is null) //=>Unlimited
+            if (maxAttemptsResult.Data is null) // =>unlimited
                 return RequestResult<bool>.Success(true);
 
             int QuizAttemptCount = await _quizAttemptsRepository
                 .Get(qa => qa.QuizId == request.QuizId &&
                  qa.StudentId == request.studentId).CountAsync(cancellationToken);
 
-            bool canAttempt = QuizAttemptCount < maxAttempts;
+            bool canAttempt = QuizAttemptCount < maxAttemptsResult.Data;
 
             return RequestResult<bool>.Success(canAttempt);
 

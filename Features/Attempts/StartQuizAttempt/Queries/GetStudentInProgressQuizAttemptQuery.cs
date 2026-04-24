@@ -3,6 +3,19 @@
     public record GetStudentInProgressQuizAttemptQuery(string StudentId, Guid quizId)
         : IRequest<RequestResult<Guid?>>;
 
+
+    public class GetStudentInProgressQuizAttemptQueryValidator
+    : AbstractValidator<GetStudentInProgressQuizAttemptQuery>
+    {
+        public GetStudentInProgressQuizAttemptQueryValidator()
+        {
+            RuleFor(x => x.StudentId)
+                .NotEmpty().WithMessage("Student ID is required");
+            RuleFor(x => x.quizId)
+                .NotEmpty().WithMessage("Quiz ID is required");
+        }
+    }
+
     public class GetStudentInProgressQuizAttemptQueryHandler
         : IRequestHandler<GetStudentInProgressQuizAttemptQuery, RequestResult<Guid?>>
     {

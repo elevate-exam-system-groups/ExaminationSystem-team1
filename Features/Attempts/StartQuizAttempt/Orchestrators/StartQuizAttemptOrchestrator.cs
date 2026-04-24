@@ -69,15 +69,6 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators
                        $"{InProgressAttempt.Data.Value}", RequestErrorCode.Conflict);
             }
 
-            var metaData = await _mediator
-               .Send(new GetQuizMetaDataQuery(request.QuizId), cancellationToken);
-
-            if (!metaData.IsSuccess)
-            {
-                return RequestResult<StartAttemptDTO>
-                    .Failure(metaData.Message, metaData.requestErrorCode);
-            }
-
 
             var CreateAttemptResult = await _mediator
             .Send(new CreateAttemptRecordCommand(request.QuizId, request.StudentId), cancellationToken);
@@ -86,6 +77,15 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators
             {
                 return RequestResult<StartAttemptDTO>
                     .Failure(CreateAttemptResult.Message, CreateAttemptResult.requestErrorCode);
+            }
+
+            var metaData = await _mediator
+               .Send(new GetQuizMetaDataQuery(request.QuizId), cancellationToken);
+
+            if (!metaData.IsSuccess)
+            {
+                return RequestResult<StartAttemptDTO>
+                    .Failure(metaData.Message, metaData.requestErrorCode);
             }
 
             var shuffledQuestions = metaData.Data.Questions

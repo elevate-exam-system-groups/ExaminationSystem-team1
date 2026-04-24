@@ -21,7 +21,7 @@ namespace ExaminationSystem.Features.Attempts.StartQuizAttempt.Commands
         public async Task<RequestResult<Guid>> Handle(CreateAttemptRecordCommand request, CancellationToken cancellationToken)
         {
             var durationResult = await _mediator
-                .Send(new GetQuizDurationInMinutesQuery(request.QuizId));
+                .Send(new GetQuizDurationInMinutesQuery(request.QuizId), cancellationToken);
 
             if (!durationResult.IsSuccess)
                 return RequestResult<Guid>

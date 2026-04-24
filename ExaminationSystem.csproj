@@ -64,7 +64,6 @@
     <Compile Include="Features\DiplomaModule\UpdateDiploma\DTOS\UpdateDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\UpdateDiploma\Requests\UpdateDiplomaCommandRequest.cs" />
     <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\DTOS\GetDiplomaQuizzesForLoggedStudentDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaQuizzesForSignedInStudent\GetDiplomaQuizzesForSignedInStudentQueryRequest.cs" />
     <Compile Include="Features\DiplomaModule\GetAllDiplomas\DTOS\GetAllDiplomaPaginatedDTO.cs" />
     <Compile Include="Features\DiplomaModule\GetAllDiplomas\DTOS\GetPublishedDiplomaResponseDTO.cs" />
     <Compile Include="Features\DiplomaModule\GetAllDiplomas\Request\GetDiplomasQueryRequest.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="Features\QuizModule\PublishQuiz\Queries\GetQuestionsCountPerQuizQueryRequest.cs" />
     <Compile Include="Features\QuizModule\Shared\Commands\UpdateQuizStatusCommandRequest.cs" />
     <Compile Include="Features\QuizModule\Shared\Queries\GetQuizDurationInMinutesQuery.cs" />
+    <Compile Include="Features\QuizModule\Shared\Queries\GetQuizMaxAttemptsQuery.cs" />
     <Compile Include="Features\QuizModule\Shared\Queries\IsQuizPublishedQuery.cs" />
     <Compile Include="Features\QuizModule\UnpublishQuiz\Orchestrators\UnPublishQuizCommandRequest.cs" />
     <Compile Include="Features\QuizModule\UnpublishQuiz\Queries\CheckQuizHasCurrentAttemptsQueryRequest.cs" />
