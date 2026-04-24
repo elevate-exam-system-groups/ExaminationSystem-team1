@@ -3,6 +3,7 @@ using ExaminationSystem.Features.Admin.Queries.GetActiveUsersToday;
 using ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate;
 using ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes;
 using ExaminationSystem.Features.Admin.Queries.GetTotalUsers;
+using ExaminationSystem.Features.Common.Request;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ExaminationSystem.Features.Admin.Orchestrator

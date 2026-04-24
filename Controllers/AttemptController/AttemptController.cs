@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using ExaminationSystem.Controllers.AttemptController.ViewModels;
-using ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators;
-using ExaminationSystem.Features.Attempts.SubmitAnswerAttempt.Orchestrators;
-using ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Orchestrators;
+using ExaminationSystem.Features.StartQuizAttempt.Orchestrators;
+using ExaminationSystem.Features.SubmitAnswerAttempt.Orchestrators;
+using ExaminationSystem.Features.SubmitQuizAttempt.Orchestrators;
+
 
 
 namespace ExaminationSystem.Controllers.AttemptController

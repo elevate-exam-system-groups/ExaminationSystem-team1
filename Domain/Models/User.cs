@@ -18,10 +18,11 @@ namespace ExaminationSystem.Domain.Models
         // PasswordResetTokenHash, PasswordResetTokenExpiry, IsPasswordResetTokenUsed
         // These are handled by the PasswordResetTokens collection below.
 
+
         public DateTime? ForgotPasswordLockoutEnd { get; set; }
         public int ForgotPasswordAttempts { get; set; }
         public ICollection<PasswordResetToken> PasswordResetTokens { get; set; } = new List<PasswordResetToken>();
-        
+
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
         public ICollection<UserOTP> UserOTPs { get; set; } = new List<UserOTP>();
 

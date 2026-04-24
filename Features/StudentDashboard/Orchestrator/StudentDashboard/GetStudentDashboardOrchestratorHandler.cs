@@ -1,4 +1,5 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs.StudentDashboard;
+﻿using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.StudentDashboard.DTOs.StudentDashboard;
 using ExaminationSystem.Features.StudentDashboard.Orchestrator.EnrolledDiplomas;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts;

@@ -1,5 +1,6 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
-using ExaminationSystem.Features.StudentDashboard.Helper;
+﻿using ExaminationSystem.Features.Common.Helpers;
+using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizzesCount;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails;

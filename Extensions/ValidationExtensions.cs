@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Extensions
+﻿using ExaminationSystem.Features.Common.Request;
+
+namespace ExaminationSystem.Extensions
 {
     public static class ValidationExtensions
     {

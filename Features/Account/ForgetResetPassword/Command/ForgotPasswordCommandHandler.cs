@@ -1,5 +1,6 @@
 ﻿using ExaminationSystem.Features.Account.ForgetResetPassword.DTOs;
 using ExaminationSystem.Features.Account.Shared.Services;
+using ExaminationSystem.Features.Common.Request;
 using static ExaminationSystem.Features.Account.ForgetResetPassword.Helper.HashToken;
 
 namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword

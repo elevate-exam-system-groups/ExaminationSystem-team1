@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Controllers.Shared
+﻿using ExaminationSystem.Features.Common.Request;
+
+namespace ExaminationSystem.Controllers.Shared
 {
 
     [ApiController]

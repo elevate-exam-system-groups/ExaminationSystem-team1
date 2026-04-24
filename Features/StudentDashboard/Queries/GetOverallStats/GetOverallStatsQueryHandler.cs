@@ -1,5 +1,6 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs.OverallStats;
-using ExaminationSystem.Features.StudentDashboard.Helper;
+﻿using ExaminationSystem.Features.Common.Helpers;
+using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.StudentDashboard.DTOs.OverallStats;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
 {

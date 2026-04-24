@@ -1,4 +1,5 @@
-﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Attempt;
+﻿using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.StudentDashboard.DTOs.Attempt;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
 {

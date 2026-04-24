@@ -8,6 +8,7 @@ using MediatR;
 using ExaminationSystem.Features.Account.Reqisteration.DTOs;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
+using ExaminationSystem.Features.Common.Request;
 
 namespace ExaminationSystem.Features.Account.Reqisteration.Command
 {
