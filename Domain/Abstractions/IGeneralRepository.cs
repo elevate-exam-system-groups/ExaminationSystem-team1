@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using ExaminationSystem.Domain.Models;
 
 namespace ExaminationSystem.Domain.Abstractions
 {
@@ -12,7 +13,6 @@ namespace ExaminationSystem.Domain.Abstractions
 
 
         public void Add(T entity);
-
         public Guid AddAndReturnId(T entity);
         public void Update(T entity);
         public void UpdateInclude(T entity, params string[] include);

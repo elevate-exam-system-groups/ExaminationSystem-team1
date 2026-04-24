@@ -4,21 +4,20 @@ using static ExaminationSystem.Features.Account.ForgetResetPassword.Helper.HashT
 namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPassword
 {
 
-
     public record ResetPasswordCommand(string Email, string Token, string NewPassword, string ConfirmNewPassword)
         : IRequest<RequestResult<ResetPasswordResponse>>;
 
-
-    public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, RequestResult<ResetPasswordResponse>>
+    public class ResetPasswordHandler 
+        : IRequestHandler<ResetPasswordCommand, RequestResult<ResetPasswordResponse>>
     {
 
         private readonly UserManager<User> _userManager;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGeneralRepository<PasswordResetToken> _repo;
 
-        public ResetPasswordHandler(UserManager<User> userManager, IUnitOfWork unitOfWork)
+        public ResetPasswordHandler(UserManager<User> userManager, IGeneralRepository<PasswordResetToken> repo)
         {
             _userManager = userManager;
-            _unitOfWork = unitOfWork;
+            _repo = repo;
         }
 
         public async Task<RequestResult<ResetPasswordResponse>> Handle(
@@ -41,7 +40,7 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
             // 1. Token hash matches (integrity)
             // 2. Token not used before (single-use)
             // 3. Token not expired (15 min validity)
-            var tokenEntity = await _unitOfWork.GetRepository<PasswordResetToken>()
+            var tokenEntity = await _repo
                 .Get(t => t.TokenHash == tokenHash 
                 && !t.IsUsed
                 && t.ExpiryAt > DateTime.UtcNow 
@@ -95,7 +94,7 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
             // SecurityStamp change invalidates all old JWT tokens
             await _userManager.UpdateSecurityStampAsync(user);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _repo.SaveChangesAsync();
 
             return RequestResult<ResetPasswordResponse>.Success(new ResetPasswordResponse
             {

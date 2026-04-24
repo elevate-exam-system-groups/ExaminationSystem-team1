@@ -10,19 +10,16 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
     public class ForgotPasswordHandler : IRequestHandler<ForgotPasswordCommand, RequestResult<ForgotPasswordResponse>>
     {
         private readonly UserManager<User> _userManager;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailService _emailService;
-        private readonly IGeneralRepository<PasswordResetToken> _generalRepository;
+        private readonly IGeneralRepository<PasswordResetToken> _repository;
 
         public ForgotPasswordHandler(UserManager<User> userManager,
-            IUnitOfWork unitOfWork,
             IEmailService emailService,
-            IGeneralRepository<PasswordResetToken> generalRepository)
+            IGeneralRepository<PasswordResetToken> repository)
         {
             _userManager = userManager;
-            _unitOfWork = unitOfWork;
             _emailService = emailService;
-            _generalRepository = generalRepository;
+            _repository = repository;
         }
 
         public async Task<RequestResult<ForgotPasswordResponse>> Handle(
@@ -103,8 +100,8 @@ namespace ExaminationSystem.Features.Account.ForgetResetPassword.Forgot_ResetPas
                 CreatedAt = DateTime.UtcNow
             };
 
-            _generalRepository.Add(passwordResetToken);
-            await _unitOfWork.SaveChangesAsync();
+            _repository.Add(passwordResetToken);
+            await _repository.SaveChangesAsync();
 
             // Send email with plain-text token (not hash)
             // User receives the plain token to click in email link

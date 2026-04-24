@@ -1,10 +1,14 @@
+using System.Reflection;
+using ExaminationSystem.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 namespace ExaminationSystem.Domain.Data
 {
-    public class Context : IdentityDbContext<User>//DbContext
+    public class Context : IdentityDbContext<User>
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
 
-        //public DbSet<User> Users { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }

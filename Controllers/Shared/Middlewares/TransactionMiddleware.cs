@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Domain.Data;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
@@ -22,7 +21,7 @@ namespace ExaminationSystem.Controllers.Shared.Middlewares
                     await _next(httpContext);
                     await transaction.CommitAsync();
                 }
-                catch (Exception ex)
+                catch
                 {
                     await transaction.RollbackAsync();
                     throw;

@@ -77,10 +77,11 @@ namespace ExaminationSystem
 
             app.UseMiddleware<GlobalErrorHandlerMiddelware>();
             app.UseMiddleware<TransactionMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<UpdateLastActivityMiddleware>();
             app.MapControllers();
 
             #endregion
