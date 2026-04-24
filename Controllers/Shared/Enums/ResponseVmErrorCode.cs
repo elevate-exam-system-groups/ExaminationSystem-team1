@@ -16,7 +16,7 @@
         NotFound = 404,
         Conflict = 409,
         Success = 201,
-        InternalServerError = 500
-
+        InternalServerError = 500,
+        UserNotFound = 501
     }
 }

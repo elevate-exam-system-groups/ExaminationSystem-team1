@@ -20,7 +20,6 @@ global using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.D
 global using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Queries;
 global using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Commands;
 global using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Dtos;
-global using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Query;
 global using FluentValidation;
 global using MailKit.Net.Smtp;
 global using MediatR;
