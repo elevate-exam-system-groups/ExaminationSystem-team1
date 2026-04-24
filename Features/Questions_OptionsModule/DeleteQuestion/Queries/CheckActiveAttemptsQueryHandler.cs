@@ -4,9 +4,9 @@
             : IRequestHandler<CheckActiveAttemptsQuery, RequestResult<ActiveAttemptsDto>>
     {
 
-        private readonly IGeneralRepository<Quiz> _attemptRepo;
-        public CheckActiveAttemptsQueryHandler(IGeneralRepository<Quiz> attemptRepo)
-          =>   _attemptRepo = attemptRepo;
+        private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
+        public CheckActiveAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
+          => _attemptRepo = attemptRepo;
 
         public async Task<RequestResult<ActiveAttemptsDto>> Handle(
             CheckActiveAttemptsQuery request, CancellationToken ct)
@@ -25,7 +25,7 @@
                     RequestErrorCode.Conflict);
             }
 
-            var result = new ActiveAttemptsDto(request.QuizId, false,0);
+            var result = new ActiveAttemptsDto(request.QuizId, false, 0);
 
             return RequestResult<ActiveAttemptsDto>.Success(result);
         }

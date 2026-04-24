@@ -6,9 +6,9 @@
     public class GetStudentInProgressQuizAttemptQueryHandler
         : IRequestHandler<GetStudentInProgressQuizAttemptQuery, RequestResult<Guid?>>
     {
-        private readonly IGeneralRepository<Quiz> _quizAttemptRepository;
+        private readonly IGeneralRepository<QuizAttempt> _quizAttemptRepository;
         private readonly IValidator<GetStudentInProgressQuizAttemptQuery> _validator;
-        public GetStudentInProgressQuizAttemptQueryHandler(IGeneralRepository<Quiz> quizAttemptRepository, IValidator<GetStudentInProgressQuizAttemptQuery> validator)
+        public GetStudentInProgressQuizAttemptQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptRepository, IValidator<GetStudentInProgressQuizAttemptQuery> validator)
         {
             _quizAttemptRepository = quizAttemptRepository;
             _validator = validator;

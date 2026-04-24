@@ -18,12 +18,12 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
         private readonly IGeneralRepository<Quiz> _quizRepository;
-        private readonly IGeneralRepository<Quiz> _studentQuizAttemptRepository;
+        private readonly IGeneralRepository<QuizAttempt> _studentQuizAttemptRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IValidator<GetDiplomaQuizzesForSignedInStudentQueryRequest> _validator;
 
 
-        public GetDiplomaQuizzesForSignedInStudentQueryRequestHandler(IGeneralRepository<Diploma> diplomaRepository, IGeneralRepository<Quiz> quizRepository, IGeneralRepository<Quiz> studentQuizAttemptRepository, IHttpContextAccessor httpContextAccessor)
+        public GetDiplomaQuizzesForSignedInStudentQueryRequestHandler(IGeneralRepository<Diploma> diplomaRepository, IGeneralRepository<Quiz> quizRepository, IGeneralRepository<QuizAttempt> studentQuizAttemptRepository, IHttpContextAccessor httpContextAccessor)
         {
             _diplomaRepository = diplomaRepository;
             _quizRepository = quizRepository;

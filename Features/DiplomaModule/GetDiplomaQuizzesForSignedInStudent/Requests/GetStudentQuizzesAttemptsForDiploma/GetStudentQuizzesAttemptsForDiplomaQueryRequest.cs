@@ -19,9 +19,9 @@ namespace ExaminationSystem.Features.DiplomaModule.GetDiplomaQuizzesForSignedInS
 
     public class GetStudentQuizzesAttemptsForDiplomaQueryRequestHandler : IRequestHandler<GetStudentQuizzesAttemptsForDiplomaQueryRequest, RequestResult<List<GetQuizAttemptsDTO>>>
     {
-        private readonly IGeneralRepository<Quiz> _quizAttemptRepository;
+        private readonly IGeneralRepository<QuizAttempt> _quizAttemptRepository;
         private readonly IValidator<GetStudentQuizzesAttemptsForDiplomaQueryRequest> _validator;
-        public GetStudentQuizzesAttemptsForDiplomaQueryRequestHandler(IGeneralRepository<Quiz> quizAttemptRepository, IValidator<GetStudentQuizzesAttemptsForDiplomaQueryRequest> validator)
+        public GetStudentQuizzesAttemptsForDiplomaQueryRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptRepository, IValidator<GetStudentQuizzesAttemptsForDiplomaQueryRequest> validator)
         {
             _quizAttemptRepository = quizAttemptRepository;
             _validator = validator;

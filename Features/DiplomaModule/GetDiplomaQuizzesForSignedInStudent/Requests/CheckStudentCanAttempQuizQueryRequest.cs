@@ -6,9 +6,9 @@
     public class CheckStudentCanAttempQuizQueryRequestHandler
        : IRequestHandler<CheckStudentCanAttempQuizQueryRequest, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
+        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
 
-        public CheckStudentCanAttempQuizQueryRequestHandler(IGeneralRepository<Quiz> quizAttemptsRepository)
+        public CheckStudentCanAttempQuizQueryRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
         }

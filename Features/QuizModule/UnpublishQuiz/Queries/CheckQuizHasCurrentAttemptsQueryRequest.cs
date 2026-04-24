@@ -15,10 +15,10 @@
     public class CheckQuizHasCurrentAttemptsQueryRequestHandler
         : IRequestHandler<CheckQuizHasCurrentAttemptsQueryRequest, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<Quiz> _quizAttemptRepository;
+        private readonly IGeneralRepository<QuizAttempt> _quizAttemptRepository;
         private readonly IValidator<CheckQuizHasCurrentAttemptsQueryRequest> _validator;
 
-        public CheckQuizHasCurrentAttemptsQueryRequestHandler(IGeneralRepository<Quiz> quizAttemptRepository, IValidator<CheckQuizHasCurrentAttemptsQueryRequest> validator)
+        public CheckQuizHasCurrentAttemptsQueryRequestHandler(IGeneralRepository<QuizAttempt> quizAttemptRepository, IValidator<CheckQuizHasCurrentAttemptsQueryRequest> validator)
         {
             _quizAttemptRepository = quizAttemptRepository;
             _validator = validator;

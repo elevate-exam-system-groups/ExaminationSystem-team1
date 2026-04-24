@@ -18,9 +18,9 @@
     public class IsQuizTimerExpiredQueryHandler
         : IRequestHandler<IsQuizTimerExpiredQuery, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
+        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
         private readonly IValidator<IsQuizTimerExpiredQuery> _validator;
-        public IsQuizTimerExpiredQueryHandler(IGeneralRepository<Quiz> quizAttemptsRepository, IValidator<IsQuizTimerExpiredQuery> validator)
+        public IsQuizTimerExpiredQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<IsQuizTimerExpiredQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;

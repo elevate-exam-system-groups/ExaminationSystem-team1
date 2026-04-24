@@ -17,9 +17,9 @@ namespace ExaminationSystem.Features.Attempts.SubmitQuizAttempt.Requests.Queries
     public class GetAttemptResultQueryHandler
         : IRequestHandler<GetAttemptResultQuery, RequestResult<AttemptResultDTO>>
     {
-        private readonly IGeneralRepository<Quiz> _quizAttemptsRepository;
+        private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
         private readonly IValidator<GetAttemptResultQuery> _validator;
-        public GetAttemptResultQueryHandler(IGeneralRepository<Quiz> quizAttemptsRepository, IValidator<GetAttemptResultQuery> validator)
+        public GetAttemptResultQueryHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<GetAttemptResultQuery> validator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;
