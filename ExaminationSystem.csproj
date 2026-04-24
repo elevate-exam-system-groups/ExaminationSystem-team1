@@ -8,23 +8,28 @@
 
   <ItemGroup>
 
+    <Compile Remove="Controllers\Shared\Filters\**" />
+
     <Compile Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <Compile Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <Compile Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Compile Remove="Features\DiplomaModule\**" />
     <Compile Remove="Features\QuizModule\**" />
+    <Content Remove="Controllers\Shared\Filters\**" />
 
     <Content Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <Content Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <Content Remove="Features\Account\ForgetResetPassword\Register\**" />
     <Content Remove="Features\DiplomaModule\**" />
     <Content Remove="Features\QuizModule\**" />
+    <EmbeddedResource Remove="Controllers\Shared\Filters\**" />
 
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\Register\**" />
     <EmbeddedResource Remove="Features\DiplomaModule\**" />
     <EmbeddedResource Remove="Features\QuizModule\**" />
+    <None Remove="Controllers\Shared\Filters\**" />
 
     <None Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <None Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
@@ -38,6 +43,10 @@
     <Content Remove="Features\Account\Login\**" />
     <EmbeddedResource Remove="Features\Account\Login\**" />
     <None Remove="Features\Account\Login\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\StudentController\StudentDashboard.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -89,7 +98,6 @@
     <Folder Include="Configurations\" />
     <Folder Include="Domain\Data\DataSeed\" />
     <Folder Include="Features\QuizModule\" />
-    <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>
 
 </Project>

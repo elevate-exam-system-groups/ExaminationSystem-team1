@@ -1,5 +1,6 @@
-﻿using ExaminationSystem.Controllers.AdminController.ViewModels;
-using ExaminationSystem.Features.Admin;
+﻿using ExaminationSystem.Controllers.AdminController.Mapping;
+using ExaminationSystem.Controllers.AdminController.ViewModels;
+using ExaminationSystem.Features.Admin.Orchestrator;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ExaminationSystem.Controllers.AdminController
@@ -7,7 +8,7 @@ namespace ExaminationSystem.Controllers.AdminController
     [Route("[controller]/[action]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    public class AdminDashboardController : ControllerBase
+    public class AdminDashboardController : BaseApiController
     {
 
         private readonly IMediator _mediator;
@@ -27,13 +28,8 @@ namespace ExaminationSystem.Controllers.AdminController
 
             var data = result.Data;
 
-            return ResponseViewModel<AdminStatsVm>.Success(new AdminStatsVm(
-                data.TotalUsers,
-                data.ActiveUsersToday,
-                data.TotalQuizzes,
-                data.TotalAttempts,
-                data.AvgPassRate
-            ));
+            return ResponseViewModel<AdminStatsVm>.Success(
+                AdminDashboardMapper.FromDto(data));
         }
     }
 }

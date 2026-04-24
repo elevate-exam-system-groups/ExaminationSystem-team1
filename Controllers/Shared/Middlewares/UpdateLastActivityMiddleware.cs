@@ -5,8 +5,8 @@ namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
     public class UpdateLastActivityMiddleware
     {
-        private readonly RequestDelegate _next;
 
+        private readonly RequestDelegate _next;
         public UpdateLastActivityMiddleware(RequestDelegate next)
             => _next = next;
 

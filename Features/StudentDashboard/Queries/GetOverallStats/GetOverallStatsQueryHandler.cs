@@ -31,7 +31,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
                     new OverallStatsDto(0, 0, 0));
 
 
-            var passRate = StatisticsHelper.CalculatePassRate(stats.Total , stats.PassedCount);
+            var passRate = StatisticsHelper.CalculatePercentage(stats.Total , stats.PassedCount);
             var avgScore = StatisticsHelper.RoundScore(stats.AvgScore);
 
             return RequestResult<OverallStatsDto>.Success(new OverallStatsDto(

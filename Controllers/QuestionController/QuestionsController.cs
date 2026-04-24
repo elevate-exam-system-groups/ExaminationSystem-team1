@@ -8,7 +8,7 @@ namespace ExaminationSystem.Controllers.QuestionController
     [Route("api/admin")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    public class QuestionsController : ControllerBase
+    public class QuestionsController : BaseApiController
     {
 
         private readonly IMediator _mediator;
@@ -46,36 +46,6 @@ namespace ExaminationSystem.Controllers.QuestionController
             return HandleResult(mappedResult);
         }
 
-        // Helper Methods (Common Logic) ---
-
-        private ActionResult<ResponseViewModel<T>> HandleResult<T>(
-            RequestResult<T> result, int successStatusCode = 200)
-        {
-            if (result.IsSuccess)
-            {
-                return StatusCode(successStatusCode, ResponseViewModel<T>.Success(
-                    result.Data!, result.Message));
-            }
-
-            var statusCode = GetStatusCode(result.requestErrorCode);
-            return StatusCode(statusCode, ResponseViewModel<T>.Failure(
-                result.Message, MapErrorCode(result.requestErrorCode)));
-        }
-
-        private static ResponseVmErrorCode MapErrorCode(RequestErrorCode? code) => code switch
-        {
-            RequestErrorCode.NotFound => ResponseVmErrorCode.NotFound,
-            RequestErrorCode.Conflict => ResponseVmErrorCode.Conflict,
-            RequestErrorCode.ValidationError => ResponseVmErrorCode.ValidationError,
-            _ => ResponseVmErrorCode.InternalServerError
-        };
-
-        private static int GetStatusCode(RequestErrorCode? code) => code switch
-        {
-            RequestErrorCode.NotFound => 404,
-            RequestErrorCode.Conflict => 409,
-            RequestErrorCode.ValidationError => 422,
-            _ => 500
-        };
+ 
     }
 }

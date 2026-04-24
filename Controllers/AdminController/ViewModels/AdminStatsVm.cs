@@ -6,5 +6,5 @@
      int TotalQuizzes,
      int TotalAttempts,
      decimal AvgPassRate
- );
+    );
 }

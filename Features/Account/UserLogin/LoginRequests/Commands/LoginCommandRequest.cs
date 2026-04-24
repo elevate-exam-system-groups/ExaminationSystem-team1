@@ -1,7 +1,6 @@
 ﻿using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 using ExaminationSystem.Features.AuthModule.Shared;
 using ExaminationSystem.Features.AuthModule.UserLogin.LoginDTOS;
-using FluentValidation;
 using System.Security.Cryptography;
 
 namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
@@ -95,7 +94,7 @@ namespace ExaminationSystem.Features.AuthModule.UserLogin.LoginRequests.Commands
                 return RequestResult<LoginCommandResponseDTO>
                     .Failure("Invalid email or password", RequestErrorCode.InvalidCredentials);
 
-            user.LastActivityAt = DateTime.UtcNow;
+            user.LastLoginAt = DateTime.UtcNow;
             await _userManager.UpdateAsync(user);
 
 

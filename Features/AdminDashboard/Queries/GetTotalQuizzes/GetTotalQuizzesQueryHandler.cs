@@ -17,7 +17,8 @@ namespace ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes
                 .Get(q => q.Status == QuizStatus.Published && !q.isDeleted)
                 .CountAsync(ct);
 
-            return RequestResult<TotalQuizzesDto>.Success(new TotalQuizzesDto(count));
+            return RequestResult<TotalQuizzesDto>.Success(
+                new TotalQuizzesDto(count));
         }
     }
 }

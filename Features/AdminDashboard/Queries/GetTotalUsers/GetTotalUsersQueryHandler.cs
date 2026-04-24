@@ -14,7 +14,9 @@ namespace ExaminationSystem.Features.Admin.Queries.GetTotalUsers
             (GetTotalUsersQuery request, CancellationToken ct)
         {
             var count = await _userManager.Users.CountAsync(ct);
-            return RequestResult<TotalUsersDto>.Success(new TotalUsersDto(count));
+
+            return RequestResult<TotalUsersDto>.Success(
+                new TotalUsersDto(count));
         }
 
     }

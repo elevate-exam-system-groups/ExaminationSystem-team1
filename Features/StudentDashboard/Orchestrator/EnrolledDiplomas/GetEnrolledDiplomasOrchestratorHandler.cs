@@ -58,7 +58,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Orchestrator.EnrolledDiplo
                         diplomas[id].Description,
                         total,
                         completed,
-                        StatisticsHelper.CalculateProgress(total, completed));
+                        StatisticsHelper.CalculatePercentage(total, completed));
                 }).ToList();
 
             return RequestResult<EnrolledDiplomasListDto>.Success(

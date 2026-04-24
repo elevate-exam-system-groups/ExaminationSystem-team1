@@ -13,14 +13,14 @@ namespace ExaminationSystem.Features.Admin.Queries.GetActiveUsersToday
         public async Task<RequestResult<ActiveUsersTodayDto>> Handle
             (GetActiveUsersTodayQuery request, CancellationToken ct)
         {
-            var today = DateTime.UtcNow.Date;
 
             var count = await _userManager.Users
-            .Where(u => u.LastActivityAt.HasValue
-                   && u.LastActivityAt.Value.Date == today)
+            .Where(u => u.LastActivityAt.HasValue && //===================
+                        u.LastActivityAt >= DateTime.UtcNow.Date)
             .CountAsync(ct);
 
-            return RequestResult<ActiveUsersTodayDto>.Success(new ActiveUsersTodayDto(count));
+            return RequestResult<ActiveUsersTodayDto>.Success(
+                new ActiveUsersTodayDto(count));
         }
     }
 }

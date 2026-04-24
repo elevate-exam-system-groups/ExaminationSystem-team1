@@ -2,12 +2,11 @@
 {
     public static class StatisticsHelper
     {
-        public static decimal CalculatePassRate(int total, int passedCount)
+        public static decimal CalculatePercentage(int total, int part)
         {
-            if (total == 0)
-                return 0;
-
-            return Math.Round((decimal)passedCount / total * 100, 1);
+            return total > 0 ?
+                Math.Round((decimal)part / total * 100, 1)
+                : 0;
         }
 
         public static decimal RoundScore(decimal score)
@@ -15,11 +14,6 @@
             return Math.Round(score, 1);
         }
 
-        public static decimal CalculateProgress(int total, int completed)
-        {
-             return total > 0 ? 
-                Math.Round((decimal)completed / total * 100, 1) 
-                : 0;
-        }
+      
     }
 }

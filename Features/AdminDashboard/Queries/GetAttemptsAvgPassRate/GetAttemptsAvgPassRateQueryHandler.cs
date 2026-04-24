@@ -1,4 +1,5 @@
 ﻿using ExaminationSystem.Features.Admin.DTOs;
+using ExaminationSystem.Features.StudentDashboard.Helper;
 
 namespace ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate
 {
@@ -20,22 +21,16 @@ namespace ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate
                 {
                     Total = g.Count(),
                     Passed = g.Count(a => a.IsPassed == true)
-                })
-                .FirstOrDefaultAsync(ct);
+
+                }).FirstOrDefaultAsync(ct);
 
             var total = stats?.Total ?? 0;
             var passed = stats?.Passed ?? 0;
-            var passRate = CalculatePassRate(total, passed);
+            var passRate = StatisticsHelper.CalculatePercentage(total, passed);
 
-            return RequestResult<AttemptAvgPassRateDto>.Success(new AttemptAvgPassRateDto(total, passRate));
+            return RequestResult<AttemptAvgPassRateDto>.Success(
+                new AttemptAvgPassRateDto(total, passRate));
         }
 
-        private decimal CalculatePassRate(int total, int passed)
-        {
-            return total > 0
-                  ? Math.Round((decimal)passed / total * 100, 1)
-                  : 0;
-        }
     }
-
 }

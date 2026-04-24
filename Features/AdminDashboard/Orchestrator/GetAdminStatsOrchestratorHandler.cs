@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Features.Admin.DTOs;
-using ExaminationSystem.Features.Admin.Queries;
 using ExaminationSystem.Features.Admin.Queries.GetActiveUsersToday;
 using ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate;
 using ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes;
