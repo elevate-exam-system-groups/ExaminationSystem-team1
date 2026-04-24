@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ExaminationSystem.Features.Attempts.StartQuizAttempt.Orchestrators.DTOS;
-using ExaminationSystem.Features.Attempts.StartQuizAttempt.Queries.GetQuizAttemptMetaData.DTOS;
+using ExaminationSystem.Features.StartQuizAttempt.Orchestrators.DTOS;
+using ExaminationSystem.Features.StartQuizAttempt.Queries.GetQuizAttemptMetaData.DTOS;
 
 namespace ExaminationSystem.Controllers.AttemptController.ViewModels
 {

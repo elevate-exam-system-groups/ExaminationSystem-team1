@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using ExaminationSystem.Features.Common.Request;
 
 namespace ExaminationSystem.Features.Account.Reqisteration.Command
 {

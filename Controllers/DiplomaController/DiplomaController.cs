@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using ExaminationSystem.Controllers.DiplomaController.ViewModels;
-using ExaminationSystem.Features.DiplomaModule.CreateDiploma.Requests;
-using ExaminationSystem.Features.DiplomaModule.DeleteDiploma.Requests;
-using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.DTOS;
-using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.Request;
-using ExaminationSystem.Features.DiplomaModule.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators;
-using ExaminationSystem.Features.DiplomaModule.UpdateDiploma.Requests;
-
+using ExaminationSystem.Features.CreateDiploma.Commands;
+using ExaminationSystem.Features.DeleteDiploma.Commands;
+using ExaminationSystem.Features.GetAllDiplomas.Queries;
+using ExaminationSystem.Features.GetAllDiplomas.Queries.DTOS;
+using ExaminationSystem.Features.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators;
+using ExaminationSystem.Features.UpdateDiploma.Commands;
 
 
 namespace ExaminationSystem.Controllers.DiplomaController

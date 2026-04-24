@@ -1,5 +1,5 @@
-﻿using ExaminationSystem.Features.QuizModule.PublishQuiz.Orchestrators;
-using ExaminationSystem.Features.QuizModule.UnpublishQuiz.Orchestrators;
+﻿using ExaminationSystem.Features.PublishQuiz.Orchestrators;
+using ExaminationSystem.Features.UnpublishQuiz.Orchestrators;
 
 namespace ExaminationSystem.Controllers.QuizController
 {

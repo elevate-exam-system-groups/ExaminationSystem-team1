@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using ExaminationSystem.Features.Common.Request;
+using System.Security.Claims;
 
 namespace ExaminationSystem.Features.Common.User.GetCurrentLoggedStudentID
 {

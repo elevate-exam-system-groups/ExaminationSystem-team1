@@ -1,25 +1,10 @@
-global using ExaminationSystem.Controllers.QuestionController.ViewModels;
 global using ExaminationSystem.Controllers.Shared;
 global using ExaminationSystem.Controllers.Shared.Enums;
 global using ExaminationSystem.Domain.Abstractions;
 global using ExaminationSystem.Domain.Models;
 global using ExaminationSystem.Domain.Models.Enums;
 global using ExaminationSystem.Extensions;
-global using ExaminationSystem.Features.Common;
 global using ExaminationSystem.Features.Common.Enums;
-global using ExaminationSystem.Features.DiplomaModule.Shared.Orchestrators.GetPuplishedDiplomaByIdWithQuizzesOrchestrator.DTOS;
-global using ExaminationSystem.Features.DiplomaModule.Shared.Requests;
-global using ExaminationSystem.Features.DiplomaModule.Shared.Requests.GetPublishedDiplomaRecord; // This is a directory/namespace now
-global using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Commands;
-global using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.DTOs;
-global using ExaminationSystem.Features.Questions_OptionsModule.AddQuestion.Queries;
-global using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion;
-global using ExaminationSystem.Features.Questions_OptionsModule.CreateQuestion.DTOs;
-global using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Commands;
-global using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Dtos;
-global using ExaminationSystem.Features.Questions_OptionsModule.DeleteQuestion.Queries;
-global using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Commands;
-global using ExaminationSystem.Features.Questions_OptionsModule.UpdateQuestion.Dtos;
 global using FluentValidation;
 global using MailKit.Net.Smtp;
 global using MediatR;
@@ -33,4 +18,5 @@ global using Microsoft.IdentityModel.Tokens;
 global using MimeKit;
 global using System.Reflection;
 global using System.Text;
+
 

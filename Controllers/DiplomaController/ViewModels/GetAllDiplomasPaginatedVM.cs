@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.DiplomaModule.GetAllDiplomas.DTOS;
+﻿using ExaminationSystem.Features.GetAllDiplomas.Queries.DTOS;
 
 namespace ExaminationSystem.Controllers.DiplomaController.ViewModels
 {

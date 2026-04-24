@@ -13,29 +13,21 @@
     <Compile Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <Compile Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <Compile Remove="Features\Account\ForgetResetPassword\Register\**" />
-    <Compile Remove="Features\DiplomaModule\**" />
-    <Compile Remove="Features\QuizModule\**" />
     <Content Remove="Controllers\Shared\Filters\**" />
 
     <Content Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <Content Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <Content Remove="Features\Account\ForgetResetPassword\Register\**" />
-    <Content Remove="Features\DiplomaModule\**" />
-    <Content Remove="Features\QuizModule\**" />
     <EmbeddedResource Remove="Controllers\Shared\Filters\**" />
 
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <EmbeddedResource Remove="Features\Account\ForgetResetPassword\Register\**" />
-    <EmbeddedResource Remove="Features\DiplomaModule\**" />
-    <EmbeddedResource Remove="Features\QuizModule\**" />
     <None Remove="Controllers\Shared\Filters\**" />
 
     <None Remove="Features\Account\ForgetResetPassword\AccountVerification\**" />
     <None Remove="Features\Account\ForgetResetPassword\PasswordReset\**" />
     <None Remove="Features\Account\ForgetResetPassword\Register\**" />
-    <None Remove="Features\DiplomaModule\**" />
-    <None Remove="Features\QuizModule\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,45 +39,6 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\StudentController\StudentDashboard.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Features\DiplomaModule\CreateDiploma\DTOS\CreateDiplomaResponseDTO.cs" />
-    <Compile Include="Features\DiplomaModule\CreateDiploma\Requests\CreateDiplomaCommandRequest.cs" />
-    <Compile Include="Features\DiplomaModule\DeleteDiploma\Requests\DeleteDiplomaCommand.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Orchestrators\GetDiplomaQuizzesForLoggedStudentOrchestrator.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\CheckLoggedStudentEnrolledInDiplomaQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\GetLastAttemptScore\GetLastAttemptScoreForLoggedStudentQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\GetQuizSummaryForStudent\DTOS\GetQuizSummaryDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\GetQuizSummaryForStudent\GetQuizSummaryForStudentQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\GetDiplomaEnrollments\DTOS\DiplomaEnrollmentsDto.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\GetDiplomaEnrollments\GetDiplomaEnrollmentsQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\GetDiplomaQuizzes\DTOS\GetDiplomaQuizzesDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\GetDiplomaQuizzes\GetDiplomaQuizzesQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\GetStudentQuizzesAttemptsForDiploma\DTOS\GetQuizAttemptsDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\Requests\GetStudentQuizzesAttemptsForDiploma\GetStudentQuizzesAttemptsForDiplomaQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\CheckDiplomaExistAndPublishedQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\GetPublishedDiplomaRecord\DTOS\GetPublishedDiplomaByIdDTO.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\GetPublishedDiplomaRecord\GetPublishedDiplomaByIdQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\CheckDiplomaHasEnrollmentsQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Requests\GetDiplomaQuizCountQueryRequest.cs" />
-    <Compile Include="Features\DiplomaModule\UpdateDiploma\DTOS\UpdateDiplomaResponseDTO.cs" />
-    <Compile Include="Features\DiplomaModule\UpdateDiploma\Requests\UpdateDiplomaCommandRequest.cs" />
-    <Compile Include="Features\DiplomaModule\GetDiplomaWithQuizzesForLoggedStudent\DTOS\GetDiplomaQuizzesForLoggedStudentDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetAllDiplomas\DTOS\GetAllDiplomaPaginatedDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetAllDiplomas\DTOS\GetPublishedDiplomaResponseDTO.cs" />
-    <Compile Include="Features\DiplomaModule\GetAllDiplomas\Request\GetAllDiplomasQuery.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Orchestrators\GetPuplishedDiplomaByIdWithQuizzesOrchestrator\GetPuplishedDiplomaQuizzesByIdOrchestratorRequest.cs" />
-    <Compile Include="Features\DiplomaModule\Shared\Orchestrators\GetPuplishedDiplomaByIdWithQuizzesOrchestrator\DTOS\GetPuplishedDiplomaQuizzesByIdDTO.cs" />
-    <Compile Include="Features\QuizModule\PublishQuiz\Orchestrators\PublishQuizOrchestrator.cs" />
-    <Compile Include="Features\QuizModule\PublishQuiz\Queries\CheckAllQuizQuestionsHasValidOptionsQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\PublishQuiz\Queries\GetQuestionsCountPerQuizQueryRequest.cs" />
-    <Compile Include="Features\QuizModule\Shared\Commands\UpdateQuizStatusCommandRequest.cs" />
-    <Compile Include="Features\QuizModule\Shared\Queries\GetQuizDurationInMinutesQuery.cs" />
-    <Compile Include="Features\QuizModule\Shared\Queries\GetQuizMaxAttemptsQuery.cs" />
-    <Compile Include="Features\QuizModule\Shared\Queries\IsQuizPublishedQuery.cs" />
-    <Compile Include="Features\QuizModule\UnpublishQuiz\Orchestrators\UnPublishQuizCommandRequest.cs" />
-    <Compile Include="Features\QuizModule\UnpublishQuiz\Queries\CheckQuizHasCurrentAttemptsQueryRequest.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -121,7 +74,6 @@
     <Folder Include="Configurations\" />
     <Folder Include="Controllers\QuizController\ViewModels\" />
     <Folder Include="Domain\Data\DataSeed\" />
-    <Folder Include="Features\QuizModule\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>
 
