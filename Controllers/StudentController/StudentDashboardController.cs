@@ -6,38 +6,29 @@ using System.Security.Claims;
 
 namespace ExaminationSystem.Controllers.StudentController
 {
-    namespace ExaminationSystem.Controllers.StudentController
+    [Route("api/student")]
+    [ApiController]
+    [Authorize(Roles = "Student")]
+    public class StudentDashboardController : BaseApiController
     {
+        private readonly IMediator _mediator;
+        public StudentDashboardController(IMediator mediator)
+            => _mediator = mediator;
 
-        [Route("api/student")]
-        [ApiController]
-        [Authorize(Roles = "Student")]
-        public class StudentDashboardController : BaseApiController
+        [HttpGet("dashboard")]
+        public async Task<ActionResult<ResponseViewModel<StudentDashboardResponseVm>>> GetDashboard()
         {
+            var studentId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            private readonly IMediator _mediator;
-            public StudentDashboardController(IMediator mediator)
-                => _mediator = mediator;
+            var result = await _mediator.Send(
+                new GetStudentDashboardOrchestrator(studentId));
 
+            var mappedResult = result.IsSuccess ?
+                RequestResult<StudentDashboardResponseVm>.Success(result.Data.ToViewModel(), result.Message)
+                : RequestResult<StudentDashboardResponseVm>.Failure(
+                    result.Message, result.requestErrorCode);
 
-            [HttpGet("dashboard")]
-            public async Task<ActionResult<ResponseViewModel<StudentDashboardResponseVm>>> GetDashboard()
-            {
-
-                var studentId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-
-                var result = await _mediator.Send(
-                    new GetStudentDashboardOrchestrator(studentId));
-
-                if (!result.IsSuccess)
-                    return BadRequest(ResponseViewModel<StudentDashboardResponseVm>.Failure(
-                        result.Message ?? "Failed to load dashboard"));
-
-                var vm = result.Data.ToViewModel();
-
-                return Ok(ResponseViewModel<StudentDashboardResponseVm>.Success(vm));
-            }
+            return HandleResult(mappedResult);
         }
     }
 }
