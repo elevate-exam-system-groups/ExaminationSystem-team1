@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ExaminationSystem.Features.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators.DTOS;
+using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators.DTOS;
 
 namespace ExaminationSystem.Controllers.DiplomaController.ViewModels
 {

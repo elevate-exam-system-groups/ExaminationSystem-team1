@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.Common.DiplomaRequests.Queries
 {
     public record CheckDiplomaExistAndPublishedQueryRequest(Guid DiplomaId) :

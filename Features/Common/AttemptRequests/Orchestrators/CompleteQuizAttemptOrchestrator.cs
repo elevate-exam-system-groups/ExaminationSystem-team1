@@ -1,7 +1,7 @@
-﻿using ExaminationSystem.Features.Common.AttemptRequests.Commands;
-using ExaminationSystem.Features.SubmitQuizAttempt.Commands;
-using ExaminationSystem.Features.SubmitQuizAttempt.Orchestrators.DTOS;
-using ExaminationSystem.Features.SubmitQuizAttempt.Queries.GetAttemptResult;
+﻿using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Commands;
+using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestrators.DTOS;
+using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Queries.GetAttemptResult;
+using ExaminationSystem.Features.Common.AttemptRequests.Commands;
 
 
 
