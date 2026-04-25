@@ -101,9 +101,9 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                 .Select(quiz =>
                 {
                     var attempts = attemptsByQuiz.GetValueOrDefault(quiz.QuizId) ?? new();
-                    var attemptCount = attempts.Count;
-                    var canAttempt = quiz.MaxAttempts == null || attemptCount < quiz.MaxAttempts;
-                    var lastScore = attempts.FirstOrDefault()?.AttemptScore;
+                    int attemptCount = attempts.Count;
+                    bool canAttempt = quiz.MaxAttempts is null || attemptCount < quiz.MaxAttempts;
+                    decimal? lastScore = attempts.FirstOrDefault()?.AttemptScore;
 
                     return new GetDiplomaQuizzesForLoggedStudentDTO(
                         quiz.QuizId,
