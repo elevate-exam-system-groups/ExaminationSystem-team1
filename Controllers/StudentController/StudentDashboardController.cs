@@ -20,23 +20,20 @@ namespace ExaminationSystem.Controllers.StudentController
                 => _mediator = mediator;
 
 
-            [HttpGet("dashboard")]
             public async Task<ActionResult<ResponseViewModel<StudentDashboardResponseVm>>> GetDashboard()
             {
-
                 var studentId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
 
                 var result = await _mediator.Send(
                     new GetStudentDashboardOrchestrator(studentId));
 
-                if (!result.IsSuccess)
-                    return BadRequest(ResponseViewModel<StudentDashboardResponseVm>.Failure(
-                        result.Message ?? "Failed to load dashboard"));
+                var mappedResult = result.IsSuccess
+                    ? RequestResult<StudentDashboardResponseVm>.Success(
+                        result.Data.ToViewModel(), result.Message)
+                    : RequestResult<StudentDashboardResponseVm>.Failure(
+                        result.Message, result.requestErrorCode);
 
-                var vm = result.Data.ToViewModel();
-
-                return Ok(ResponseViewModel<StudentDashboardResponseVm>.Success(vm));
+                return HandleResult(mappedResult);
             }
         }
     }

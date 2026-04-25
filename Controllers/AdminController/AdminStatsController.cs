@@ -17,19 +17,16 @@ namespace ExaminationSystem.Controllers.AdminController
 
 
         [HttpGet]
-        public async Task<ResponseViewModel<AdminStatsVm>> GetStats()
+        public async Task<ActionResult<ResponseViewModel<AdminStatsVm>>> GetStats()
         {
             var result = await _mediator.Send(new GetAdminStatsOrchestrator());
 
-            if (!result.IsSuccess)
-                return ResponseViewModel<AdminStatsVm>.Failure(
-                    result.Message ?? "Failed to retrieve stats",
-                    ResponseVmErrorCode.InternalServerError);
+            var mappedResult = result.IsSuccess
+                ? RequestResult<AdminStatsVm>.Success(
+                    AdminDashboardMapper.FromDto(result.Data!), result.Message)
+                : RequestResult<AdminStatsVm>.Failure(result.Message, result.requestErrorCode);
 
-            var data = result.Data;
-
-            return ResponseViewModel<AdminStatsVm>.Success(
-                AdminDashboardMapper.FromDto(data));
+            return HandleResult(mappedResult);
         }
     }
 }
