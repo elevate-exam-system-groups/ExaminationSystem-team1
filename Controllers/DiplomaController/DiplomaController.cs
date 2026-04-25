@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using ExaminationSystem.Controllers.DiplomaController.ViewModels;
-using ExaminationSystem.Features.CreateDiploma.Commands;
-using ExaminationSystem.Features.DeleteDiploma.Commands;
-using ExaminationSystem.Features.GetAllDiplomas.Queries;
-using ExaminationSystem.Features.GetAllDiplomas.Queries.DTOS;
-using ExaminationSystem.Features.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators;
-using ExaminationSystem.Features.UpdateDiploma.Commands;
+using ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands;
+using ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma.Commands;
+using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries;
+using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries.DTOS;
+using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators;
+using ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma.Commands;
 
 
 namespace ExaminationSystem.Controllers.DiplomaController
@@ -27,17 +27,18 @@ namespace ExaminationSystem.Controllers.DiplomaController
         public async Task<ResponseViewModel<CreateDiplomaResponseVM>> CreateDiploma(CreateDiplomaRequestVM request)
         {
             var result = await _mediator
-                                        .Send(new CreateDiplomaCommandRequest(request.Title, request.Description));
+                .Send(new CreateDiplomaCommandRequest(request.Title, request.Description));
             if (!result.IsSuccess)
             {
                 return ResponseViewModel<CreateDiplomaResponseVM>
                       .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode);
             }
 
-            var reponseVM = new CreateDiplomaResponseVM(result.Data.Id,
-                                                                           result.Data.Title,
-                                                                           result.Data.Description,
-                                                                           result.Data.Status);
+            var reponseVM = new CreateDiplomaResponseVM(
+                result.Data.Id,
+                result.Data.Title,
+                result.Data.Description,
+                result.Data.Status);
 
             return ResponseViewModel<CreateDiplomaResponseVM>
                  .Success(reponseVM);
@@ -47,7 +48,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         public async Task<ResponseViewModel<UpdateDiplomaResponseVM>> UpdateDiploma(UpdateDiplomaRequestVM request)
         {
             var result = await _mediator
-                                    .Send(new UpdateDiplomaCommandRequest(request.Id, request.Title, request.Description));
+                 .Send(new UpdateDiplomaCommandRequest(request.Id, request.Title, request.Description));
             if (!result.IsSuccess)
             {
                 return ResponseViewModel<UpdateDiplomaResponseVM>

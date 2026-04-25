@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Helpers;
+﻿using ExaminationSystem.Features.Common.FeatureExtensions;
 using ExaminationSystem.Features.Common.Request;
 using ExaminationSystem.Features.StudentDashboard.DTOs.Quiz;
 

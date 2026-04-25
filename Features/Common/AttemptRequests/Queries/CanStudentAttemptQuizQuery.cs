@@ -1,4 +1,5 @@
-﻿using ExaminationSystem.Features.Common.QuizRequests.Queries;
+﻿using ExaminationSystem.Features.Common.FeatureExtensions;
+using ExaminationSystem.Features.Common.QuizRequests.Queries;
 using ExaminationSystem.Features.Common.Request;
 
 
