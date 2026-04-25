@@ -27,6 +27,9 @@ namespace ExaminationSystem.Controllers.Shared
             RequestErrorCode.NotFound => ResponseVmErrorCode.NotFound,
             RequestErrorCode.Conflict => ResponseVmErrorCode.Conflict,
             RequestErrorCode.ValidationError => ResponseVmErrorCode.ValidationError,
+            RequestErrorCode.Forbidden => ResponseVmErrorCode.Unauthorized,
+            RequestErrorCode.AccountLocked => ResponseVmErrorCode.Unauthorized,
+            RequestErrorCode.AccountNotActive => ResponseVmErrorCode.Unauthorized,
             _ => ResponseVmErrorCode.InternalServerError
         };
 
@@ -35,6 +38,9 @@ namespace ExaminationSystem.Controllers.Shared
             RequestErrorCode.NotFound => 404,
             RequestErrorCode.Conflict => 409,
             RequestErrorCode.ValidationError => 422,
+            RequestErrorCode.Forbidden => 403,
+            RequestErrorCode.AccountLocked => 401,
+            RequestErrorCode.AccountNotActive => 401,
             _ => 500
         };
 
