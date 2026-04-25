@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Features.Common.FeatureExtensions;
-using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.Common.QuizRequests.Queries
 {
     public record GetQuizMaxAttemptsQuery(Guid quizId) : IRequest<RequestResult<int?>>;

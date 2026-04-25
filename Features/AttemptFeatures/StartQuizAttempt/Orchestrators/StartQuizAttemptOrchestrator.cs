@@ -1,5 +1,7 @@
-﻿using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrators.DTOS;
-using ExaminationSystem.Features.Common.FeatureExtensions;
+﻿using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands;
+using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrators.DTOS;
+using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Queries;
+using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Queries.GetQuizAttemptMetaData;
 
 namespace ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrators
 {

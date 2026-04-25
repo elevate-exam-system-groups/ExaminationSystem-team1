@@ -37,7 +37,8 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
             if (!validationResult.IsSuccess)
                 return validationResult;
 
-            var Diplomaquizzes = _quizRepository.Get(q => q.DiplomaId == request.DiplomaId)
+            var Diplomaquizzes = await _quizRepository
+                .Get(q => q.DiplomaId == request.DiplomaId && q.Status == QuizStatus.Published)
                 .Select(q => new GetDiplomaQuizzesDTO
                 (q.Id,
                 q.Title,
@@ -45,7 +46,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                 q.PassScore,
                 q.MaxAttempts,
                 q.Status
-                )).ToList();
+                )).ToListAsync(cancellationToken);
 
             if (Diplomaquizzes == null || !Diplomaquizzes.Any())
             {

@@ -2,7 +2,7 @@ using ExaminationSystem.Features.Common.DiplomaRequests.Queries;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators.DTOS;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetDiplomaQuizzes;
-using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetQuizSummaryForStudent;
+using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetStudentQuizzesAttemptsForDiploma;
 
 
 
@@ -44,7 +44,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                 return validationResult;
 
             var isDiplomaExistAndPublished = await _mediator
-                .Send(new CheckDiplomaExistAndPublishedQueryRequest(request.diplomaId), cancellationToken);
+                .Send(new CheckDiplomaExistAndPublishedQuery(request.diplomaId), cancellationToken);
 
             if (!isDiplomaExistAndPublished.IsSuccess)
             {
@@ -79,44 +79,44 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                .Failure(DiplomaQuizzesResult.Message, DiplomaQuizzesResult.requestErrorCode);
             }
 
-            var DiplomaQuizzes = DiplomaQuizzesResult.Data!;
+            var diplomaQuizzes = DiplomaQuizzesResult.Data!;
 
 
-            //var QuizzesAttemptsResult = await _mediator
-            //    .Send(new GetStudentQuizzesAttemptsForDiplomaQueryRequest(request.diplomaId,
-            //         LoggedStudentIdResult.Data!), cancellationToken);
+            var quizzesAttemptsResult = await _mediator
+    .Send(new GetStudentQuizzesAttemptsForDiplomaQueryRequest(
+        request.diplomaId, request.StudentId), cancellationToken);
 
-            //if (!QuizzesAttemptsResult.IsSuccess)
-            //{
-            //    return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
-            //   .Failure(QuizzesAttemptsResult.Message, QuizzesAttemptsResult.requestErrorCode);
-            //}
+            if (!quizzesAttemptsResult.IsSuccess)
+                return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
+                    .Failure(quizzesAttemptsResult.Message, quizzesAttemptsResult.requestErrorCode);
 
-            //var QuizzesAttempts = QuizzesAttemptsResult.Data!;
+            var quizzesAttempts = quizzesAttemptsResult.Data!;
 
-            var QuizSummaryResultresponse = await Task.WhenAll(
-             DiplomaQuizzes
-             .Select(quiz => _mediator
-             .Send(new GetQuizSummaryForStudentQueryRequest(
-             quiz.QuizId,
-             request.StudentId,
-             quiz.MaxAttempts
-             ), cancellationToken))
-);
 
-            var result = DiplomaQuizzes
-                .Select((quiz, index) =>
-                new GetDiplomaQuizzesForLoggedStudentDTO(
-                quiz.QuizId,
-                quiz.Title,
-                QuizSummaryResultresponse[index].Data!.AttemptCount,
-                quiz.DurationInMinutes,
-                quiz.PassScore,
-                quiz.MaxAttempts,
-                QuizSummaryResultresponse[index].Data!.CanAttempt,
-                QuizSummaryResultresponse[index].Data!.LastScore,
-                quiz.Status
-                )).ToList();
+            var attemptsByQuiz = quizzesAttempts
+                .GroupBy(a => a.QuizId)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            var result = diplomaQuizzes
+                .Select(quiz =>
+                {
+                    var attempts = attemptsByQuiz.GetValueOrDefault(quiz.QuizId) ?? new();
+                    var attemptCount = attempts.Count;
+                    var canAttempt = quiz.MaxAttempts == null || attemptCount < quiz.MaxAttempts;
+                    var lastScore = attempts.FirstOrDefault()?.AttemptScore;
+
+                    return new GetDiplomaQuizzesForLoggedStudentDTO(
+                        quiz.QuizId,
+                        quiz.Title,
+                        attemptCount,
+                        quiz.DurationInMinutes,
+                        quiz.PassScore,
+                        quiz.MaxAttempts,
+                        canAttempt,
+                        lastScore,
+                        quiz.Status
+                    );
+                }).ToList();
 
             return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>.Success(result);
 

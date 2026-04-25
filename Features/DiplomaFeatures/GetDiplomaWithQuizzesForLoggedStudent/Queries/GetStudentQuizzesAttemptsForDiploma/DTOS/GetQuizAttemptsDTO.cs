@@ -1,13 +1,13 @@
 ﻿namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetStudentQuizzesAttemptsForDiploma.DTOS
 {
-    public class GetQuizAttemptsDTO
+    public record GetQuizAttemptsDTO
     (
      Guid AttemptId,
      Guid QuizId,
      decimal? AttemptScore,
      QuizAttemptStatus Status,
-     DateTime? SubmittedAt,
-     int AttemptCount
+     DateTime? SubmittedAt
+    //int AttemptCount
 
     );
 }

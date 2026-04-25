@@ -1,28 +1,28 @@
 ﻿
 namespace ExaminationSystem.Features.Common.DiplomaRequests.Queries
 {
-    public record CheckDiplomaExistAndPublishedQueryRequest(Guid DiplomaId) :
+    public record CheckDiplomaExistAndPublishedQuery(Guid DiplomaId) :
         IRequest<RequestResult<bool>>;
 
-    public class CheckDiplomaExistAndPublishedQueryRequestValidator : AbstractValidator<CheckDiplomaExistAndPublishedQueryRequest>
+    public class CheckDiplomaExistAndPublishedQueryValidator : AbstractValidator<CheckDiplomaExistAndPublishedQuery>
     {
-        public CheckDiplomaExistAndPublishedQueryRequestValidator()
+        public CheckDiplomaExistAndPublishedQueryValidator()
         {
             RuleFor(x => x.DiplomaId)
                 .NotEmpty().WithMessage("DiplomaId is required");
         }
     }
 
-    public class CheckDiplomaExistAndPublishedQueryHandler : IRequestHandler<CheckDiplomaExistAndPublishedQueryRequest, RequestResult<bool>>
+    public class CheckDiplomaExistAndPublishedQueryHandler : IRequestHandler<CheckDiplomaExistAndPublishedQuery, RequestResult<bool>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
-        private readonly IValidator<CheckDiplomaExistAndPublishedQueryRequest> _validator;
-        public CheckDiplomaExistAndPublishedQueryHandler(IGeneralRepository<Diploma> diplomaRepository, IValidator<CheckDiplomaExistAndPublishedQueryRequest> validator)
+        private readonly IValidator<CheckDiplomaExistAndPublishedQuery> _validator;
+        public CheckDiplomaExistAndPublishedQueryHandler(IGeneralRepository<Diploma> diplomaRepository, IValidator<CheckDiplomaExistAndPublishedQuery> validator)
         {
             _diplomaRepository = diplomaRepository;
             _validator = validator;
         }
-        public async Task<RequestResult<bool>> Handle(CheckDiplomaExistAndPublishedQueryRequest request, CancellationToken cancellationToken)
+        public async Task<RequestResult<bool>> Handle(CheckDiplomaExistAndPublishedQuery request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
@@ -31,9 +31,9 @@ namespace ExaminationSystem.Features.Common.DiplomaRequests.Queries
                     validationResult.Errors.Select(e => e.ErrorMessage));
                 return RequestResult<bool>.Failure(validationErrors, RequestErrorCode.ValidationError);
             }
-            var isExistAndPublished = _diplomaRepository
+            var isExistAndPublished = await _diplomaRepository
                 .Get(d => d.Id == request.DiplomaId && d.Status == DiplomaStatus.Published)
-                .Any();
+                .AnyAsync(cancellationToken);
 
             if (!isExistAndPublished)
             {

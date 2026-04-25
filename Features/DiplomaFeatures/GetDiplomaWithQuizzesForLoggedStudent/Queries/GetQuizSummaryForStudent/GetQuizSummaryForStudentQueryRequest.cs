@@ -15,7 +15,8 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
             RuleFor(x => x.StudentId)
                 .NotEmpty().WithMessage("StudentId is required");
             RuleFor(x => x.MaxAttempts)
-                .GreaterThan(0).WithMessage("MaxAttempts must be greater than 0");
+                .GreaterThan(0).When(x => x.MaxAttempts.HasValue)
+                .WithMessage("MaxAttempts must be greater than 0");
         }
     }
 

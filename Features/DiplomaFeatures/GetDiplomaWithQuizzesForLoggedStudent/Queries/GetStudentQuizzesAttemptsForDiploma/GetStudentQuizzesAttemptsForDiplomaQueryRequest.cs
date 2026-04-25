@@ -39,7 +39,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                 .Get(qa => qa.StudentId == request.StudentId && qa.Quiz.DiplomaId == request.DiplomaId)
                 .Count();
 
-            var quizAttempts = _quizAttemptRepository
+            var quizAttempts = await _quizAttemptRepository
                 .Get(qa => qa.StudentId == request.StudentId && qa.Quiz.DiplomaId == request.DiplomaId)
                 .Select(qa => new GetQuizAttemptsDTO
                 (
@@ -47,9 +47,9 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                     qa.QuizId,
                     qa.Score,
                     qa.Status,
-                    qa.SubmittedAt,
-                    AttemptCount
-                )).ToList();
+                    qa.SubmittedAt
+                //AttemptCount
+                )).ToListAsync(cancellationToken);
 
             if (quizAttempts == null || !quizAttempts.Any())
             {

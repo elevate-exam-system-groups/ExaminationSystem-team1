@@ -38,8 +38,8 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                 return RequestResult<bool>.Failure(validationErrors, RequestErrorCode.ValidationError);
             }
 
-            var isEnrolled = _EnrollmentRepository.Get(e =>
-                e.DiplomaId == request.DiplomaId && e.StudentId == request.StudentId).Any();
+            var isEnrolled = await _EnrollmentRepository.Get(e =>
+                e.DiplomaId == request.DiplomaId && e.StudentId == request.StudentId).AnyAsync(cancellationToken);
 
             if (!isEnrolled)
             {
