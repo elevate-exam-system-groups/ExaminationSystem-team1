@@ -3,6 +3,11 @@ using ExaminationSystem.Controllers.QuestionController.ViewModels.Add;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Update;
 using ExaminationSystem.Controllers.QuestionController.Mapping;
 using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.QuestionFeatures.AddQuestion.Orchestrator;
+using ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Orchestrators;
+using ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Dtos;
+using ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Orchestrators;
+using ExaminationSystem.Controllers.QuestionController.ViewModels.Delete;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {
@@ -11,42 +16,61 @@ namespace ExaminationSystem.Controllers.QuestionController
     [Authorize(Roles = "Admin")]
     public class QuestionsController : BaseApiController
     {
-
         private readonly IMediator _mediator;
-        public QuestionsController(IMediator mediator) 
-            => _mediator = mediator;
 
+        public QuestionsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         [HttpPost("quizzes/{quizId:guid}/questions")]
         public async Task<ActionResult<ResponseViewModel<AddQuestionResponseVM>>> Create(
-            Guid quizId, [FromBody] AddQuestionVM vm)
+            Guid quizId,
+            [FromBody] AddQuestionVM vm)
         {
             var command = vm.ToCommand(quizId);
 
             var result = await _mediator.Send(command);
 
-            var mappedResult = result.IsSuccess
-                ? RequestResult<AddQuestionResponseVM>.Success(result.Data.ToViewModel(), result.Message)
-                : RequestResult<AddQuestionResponseVM>.Failure(result.Message, result.requestErrorCode);
+            if (!result.IsSuccess)
+                return HandleResult(RequestResult<AddQuestionResponseVM>.Failure(
+                    result.Message, result.requestErrorCode));
 
-            return HandleResult(mappedResult, 201);
+            var viewModel = result.Data!.ToViewModel();
+            return HandleResult(RequestResult<AddQuestionResponseVM>.Success(
+                viewModel, result.Message), successStatusCode: 201);
         }
 
         [HttpPut("questions/{id:guid}")]
         public async Task<ActionResult<ResponseViewModel<UpdateQuestionResponseVM>>> Update(
-            Guid id, [FromBody] UpdateQuestionVM vm)
+            Guid id,
+            [FromBody] UpdateQuestionVM vm)
         {
             var command = vm.ToCommand(id);
-
             var result = await _mediator.Send(command);
 
-            var mappedResult = result.IsSuccess
-                ? RequestResult<UpdateQuestionResponseVM>.Success(result.Data.ToViewModel(), result.Message)
-                : RequestResult<UpdateQuestionResponseVM>.Failure(result.Message, result.requestErrorCode);
+            if (!result.IsSuccess)
+                return HandleResult(RequestResult<UpdateQuestionResponseVM>.Failure(
+                    result.Message, result.requestErrorCode));
 
-            return HandleResult(mappedResult);
+            var viewModel = result.Data!.ToViewModel();
+
+            return HandleResult(RequestResult<UpdateQuestionResponseVM>.Success(
+                viewModel, result.Message));
         }
 
- 
+        [HttpDelete("questions/{id:guid}")]
+        public async Task<ActionResult<ResponseViewModel<DeleteQuestionResponseVM>>> Delete(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteQuestionOrchestrator(id));
+
+            if (!result.IsSuccess)
+                return HandleResult(RequestResult<DeleteQuestionResponseVM>.Failure(
+                    result.Message, result.requestErrorCode));
+
+            var viewModel = result.Data!.ToViewModel();
+            return HandleResult(RequestResult<DeleteQuestionResponseVM>.Success(
+                viewModel, result.Message));
+        }
     }
 }

@@ -21,12 +21,12 @@ namespace ExaminationSystem.Controllers.AdminController
         {
             var result = await _mediator.Send(new GetAdminStatsOrchestrator());
 
-            var mappedResult = result.IsSuccess
-                ? RequestResult<AdminStatsVm>.Success(
-                    AdminDashboardMapper.FromDto(result.Data!), result.Message)
-                : RequestResult<AdminStatsVm>.Failure(result.Message, result.requestErrorCode);
+            if (!result.IsSuccess)
+                return HandleResult(RequestResult<AdminStatsVm>
+                    .Failure(result.Message, result.requestErrorCode));
 
-            return HandleResult(mappedResult);
+            return HandleResult(RequestResult<AdminStatsVm>
+                .Success(AdminDashboardMapper.FromDto(result.Data!), result.Message));
         }
     }
 }
