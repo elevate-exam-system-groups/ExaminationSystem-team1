@@ -26,9 +26,6 @@ namespace ExaminationSystem.Controllers.StudentController
 
                 var studentId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (string.IsNullOrEmpty(studentId))
-                    return Unauthorized(ResponseViewModel<StudentDashboardResponseVm>.Failure(
-                        "Invalid token", ResponseVmErrorCode.Unauthorized));
 
                 var result = await _mediator.Send(
                     new GetStudentDashboardOrchestrator(studentId));
