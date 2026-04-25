@@ -83,8 +83,8 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
 
 
             var quizzesAttemptsResult = await _mediator
-    .Send(new GetStudentQuizzesAttemptsForDiplomaQueryRequest(
-        request.diplomaId, request.StudentId), cancellationToken);
+              .Send(new GetStudentQuizzesAttemptsForDiplomaQueryRequest(
+              request.diplomaId, request.StudentId), cancellationToken);
 
             if (!quizzesAttemptsResult.IsSuccess)
                 return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
