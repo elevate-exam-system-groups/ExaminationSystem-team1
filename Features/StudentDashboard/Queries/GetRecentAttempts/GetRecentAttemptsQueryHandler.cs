@@ -15,7 +15,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
             GetRecentAttemptsQuery request, CancellationToken ct)
         {
             var attempts = await _attemptRepo
-                .Get(a => a.StudentId == request.StudentId && !a.isDeleted)
+                .Get(a => a.StudentId == request.StudentId && !a.IsDeleted)
                 .OrderByDescending(a => a.CreatedAt)
                 .Take(5)
                 .Select(a => new RecentAttemptDto(

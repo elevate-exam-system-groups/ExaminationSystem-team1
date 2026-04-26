@@ -1,4 +1,5 @@
 ﻿using ExaminationSystem.Domain.Data;
+using ExaminationSystem.Features.MonitoringAndAnalytics.ViewStudentAttempts.Specifications;
 using System.Linq.Expressions;
 
 namespace ExaminationSystem.Domain.Implementations
@@ -18,12 +19,12 @@ namespace ExaminationSystem.Domain.Implementations
         #region ReadRegion
         public IQueryable<T> GetAll()
         {
-            return _dbSet.Where(x => !x.isDeleted);
+            return _dbSet.Where(x => !x.IsDeleted);
         }
 
         public IQueryable<T> GetById(Guid id)
         {
-            return _dbSet.Where(x => x.Id == id && !x.isDeleted);
+            return _dbSet.Where(x => x.Id == id && !x.IsDeleted);
         }
 
         public IQueryable<T> Get(Expression<Func<T, bool>> expression)
@@ -32,7 +33,7 @@ namespace ExaminationSystem.Domain.Implementations
         }
         public IQueryable<T> GetByIdWithTracking(Guid id)
         {
-            var trackedEntity = _dbSet.Where(x => x.Id == id && !x.isDeleted)
+            var trackedEntity = _dbSet.Where(x => x.Id == id && !x.IsDeleted)
                 .AsTracking();
 
             return trackedEntity;
@@ -63,7 +64,7 @@ namespace ExaminationSystem.Domain.Implementations
 
         public void UpdateInclude(T entity, params string[] include)
         {
-            if (!_dbSet.Any(e => e.Id == entity.Id && !e.isDeleted))
+            if (!_dbSet.Any(e => e.Id == entity.Id && !e.IsDeleted))
             {
                 return;
             }
@@ -107,8 +108,8 @@ namespace ExaminationSystem.Domain.Implementations
 
         public void SoftDelete(T entity)
         {
-            entity.isDeleted = true;
-            UpdateInclude(entity, nameof(entity.isDeleted));
+            entity.IsDeleted = true;
+            UpdateInclude(entity, nameof(entity.IsDeleted));
             entity.DeletedAt = DateTime.UtcNow;
         }
 
@@ -124,7 +125,20 @@ namespace ExaminationSystem.Domain.Implementations
         public void AddRange(IEnumerable<T> entities)
          => _dbSet.AddRange(entities);
 
+        public async Task<List<T>> ListAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).ToListAsync();
+        }
 
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
+
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator.ApplySpecification(_dbSet.Where(x => !x.IsDeleted), spec);
+        }
 
         public async Task SaveChangesAsync()
         {

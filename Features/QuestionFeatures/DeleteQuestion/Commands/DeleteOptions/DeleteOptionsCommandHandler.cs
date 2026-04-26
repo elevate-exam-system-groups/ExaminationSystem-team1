@@ -15,7 +15,7 @@ namespace ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Commands.De
         {
 
             var optionsToDelete = await _optionRepo
-                .Get(o => o.QuestionId == request.QuestionId && !o.isDeleted)
+                .Get(o => o.QuestionId == request.QuestionId && !o.IsDeleted)
                 .ToListAsync(ct);
 
             if (!optionsToDelete.Any())

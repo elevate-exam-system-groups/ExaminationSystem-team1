@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using ExaminationSystem.Domain.Models;
+using ExaminationSystem.Features.MonitoringAndAnalytics.ViewStudentAttempts.Specifications;
 
 namespace ExaminationSystem.Domain.Abstractions
 {
@@ -20,6 +21,8 @@ namespace ExaminationSystem.Domain.Abstractions
         public bool SoftDeleteById(Guid id);
         public void AddRange(IEnumerable<T> entities);
 
+        public Task<List<T>> ListAsync(ISpecification<T> spec);
+        public Task<int> CountAsync(ISpecification<T> spec);
         public Task SaveChangesAsync();
     }
 }
