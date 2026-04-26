@@ -6,7 +6,6 @@ using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Implementations;
 using ExaminationSystem.Features.Account.Shared;
 using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.Common.Request;
 using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations
@@ -31,6 +30,10 @@ namespace ExaminationSystem.Configurations
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                    .AsClosedTypesOf(typeof(IValidator<>))
                    .AsImplementedInterfaces();
+
+            //builder.RegisterGeneric(typeof(ValidationBehavior<,>))
+            //       .As(typeof(IPipelineBehavior<,>))
+            //       .InstancePerLifetimeScope();
 
             builder.RegisterType<GlobalErrorHandlerMiddelware>()
                    .InstancePerLifetimeScope();
