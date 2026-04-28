@@ -21,12 +21,6 @@ namespace ExaminationSystem.Features.Common.FeatureExtensions
         public static IQueryable<Quiz> Published(this IQueryable<Quiz> query)
             => query.Where(q => q.Status == QuizStatus.Published && !q.IsDeleted);
 
-        public static IQueryable<Diploma> Published(this IQueryable<Diploma> query)
-            => query.Where(d => d.Status == DiplomaStatus.Published && !d.IsDeleted);
-
-        public static IQueryable<QuizAttempt> Completed(this IQueryable<QuizAttempt> query)
-           => query.Where(a => a.Status != QuizAttemptStatus.InProgress
-                            && !a.IsDeleted);
 
     }
 }

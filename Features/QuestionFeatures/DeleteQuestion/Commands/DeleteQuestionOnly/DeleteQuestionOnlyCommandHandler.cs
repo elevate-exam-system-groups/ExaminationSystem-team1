@@ -6,12 +6,10 @@ namespace ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Commands.De
      : IRequestHandler<DeleteQuestionOnlyCommand, RequestResult<DeleteResponseDto>>
     {
 
-        private readonly IMediator _mediator;
         private readonly IGeneralRepository<Question> _questionRepo;
         public DeleteQuestionOnlyCommandHandler(
             IMediator mediator, IGeneralRepository<Question> questionRepo)
         {
-            _mediator = mediator;
             _questionRepo = questionRepo;
         }
 
@@ -19,9 +17,16 @@ namespace ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Commands.De
             DeleteQuestionOnlyCommand request, CancellationToken ct)
         {
 
-            var questionToDelete = new Question { Id = request.QuestionId };
-            _questionRepo.SoftDelete(questionToDelete);
 
+            var question = await _questionRepo
+                .GetByIdWithTracking(request.QuestionId)
+                .FirstOrDefaultAsync(ct);
+
+            if (question is null)
+                return RequestResult<DeleteResponseDto>.Failure(
+                    "Question not found", RequestErrorCode.NotFound);
+
+            _questionRepo.SoftDelete(question);
             await _questionRepo.SaveChangesAsync();
 
             return RequestResult<DeleteResponseDto>.Success(

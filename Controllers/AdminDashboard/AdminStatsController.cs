@@ -1,6 +1,6 @@
 ﻿using ExaminationSystem.Controllers.AdminDashboard.Mapping;
 using ExaminationSystem.Controllers.AdminDashboard.ViewModels;
-using ExaminationSystem.Features.AdminManagement.AdminDashboard.Orchestrator;
+using ExaminationSystem.Features.AdminDashboard.Orchestrator;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ExaminationSystem.Controllers.AdminDashboard

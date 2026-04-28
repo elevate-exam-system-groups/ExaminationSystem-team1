@@ -2,11 +2,7 @@
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Add;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Update;
 using ExaminationSystem.Controllers.QuestionController.Mapping;
-using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.QuestionFeatures.AddQuestion.Orchestrator;
 using ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Orchestrators;
-using ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Dtos;
-using ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Orchestrators;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Delete;
 
 namespace ExaminationSystem.Controllers.QuestionController

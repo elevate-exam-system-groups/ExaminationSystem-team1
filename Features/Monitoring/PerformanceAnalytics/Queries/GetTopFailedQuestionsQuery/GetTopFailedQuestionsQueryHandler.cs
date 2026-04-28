@@ -34,7 +34,7 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Querie
                 .Select(g => new FailedQuestionDto(
                     g.Key.QuestionId,
                     g.Key.Text,
-                    StatisticsHelper.CalculatePercentage(g.Count(), g.Count(x => !x.IsCorrect == false)),
+                    StatisticsHelper.CalculatePercentage(g.Count(), g.Count(x => x.IsCorrect == false)),
                     g.Key.QuizTitle
                 ))
                 .Where(x => x.FailRate > HighFailRateThreshold) 

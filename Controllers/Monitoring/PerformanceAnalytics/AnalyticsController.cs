@@ -22,6 +22,11 @@ namespace ExaminationSystem.Controllers.AdminManagementControllers.PerformanceAn
         public async Task<ActionResult<ResponseViewModel<AnalyticsResponseVm>>> GetAnalytics(
             [FromQuery] AnalyticsFilterRequest filter)
         {
+
+            if (filter.From.HasValue && filter.To.HasValue && filter.From > filter.To)
+                return BadRequest(ResponseViewModel<AnalyticsResponseVm>
+                    .Failure("From date must be before To date"));
+
             var result = await _mediator.Send(new GetAnalyticsOrchestrator(filter.From, filter.To));
 
             if (!result.IsSuccess)

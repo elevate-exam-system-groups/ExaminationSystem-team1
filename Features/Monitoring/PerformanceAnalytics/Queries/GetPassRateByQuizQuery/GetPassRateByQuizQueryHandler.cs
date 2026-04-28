@@ -24,7 +24,7 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Querie
                 .Select(g => new QuizPassRateDto(
                     g.Key.QuizId,
                     g.Key.Title,
-                     StatisticsHelper.CalculatePercentage(g.Count(a => a.IsPassed == true) , g.Count()),
+                    StatisticsHelper.CalculatePercentage(g.Count(), g.Count(a => a.IsPassed == true)),
                     g.Count()
                 ))
                 .OrderByDescending(q => q.TotalAttempts)

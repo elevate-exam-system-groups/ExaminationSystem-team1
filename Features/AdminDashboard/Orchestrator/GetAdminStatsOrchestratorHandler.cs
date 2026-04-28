@@ -1,8 +1,8 @@
 ﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
-using ExaminationSystem.Features.AdminManagement.AdminDashboard.Queries.GetActiveUsersToday;
-using ExaminationSystem.Features.AdminManagement.AdminDashboard.Queries.GetAttemptsAvgPassRate;
-using ExaminationSystem.Features.AdminManagement.AdminDashboard.Queries.GetTotalQuizzes;
-using ExaminationSystem.Features.AdminManagement.AdminDashboard.Queries.GetTotalUsers;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetActiveUsersToday;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetAttemptsAvgPassRate;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetTotalQuizzes;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetTotalUsers;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ExaminationSystem.Features.AdminDashboard.Orchestrator

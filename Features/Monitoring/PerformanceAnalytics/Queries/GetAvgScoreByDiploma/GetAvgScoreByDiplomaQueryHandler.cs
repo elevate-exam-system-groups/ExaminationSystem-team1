@@ -24,9 +24,7 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Querie
                 .Select(g => new DiplomaAvgScoreDto(
                     g.Key.DiplomaId,
                     g.Key.Title,
-                    g.Any(a => a.Score.HasValue)
-                        ? Math.Round(g.Average(a => a.Score ?? 0), 1)
-                        : 0,
+                    Math.Round(g.Average(a => (decimal?)a.Score) ?? 0, 1),
                     g.Count()
                 ))
                 .OrderByDescending(d => d.TotalAttempts)

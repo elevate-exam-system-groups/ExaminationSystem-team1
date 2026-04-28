@@ -1,8 +1,8 @@
 ﻿using ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.DTOs;
 using ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Specifications;
+using ExaminationSystem.Features.Common.Paginated;
 using ExaminationSystem.Features.Common.Paginated.DTOs;
 using ExaminationSystem.Features.Common.Specifications;
-using ExaminationSystem.Features.MonitoringAndAnalytics.ViewStudentAttempts.Paginated.ExaminationSystem.Features.MonitoringAndAnalytics.Paginated;
 
 namespace ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Queries.GetAllAttempts
 {
@@ -17,6 +17,21 @@ namespace ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Queries
         public async Task<RequestResult<PaginatedResponseDto<AttemptDto>>> Handle(
             GetAllAttemptsQuery request, CancellationToken ct)
         {
+
+            var pageValidation = PaginationValidator.ValidatePage(request.Page);
+            if (!pageValidation.IsSuccess)
+                return RequestResult<PaginatedResponseDto<AttemptDto>>
+                    .Failure(pageValidation.Message!, RequestErrorCode.ValidationError);
+
+            var pageSizeValidation = PaginationValidator.ValidatePageSize(request.PageSize);
+            if (!pageSizeValidation.IsSuccess)
+                return RequestResult<PaginatedResponseDto<AttemptDto>>
+                    .Failure(pageSizeValidation.Message!, RequestErrorCode.ValidationError);
+
+            var statusValidation = PaginationValidator.ValidateStatus<QuizAttemptStatus>(request.Status);
+            if (!statusValidation.IsSuccess)
+                return RequestResult<PaginatedResponseDto<AttemptDto>>
+                    .Failure(statusValidation.Message!, RequestErrorCode.ValidationError);
 
             var spec = new AttemptFilterSpecification(
                 request.QuizId,
@@ -59,35 +74,3 @@ namespace ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Queries
         }
     }
 }
-/*
- 
- public class GetAttemptsQueryHandler
-    : IRequestHandler<GetAttemptsQuery, RequestResult<PaginatedResponseDto<AttemptDto>>>
-{
-    private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
-
-    public GetAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-        => _attemptRepo = attemptRepo;
-
-    public async Task<RequestResult<PaginatedResponseDto<AttemptDto>>> Handle(
-        GetAttemptsQuery request, CancellationToken ct)
-    {
-
-
-        var spec = new AttemptFilterSpecification(
-            request.QuizId, request.StudentId, request.Status, request.SortBy, request.Order);
-
-        var query = _attemptRepo
-            .GetAll()
-            .ApplySpecification(spec)
-            .ToDto(); // استخدام الـ Extension اللي عملناه
-
-        var pagedList = await PaginatedList<AttemptDto>.CreateAsync(
-           query, request.Page, request.PageSize, ct);
-
-        // 4. تحويل النتيجة لـ Response DTO والرد
-        return RequestResult<PaginatedResponseDto<AttemptDto>>.Success(pagedList.ToResponseDto());
-    }
-}
- 
- */

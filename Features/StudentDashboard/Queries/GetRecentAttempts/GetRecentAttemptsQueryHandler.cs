@@ -1,22 +1,26 @@
-﻿using ExaminationSystem.Features.Common.Request;
+﻿using ExaminationSystem.Features.Common.Specifications;
 using ExaminationSystem.Features.StudentDashboard.DTOs.Attempt;
+using ExaminationSystem.Features.StudentDashboard.Specifications;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
 {
     public class GetRecentAttemptsQueryHandler
-     : IRequestHandler<GetRecentAttemptsQuery, RequestResult<RecentAttemptResponseDto>>
+       : IRequestHandler<GetRecentAttemptsQuery, RequestResult<RecentAttemptResponseDto>>
     {
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetRecentAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-            => _attemptRepo = attemptRepo;
-
+        {
+             _attemptRepo = attemptRepo;
+        }
         public async Task<RequestResult<RecentAttemptResponseDto>> Handle(
             GetRecentAttemptsQuery request, CancellationToken ct)
         {
+            var spec = new StudentAttemptSpecification(request.StudentId, onlyCompleted: true);
+
             var attempts = await _attemptRepo
-                .Get(a => a.StudentId == request.StudentId && !a.IsDeleted)
-                .OrderByDescending(a => a.CreatedAt)
+                .GetAll()
+                .ApplySpecification(spec)
                 .Take(5)
                 .Select(a => new RecentAttemptDto(
                     a.Id,
@@ -27,7 +31,8 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
                     a.Score,
                     a.IsPassed,
                     a.SubmittedAt
-                )).ToListAsync(ct);
+                ))
+                .ToListAsync(ct);
 
             return RequestResult<RecentAttemptResponseDto>.Success(
                 new RecentAttemptResponseDto(attempts));
