@@ -57,7 +57,7 @@ namespace ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestra
             }
 
             var isQuizTimerExpired = await _mediator
-                .Send(new IsQuizTimerExpiredQuery(request.attemptId, request.StudentId), cancellationToken);
+                .Send(new IsQuizTimerExpiredQuery(request.attemptId), cancellationToken);
 
             if (isQuizTimerExpired.Data)
             {
