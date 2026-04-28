@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Domain.Data;
-using ExaminationSystem.Features.MonitoringAndAnalytics.ViewStudentAttempts.Specifications;
 using System.Linq.Expressions;
 
 namespace ExaminationSystem.Domain.Implementations
@@ -125,20 +124,7 @@ namespace ExaminationSystem.Domain.Implementations
         public void AddRange(IEnumerable<T> entities)
          => _dbSet.AddRange(entities);
 
-        public async Task<List<T>> ListAsync(ISpecification<T> spec)
-        {
-            return await ApplySpecification(spec).ToListAsync();
-        }
-
-        public async Task<int> CountAsync(ISpecification<T> spec)
-        {
-            return await ApplySpecification(spec).CountAsync();
-        }
-
-        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
-        {
-            return SpecificationEvaluator.ApplySpecification(_dbSet.Where(x => !x.IsDeleted), spec);
-        }
+ 
 
         public async Task SaveChangesAsync()
         {

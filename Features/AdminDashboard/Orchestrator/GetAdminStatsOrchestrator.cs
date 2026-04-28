@@ -1,7 +1,7 @@
-﻿using ExaminationSystem.Features.Admin.DTOs;
+﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
 using ExaminationSystem.Features.Common.Request;
 
-namespace ExaminationSystem.Features.Admin.Orchestrator
+namespace ExaminationSystem.Features.AdminDashboard.Orchestrator
 {
     public record GetAdminStatsOrchestrator : IRequest<RequestResult<AdminStatsResponseDto>>;
 }

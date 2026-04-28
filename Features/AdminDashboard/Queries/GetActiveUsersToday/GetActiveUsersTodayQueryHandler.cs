@@ -1,7 +1,7 @@
-﻿using ExaminationSystem.Features.Admin.DTOs;
+﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
 using ExaminationSystem.Features.Common.Request;
 
-namespace ExaminationSystem.Features.Admin.Queries.GetActiveUsersToday
+namespace ExaminationSystem.Features.AdminDashboard.Queries.GetActiveUsersToday
 {
     public class GetActiveUsersTodayQueryHandler
         : IRequestHandler<GetActiveUsersTodayQuery, RequestResult<ActiveUsersTodayDto>>
