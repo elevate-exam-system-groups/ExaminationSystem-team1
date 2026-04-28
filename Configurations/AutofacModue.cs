@@ -6,7 +6,7 @@ using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Implementations;
 using ExaminationSystem.Features.Account.Shared;
 using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.Common.Pipeline;
 using Module = Autofac.Module;
 
 namespace ExaminationSystem.Configurations
@@ -32,15 +32,31 @@ namespace ExaminationSystem.Configurations
                    .AsClosedTypesOf(typeof(IValidator<>))
                    .AsImplementedInterfaces();
 
+            #region MediatR Pipeline
+
+            builder.RegisterGeneric(typeof(ValidationBehavior<,>))
+                   .As(typeof(IPipelineBehavior<,>))
+                   .InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(TransactionBehavior<,>))
+                   .As(typeof(IPipelineBehavior<,>))
+                   .InstancePerLifetimeScope();
+
+            #endregion
+
+            #region Middleware Registration
+
             builder.RegisterType<GlobalErrorHandlerMiddelware>()
                    .InstancePerLifetimeScope();
 
-            builder.RegisterType<TransactionMiddleware>()
-                   .InstancePerLifetimeScope();
+            //builder.RegisterType<TransactionMiddleware>()
+            //       .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(HandlerBasicParameterss<>))
                    .AsSelf()
                   .InstancePerLifetimeScope();
+
+            #endregion
 
             #region register AutoMapper
 

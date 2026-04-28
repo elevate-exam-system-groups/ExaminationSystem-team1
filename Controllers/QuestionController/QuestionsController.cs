@@ -2,8 +2,13 @@
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Add;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Delete;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Update;
+using ExaminationSystem.Controllers.QuestionController.Mapping;
+using ExaminationSystem.Features.Common.Request;
+using ExaminationSystem.Features.QuestionFeatures.AddQuestion.Orchestrator;
 using ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Orchestrators;
-using Microsoft.AspNetCore.Authorization;
+using ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Dtos;
+using ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Orchestrators;
+using ExaminationSystem.Controllers.QuestionController.ViewModels.Delete;
 
 namespace ExaminationSystem.Controllers.QuestionController
 {
@@ -13,11 +18,11 @@ namespace ExaminationSystem.Controllers.QuestionController
     public class QuestionsController : BaseApiController
     {
         private readonly IMediator _mediator;
+
         public QuestionsController(IMediator mediator)
         {
             _mediator = mediator;
         }
-
 
         [HttpPost("quizzes/{quizId:guid}/questions")]
         public async Task<ActionResult<ResponseViewModel<AddQuestionResponseVM>>> Create(

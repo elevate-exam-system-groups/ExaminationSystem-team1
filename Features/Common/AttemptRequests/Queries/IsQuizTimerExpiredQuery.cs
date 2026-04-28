@@ -1,9 +1,6 @@
-﻿using ExaminationSystem.Features.Common.FeatureExtensions;
-using ExaminationSystem.Features.Common.Request;
-
-namespace ExaminationSystem.Features.Common.AttemptRequests.Queries
+﻿namespace ExaminationSystem.Features.Common.AttemptRequests.Queries
 {
-    public record IsQuizTimerExpiredQuery(Guid attemptId, string studentId)
+    public record IsQuizTimerExpiredQuery(Guid attemptId)//, string studentId)
         : IRequest<RequestResult<bool>>;
 
     public class IsQuizTimerExpiredQueryValidator
@@ -13,8 +10,8 @@ namespace ExaminationSystem.Features.Common.AttemptRequests.Queries
         {
             RuleFor(x => x.attemptId)
                 .NotEmpty().WithMessage("Quiz ID is required");
-            RuleFor(x => x.studentId)
-                .NotEmpty().WithMessage("Student ID is required");
+            //RuleFor(x => x.studentId)
+            //    .NotEmpty().WithMessage("Student ID is required");
         }
     }
 
@@ -39,7 +36,7 @@ namespace ExaminationSystem.Features.Common.AttemptRequests.Queries
 
             bool hasQuizTimerElapsed = await _quizAttemptsRepository
                .Get(qa => qa.Id == request.attemptId &&
-                    qa.StudentId == request.studentId &&
+                    //qa.StudentId == request.studentId &&
                     qa.Status == QuizAttemptStatus.InProgress &&
                     DateTime.UtcNow > qa.DeadLine)
                .AnyAsync();

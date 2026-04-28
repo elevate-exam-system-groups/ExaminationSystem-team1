@@ -72,7 +72,6 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Controllers\QuizController\ViewModels\" />
     <Folder Include="Domain\Data\DataSeed\" />
     <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>

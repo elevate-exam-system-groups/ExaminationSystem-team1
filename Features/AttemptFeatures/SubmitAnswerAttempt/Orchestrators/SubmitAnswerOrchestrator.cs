@@ -44,28 +44,37 @@ namespace ExaminationSystem.Features.AttemptFeatures.SubmitAnswerAttempt.Orchest
             if (!validationResult.IsSuccess)
                 return validationResult;
 
-            var isStudentOwnAttempt = await _mediator
+            var doesStudentOwnAttempt = await _mediator
            .Send(new CheckStudentAttemptOwnershipQuery(request.attemptId, request.StudentId), cancellationToken);
 
-            if (!isStudentOwnAttempt.IsSuccess)
+            if (!doesStudentOwnAttempt.IsSuccess)
             {
                 return RequestResult<bool>
-                    .Failure(isStudentOwnAttempt.Message,
-                    isStudentOwnAttempt.requestErrorCode);
+                    .Failure(doesStudentOwnAttempt.Message,
+                    doesStudentOwnAttempt.requestErrorCode);
             }
 
-            var CheckInProgressStatus = await _mediator
-            .Send(new IsStudentAttemptInProgressQuery(request.attemptId, request.StudentId), cancellationToken);
+            //var CheckInProgressStatus = await _mediator
+            //.Send(new IsStudentAttemptInProgressQuery(request.attemptId, request.StudentId), cancellationToken);
 
-            if (!CheckInProgressStatus.IsSuccess)
+            //if (!CheckInProgressStatus.IsSuccess)
+            //{
+            //    return RequestResult<bool>
+            //        .Failure(CheckInProgressStatus.Message,
+            //        CheckInProgressStatus.requestErrorCode);
+            //}
+
+            var isAttemptSubmitted = await _mediator
+               .Send(new IsAttemptSubmittedQuery(request.attemptId), cancellationToken);
+
+            if (isAttemptSubmitted.Data)
             {
                 return RequestResult<bool>
-                    .Failure(CheckInProgressStatus.Message,
-                    CheckInProgressStatus.requestErrorCode);
+                      .Failure("Attempt is Already Submitted", RequestErrorCode.Conflict);
             }
 
             var isTimerValid = await _mediator
-                .Send(new IsQuizTimerExpiredQuery(request.attemptId, request.StudentId), cancellationToken);
+                .Send(new IsQuizTimerExpiredQuery(request.attemptId), cancellationToken);
 
             if (isTimerValid.IsSuccess && isTimerValid.Data == true)
             {

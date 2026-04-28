@@ -61,7 +61,7 @@
             _quizAttemptsRepository.UpdateInclude(attemptResult,
                 nameof(QuizAttempt.Score),
                 nameof(QuizAttempt.IsPassed),
-                nameof(QuizAttempt.Status),
+                //nameof(QuizAttempt.Status),
                 nameof(QuizAttempt.SubmittedAt));
 
             await _quizAttemptsRepository.SaveChangesAsync();

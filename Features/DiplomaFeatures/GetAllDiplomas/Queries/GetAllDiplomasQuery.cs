@@ -42,7 +42,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries
                                                           d.Description,
                                                           d.Status,
                                                           d.Quizzes.Count(q => !q.isDeleted)
-                                                           ));
+                                                          ));
 
             if (!await diplomas.AnyAsync())
             {

@@ -3,7 +3,6 @@ using ExaminationSystem.Controllers.DiplomaController.ViewModels;
 using ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands;
 using ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma.Commands;
 using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries;
-using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries.DTOS;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators;
 using ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma.Commands;
 
@@ -84,18 +83,13 @@ namespace ExaminationSystem.Controllers.DiplomaController
             }
 
             var responseVM = new GetAllDiplomasPaginatedResponseVM(
-                result.Data.Data.Select(d => new GetPublishedDiplomaResponseDTO(
-                    d.Id,
-                    d.Title,
-                    d.Description,
-                    d.Status,
-                    d.QuizCount
-                )).ToList(),
+                result.Data.Data,
                 result.Data.Page,
                 result.Data.PerPage,
                 result.Data.Total,
                 result.Data.TotalPages
             );
+
 
             return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>.Success(responseVM);
         }

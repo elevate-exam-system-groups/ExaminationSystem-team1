@@ -1,7 +1,4 @@
-﻿using ExaminationSystem.Features.Common.FeatureExtensions;
-using ExaminationSystem.Features.Common.Request;
-
-namespace ExaminationSystem.Features.Common.QuizRequests.Commands
+﻿namespace ExaminationSystem.Features.Common.QuizRequests.Commands
 {
     public record UpdateQuizStatusCommandRequest(Guid QuizId, QuizStatus NewStatus) : IRequest<RequestResult<bool>>;
 

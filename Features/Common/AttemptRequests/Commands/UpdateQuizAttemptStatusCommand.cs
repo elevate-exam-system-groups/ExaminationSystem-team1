@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Features.Common.FeatureExtensions;
-using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.Common.AttemptRequests.Commands
 {
     public record UpdateQuizAttemptStatusCommand(Guid AttemptId, QuizAttemptStatus Status)

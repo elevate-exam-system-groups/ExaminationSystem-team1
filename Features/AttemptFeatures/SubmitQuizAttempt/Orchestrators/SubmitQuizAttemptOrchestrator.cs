@@ -1,7 +1,5 @@
 ﻿using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestrators.DTOS;
 using ExaminationSystem.Features.Common.AttemptRequests.Orchestrators;
-using ExaminationSystem.Features.Common.FeatureExtensions;
-
 
 namespace ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestrators
 {
@@ -59,7 +57,7 @@ namespace ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestra
             }
 
             var isQuizTimerExpired = await _mediator
-                .Send(new IsQuizTimerExpiredQuery(request.attemptId, request.StudentId), cancellationToken);
+                .Send(new IsQuizTimerExpiredQuery(request.attemptId), cancellationToken);
 
             if (isQuizTimerExpired.Data)
             {

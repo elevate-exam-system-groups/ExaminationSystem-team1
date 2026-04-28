@@ -43,13 +43,13 @@ namespace ExaminationSystem.Domain.Implementations
         public void Add(T entity)
         {
             _dbSet.Add(entity);
-            entity.CreatedAt = DateTime.Now;
+            entity.CreatedAt = DateTime.UtcNow;
         }
 
         public Guid AddAndReturnId(T entity)
         {
             _dbSet.Add(entity);
-            entity.CreatedAt = DateTime.Now;
+            entity.CreatedAt = DateTime.UtcNow;
             return entity.Id;
         }
 
@@ -58,7 +58,7 @@ namespace ExaminationSystem.Domain.Implementations
         public void Update(T entity)
         {
             _dbSet.Update(entity);
-            entity.UpdatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.UtcNow;
         }
 
         public void UpdateInclude(T entity, params string[] include)
