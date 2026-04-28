@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ExaminationSystem.Controllers.QuestionController.Mapping;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Add;
+using ExaminationSystem.Controllers.QuestionController.ViewModels.Delete;
 using ExaminationSystem.Controllers.QuestionController.ViewModels.Update;
 using ExaminationSystem.Controllers.QuestionController.Mapping;
 using ExaminationSystem.Features.Common.Request;
@@ -59,6 +60,7 @@ namespace ExaminationSystem.Controllers.QuestionController
                 viewModel, result.Message));
         }
 
+
         [HttpDelete("questions/{id:guid}")]
         public async Task<ActionResult<ResponseViewModel<DeleteQuestionResponseVM>>> Delete(Guid id)
         {
@@ -72,5 +74,7 @@ namespace ExaminationSystem.Controllers.QuestionController
             return HandleResult(RequestResult<DeleteQuestionResponseVM>.Success(
                 viewModel, result.Message));
         }
+
     }
+
 }
