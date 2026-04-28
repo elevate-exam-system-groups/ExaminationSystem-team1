@@ -1,7 +1,5 @@
 ﻿using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestrators.DTOS;
 using ExaminationSystem.Features.Common.AttemptRequests.Orchestrators;
-using ExaminationSystem.Features.Common.FeatureExtensions;
-
 
 namespace ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestrators
 {

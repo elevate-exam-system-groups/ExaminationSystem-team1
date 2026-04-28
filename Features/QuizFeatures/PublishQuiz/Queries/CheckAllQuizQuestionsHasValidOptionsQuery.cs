@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Features.Common.FeatureExtensions;
-using ExaminationSystem.Features.Common.Request;
-
+﻿
 namespace ExaminationSystem.Features.QuizFeatures.PublishQuiz.Queries
 {
     public record CheckAllQuizQuestionsHasValidOptionsQuery(Guid quizId) : IRequest<RequestResult<bool>>;

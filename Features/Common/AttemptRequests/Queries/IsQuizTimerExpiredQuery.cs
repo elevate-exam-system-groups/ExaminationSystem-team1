@@ -1,7 +1,4 @@
-﻿using ExaminationSystem.Features.Common.FeatureExtensions;
-using ExaminationSystem.Features.Common.Request;
-
-namespace ExaminationSystem.Features.Common.AttemptRequests.Queries
+﻿namespace ExaminationSystem.Features.Common.AttemptRequests.Queries
 {
     public record IsQuizTimerExpiredQuery(Guid attemptId, string studentId)
         : IRequest<RequestResult<bool>>;

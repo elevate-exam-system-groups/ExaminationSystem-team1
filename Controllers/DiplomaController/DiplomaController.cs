@@ -90,6 +90,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
                 result.Data.TotalPages
             );
 
+
             return ResponseViewModel<GetAllDiplomasPaginatedResponseVM>.Success(responseVM);
         }
 

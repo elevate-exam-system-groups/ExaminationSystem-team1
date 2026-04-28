@@ -1,8 +1,3 @@
-using System.Reflection;
-using ExaminationSystem.Domain.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
 namespace ExaminationSystem.Domain.Data
 {
     public class Context : IdentityDbContext<User>
@@ -13,7 +8,7 @@ namespace ExaminationSystem.Domain.Data
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }
-        public DbSet<Quiz> QuizAttempts { get; set; }
+        public DbSet<QuizAttempt> QuizAttempts { get; set; }
         public DbSet<AttemptAnswer> AttemptAnswers { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
 

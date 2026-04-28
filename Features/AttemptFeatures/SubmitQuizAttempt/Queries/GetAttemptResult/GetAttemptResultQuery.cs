@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Queries.GetAttemptResult.DTO;
-using ExaminationSystem.Features.Common.FeatureExtensions;
 
 namespace ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Queries.GetAttemptResult
 {
