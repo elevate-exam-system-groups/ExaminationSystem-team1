@@ -22,19 +22,30 @@ namespace ExaminationSystem.Features.Common.Pipeline
 
             var context = new ValidationContext<TRequest>(request);
 
-            var validationResults = await Task.WhenAll(
-                _validators.Select(v => v.ValidateAsync(context, cancellationToken))
-            );
+            var failures = new List<FluentValidation.Results.ValidationFailure>();
+            foreach (var validator in _validators)
+            {
+                var result = await validator.ValidateAsync(context, cancellationToken);
 
-            var failures = validationResults
-                .SelectMany(r => r.Errors)
-                .Where(f => f is not null)
-                .ToList();
+                failures.AddRange(result.Errors.Where(e => e != null));
+            }
+
+            #region Avoid WhenAll w DbContext  => Not Thread Safe
+            //var validationResults = await Task.WhenAll(
+            //        _validators.Select(v => v.ValidateAsync(context, cancellationToken))
+            //    );
+
+            //var failures = validationResults
+            //    .SelectMany(r => r.Errors)
+            //    .Where(f => f is not null)
+            //    .ToList();
+            #endregion
 
             if (failures.Any())
             {
                 var errorMessage = string.Join(", ", failures.Select(f => f.ErrorMessage));
                 var genericType = typeof(TResponse).GetGenericArguments()[0];
+
 
                 //var failureResult = RequestResult<object>.Failure(
                 //    errorMessage,
@@ -45,6 +56,7 @@ namespace ExaminationSystem.Features.Common.Pipeline
                     .MakeGenericType(genericType)
                     .GetMethod("Failure")!
                     .Invoke(null, new object[] { errorMessage, RequestErrorCode.ValidationError });
+
                 //return (TResponse)(object)failureResult;
                 return (TResponse)failureResult!;
             }

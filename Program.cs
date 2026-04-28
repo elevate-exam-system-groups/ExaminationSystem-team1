@@ -4,7 +4,6 @@ using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Data;
-using ExaminationSystem.Extensions;
 
 namespace ExaminationSystem
 {
@@ -76,7 +75,7 @@ namespace ExaminationSystem
             }
 
             app.UseMiddleware<GlobalErrorHandlerMiddelware>();
-            app.UseMiddleware<TransactionMiddleware>();
+            // app.UseMiddleware<TransactionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

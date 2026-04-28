@@ -46,11 +46,11 @@ namespace ExaminationSystem.Features.QuizFeatures.CreateQuiz.Commands
         }
         public async Task<RequestResult<Guid>> Handle(CreateQuizCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return RequestResult<Guid>.Failure("Validation failed.", RequestErrorCode.ValidationError);
-            }
+            //var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            //if (!validationResult.IsValid)
+            //{
+            //    return RequestResult<Guid>.Failure("Validation failed.", RequestErrorCode.ValidationError);
+            //}
 
 
             Quiz? NewQuiz = new Quiz
