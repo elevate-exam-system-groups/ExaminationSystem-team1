@@ -10,14 +10,8 @@ namespace ExaminationSystem.Domain.Models
         public DateTime? LastLoginAt { get; set; }
         public AccountStatus accountStatus { get; set; } = AccountStatus.Active;
 
-        // Navigation properties
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
-
-        // Removed redundant properties: 
-        // PasswordResetTokenHash, PasswordResetTokenExpiry, IsPasswordResetTokenUsed
-        // These are handled by the PasswordResetTokens collection below.
-
 
         public DateTime? ForgotPasswordLockoutEnd { get; set; }
         public int ForgotPasswordAttempts { get; set; }

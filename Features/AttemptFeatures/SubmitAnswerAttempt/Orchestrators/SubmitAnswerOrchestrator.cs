@@ -44,14 +44,14 @@ namespace ExaminationSystem.Features.AttemptFeatures.SubmitAnswerAttempt.Orchest
             if (!validationResult.IsSuccess)
                 return validationResult;
 
-            var isStudentOwnAttempt = await _mediator
+            var doesStudentOwnAttempt = await _mediator
            .Send(new CheckStudentAttemptOwnershipQuery(request.attemptId, request.StudentId), cancellationToken);
 
-            if (!isStudentOwnAttempt.IsSuccess)
+            if (!doesStudentOwnAttempt.IsSuccess)
             {
                 return RequestResult<bool>
-                    .Failure(isStudentOwnAttempt.Message,
-                    isStudentOwnAttempt.requestErrorCode);
+                    .Failure(doesStudentOwnAttempt.Message,
+                    doesStudentOwnAttempt.requestErrorCode);
             }
 
             var CheckInProgressStatus = await _mediator
