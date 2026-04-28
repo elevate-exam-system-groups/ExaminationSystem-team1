@@ -24,9 +24,11 @@ namespace ExaminationSystem.Features.StudentDashboard.Orchestrator.EnrolledDiplo
             var idsResult = await _mediator.Send(
                 new GetEnrolledDiplomaIdsQuery(request.StudentId), ct);
 
-            if (!idsResult.IsSuccess || !idsResult.Data.DiplomaIds.Any())  //=======================
-                return RequestResult<EnrolledDiplomasListDto>.Success(
-                    new EnrolledDiplomasListDto(new()));
+            if (!idsResult.IsSuccess)
+                return RequestResult<EnrolledDiplomasListDto>.Failure(idsResult.Message);
+
+            if (!idsResult.Data!.DiplomaIds.Any())
+                return RequestResult<EnrolledDiplomasListDto>.Success(new EnrolledDiplomasListDto(new()));
 
             var diplomaIds = idsResult.Data.DiplomaIds;
 

@@ -1,7 +1,7 @@
-﻿using ExaminationSystem.Features.Admin.DTOs;
+﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
 using ExaminationSystem.Features.Common.Request;
 
-namespace ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes
+namespace ExaminationSystem.Features.AdminDashboard.Queries.GetTotalQuizzes
 {
     public class GetTotalQuizzesQueryHandler
         : IRequestHandler<GetTotalQuizzesQuery, RequestResult<TotalQuizzesDto>>
@@ -15,7 +15,7 @@ namespace ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes
             (GetTotalQuizzesQuery request, CancellationToken ct)
         {
             var count = await _quizRepo
-                .Get(q => q.Status == QuizStatus.Published && !q.isDeleted)
+                .Get(q => q.Status == QuizStatus.Published && !q.IsDeleted)
                 .CountAsync(ct);
 
             return RequestResult<TotalQuizzesDto>.Success(

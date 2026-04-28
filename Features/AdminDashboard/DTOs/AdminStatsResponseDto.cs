@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.Admin.DTOs
+﻿namespace ExaminationSystem.Features.AdminDashboard.DTOs
 {
     public record AdminStatsResponseDto(
     int TotalUsers,

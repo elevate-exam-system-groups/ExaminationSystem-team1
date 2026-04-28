@@ -41,7 +41,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries
                                                           d.Title,
                                                           d.Description,
                                                           d.Status,
-                                                          d.Quizzes.Count(q => !q.isDeleted)
+                                                          d.Quizzes.Count(q => !q.IsDeleted)
                                                           ));
 
             if (!await diplomas.AnyAsync())

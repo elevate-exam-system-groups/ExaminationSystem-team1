@@ -1,7 +1,7 @@
-﻿using ExaminationSystem.Features.Admin.DTOs;
+﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
 using ExaminationSystem.Features.Common.Request;
 
-namespace ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate
+namespace ExaminationSystem.Features.AdminDashboard.Queries.GetAttemptsAvgPassRate
 {
     public record GetAttemptsAvgPassRateQuery : IRequest<RequestResult<AttemptAvgPassRateDto>>;
 }

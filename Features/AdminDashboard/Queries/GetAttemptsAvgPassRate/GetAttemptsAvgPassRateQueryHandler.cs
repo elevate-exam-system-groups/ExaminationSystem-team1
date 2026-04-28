@@ -1,8 +1,7 @@
-﻿using ExaminationSystem.Features.Admin.DTOs;
+﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
 using ExaminationSystem.Features.Common.Helpers;
-using ExaminationSystem.Features.Common.Request;
 
-namespace ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate
+namespace ExaminationSystem.Features.AdminDashboard.Queries.GetAttemptsAvgPassRate
 {
     public class GetAttemptsAvgPassRateQueryHandler
         : IRequestHandler<GetAttemptsAvgPassRateQuery, RequestResult<AttemptAvgPassRateDto>>
@@ -16,7 +15,7 @@ namespace ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate
             GetAttemptsAvgPassRateQuery request, CancellationToken ct)
         {
             var stats = await _attemptRepo
-                .Get(a => a.Status != QuizAttemptStatus.InProgress && !a.isDeleted)
+                .Get(a => a.Status != QuizAttemptStatus.InProgress && !a.IsDeleted)
                 .GroupBy(a => 1)
                 .Select(g => new
                 {

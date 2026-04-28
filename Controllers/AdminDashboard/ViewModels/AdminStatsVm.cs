@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Controllers.AdminController.ViewModels
+﻿namespace ExaminationSystem.Controllers.AdminDashboard.ViewModels
 {
     public record AdminStatsVm(
      int TotalUsers,

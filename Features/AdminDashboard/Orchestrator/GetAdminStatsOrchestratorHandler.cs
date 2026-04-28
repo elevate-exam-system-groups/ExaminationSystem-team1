@@ -1,12 +1,11 @@
-﻿using ExaminationSystem.Features.Admin.DTOs;
-using ExaminationSystem.Features.Admin.Queries.GetActiveUsersToday;
-using ExaminationSystem.Features.Admin.Queries.GetAttemptsAvgPassRate;
-using ExaminationSystem.Features.Admin.Queries.GetTotalQuizzes;
-using ExaminationSystem.Features.Admin.Queries.GetTotalUsers;
-using ExaminationSystem.Features.Common.Request;
+﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetActiveUsersToday;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetAttemptsAvgPassRate;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetTotalQuizzes;
+using ExaminationSystem.Features.AdminDashboard.Queries.GetTotalUsers;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace ExaminationSystem.Features.Admin.Orchestrator
+namespace ExaminationSystem.Features.AdminDashboard.Orchestrator
 {
     public class GetAdminStatsOrchestratorHandler
         : IRequestHandler<GetAdminStatsOrchestrator, RequestResult<AdminStatsResponseDto>>

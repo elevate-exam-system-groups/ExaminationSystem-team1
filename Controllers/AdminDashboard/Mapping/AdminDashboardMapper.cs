@@ -1,7 +1,7 @@
-﻿using ExaminationSystem.Controllers.AdminController.ViewModels;
-using ExaminationSystem.Features.Admin.DTOs;
+﻿using ExaminationSystem.Controllers.AdminDashboard.ViewModels;
+using ExaminationSystem.Features.AdminDashboard.DTOs;
 
-namespace ExaminationSystem.Controllers.AdminController.Mapping
+namespace ExaminationSystem.Controllers.AdminDashboard.Mapping
 {
     public static class AdminDashboardMapper
     {

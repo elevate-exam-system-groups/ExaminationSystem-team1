@@ -1,9 +1,9 @@
-﻿using ExaminationSystem.Controllers.AdminController.Mapping;
-using ExaminationSystem.Controllers.AdminController.ViewModels;
-using ExaminationSystem.Features.Admin.Orchestrator;
+﻿using ExaminationSystem.Controllers.AdminDashboard.Mapping;
+using ExaminationSystem.Controllers.AdminDashboard.ViewModels;
+using ExaminationSystem.Features.AdminDashboard.Orchestrator;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ExaminationSystem.Controllers.AdminController
+namespace ExaminationSystem.Controllers.AdminDashboard
 {
     [Route("[controller]/[action]")]
     [ApiController]

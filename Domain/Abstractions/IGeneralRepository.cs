@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using ExaminationSystem.Domain.Models;
 
 namespace ExaminationSystem.Domain.Abstractions
 {
