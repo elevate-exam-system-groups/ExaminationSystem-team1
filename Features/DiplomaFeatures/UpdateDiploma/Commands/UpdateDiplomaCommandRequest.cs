@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.FeatureExtensions;
-using ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma.Commands.DTOS;
+﻿using ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma.Commands.DTOS;
 
 namespace ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma.Commands
 {
@@ -45,12 +44,6 @@ namespace ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma.Commands
                 Title = request?.Title,
                 Description = request?.Description
             };
-
-            if (existingDiploma is null)
-            {
-                return RequestResult<UpdateDiplomaResponseDTO>
-                    .Failure("Diploma not found", RequestErrorCode.NotFound);
-            }
 
             _diplomaRepository.UpdateInclude(existingDiploma, nameof(existingDiploma.Title), nameof(existingDiploma.Description));
             await _diplomaRepository.SaveChangesAsync();

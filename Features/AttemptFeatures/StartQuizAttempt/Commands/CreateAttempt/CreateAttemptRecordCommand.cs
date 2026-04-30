@@ -1,10 +1,12 @@
-﻿namespace ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands
+﻿using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands.CreateAttempt.DTOs;
+
+namespace ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands.CreateAttempt
 {
     public record CreateAttemptRecordCommand(Guid QuizId, string StudentId)
-        : IRequest<RequestResult<Guid>>;
+        : IRequest<RequestResult<CreatedAttemptDTO>>;
 
     public class CreateAttemptRecordCommandHandler
-        : IRequestHandler<CreateAttemptRecordCommand, RequestResult<Guid>>
+        : IRequestHandler<CreateAttemptRecordCommand, RequestResult<CreatedAttemptDTO>>
     {
         private readonly IGeneralRepository<QuizAttempt> _quizAttemptRepository;
         private readonly IMediator _mediator;
@@ -15,14 +17,16 @@
             _mediator = mediator;
         }
 
-        public async Task<RequestResult<Guid>> Handle(CreateAttemptRecordCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<CreatedAttemptDTO>> Handle(CreateAttemptRecordCommand request, CancellationToken cancellationToken)
         {
             var durationResult = await _mediator
                 .Send(new GetQuizDurationInMinutesQuery(request.QuizId), cancellationToken);
 
             if (!durationResult.IsSuccess)
-                return RequestResult<Guid>
+                return RequestResult<CreatedAttemptDTO>
                     .Failure(durationResult.Message, durationResult.requestErrorCode);
+
+            var deadline = DateTime.UtcNow.AddMinutes(durationResult.Data);
 
             Guid newAttemptId = _quizAttemptRepository.AddAndReturnId(new QuizAttempt
             {
@@ -31,12 +35,13 @@
                 StudentId = request.StudentId,
                 StartTime = DateTime.UtcNow,
                 Status = QuizAttemptStatus.InProgress,
-                DeadLine = DateTime.UtcNow.AddMinutes(durationResult.Data)
+                DeadLine = deadline
             });
 
             await _quizAttemptRepository.SaveChangesAsync();
 
-            return RequestResult<Guid>.Success(newAttemptId);
+            return RequestResult<CreatedAttemptDTO>
+                .Success(new CreatedAttemptDTO(newAttemptId, deadline));
         }
     }
 }

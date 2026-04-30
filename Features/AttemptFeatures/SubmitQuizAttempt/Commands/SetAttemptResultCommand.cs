@@ -16,13 +16,11 @@
         : IRequestHandler<SetAttemptResultCommand, RequestResult<bool>>
     {
         private readonly IGeneralRepository<QuizAttempt> _quizAttemptsRepository;
-        // private readonly IMediator _mediator;
         private readonly IValidator<SetAttemptResultCommand> _validator;
         public SetAttemptResultCommandHandler(IGeneralRepository<QuizAttempt> quizAttemptsRepository, IValidator<SetAttemptResultCommand> validator)//, IMediator mediator)
         {
             _quizAttemptsRepository = quizAttemptsRepository;
             _validator = validator;
-            //_mediator = mediator;
         }
         public async Task<RequestResult<bool>> Handle(SetAttemptResultCommand request, CancellationToken cancellationToken)
         {
@@ -33,22 +31,6 @@
                 return RequestResult<bool>
                       .Failure(validationErrors, RequestErrorCode.ValidationError);
             }
-
-            #region Command Call Query
-
-            //var attemptResult = await _mediator
-            //    .Send(new GetAttemptResultQuery(request.AttemptId), cancellationToken);
-
-            //var attempt = new Quiz
-            //{
-            //    Id = request.AttemptId,
-            //    Score = attemptResult.Data.score,
-            //    IsPassed = attemptResult.Data.isPassed,
-            //    Status = QuizAttemptStatus.Submitted,
-            //    SubmittedAt = DateTime.UtcNow
-            //};
-
-            #endregion
 
             var attemptResult = new QuizAttempt
             {
@@ -61,7 +43,6 @@
             _quizAttemptsRepository.UpdateInclude(attemptResult,
                 nameof(QuizAttempt.Score),
                 nameof(QuizAttempt.IsPassed),
-                //nameof(QuizAttempt.Status),
                 nameof(QuizAttempt.SubmittedAt));
 
             await _quizAttemptsRepository.SaveChangesAsync();

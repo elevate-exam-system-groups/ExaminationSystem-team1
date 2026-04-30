@@ -28,16 +28,13 @@ namespace ExaminationSystem.Domain.Models
             builder.Property(q => q.Status)
                    .HasConversion<string>();
 
-            // Partial Unique Index - the important one
             builder.HasIndex(q => new { q.StudentId, q.QuizId })
                    .IsUnique()
                    .HasFilter("\"Status\" = 'inProgress'");
 
-            // Decimal precision
             builder.Property(q => q.Score)
                    .HasPrecision(5, 2);
 
-            // Nullable columns
             builder.Property(q => q.SubmittedAt)
                    .IsRequired(false);
 

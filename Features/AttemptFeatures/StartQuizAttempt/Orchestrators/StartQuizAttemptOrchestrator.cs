@@ -1,7 +1,9 @@
-﻿using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands;
+﻿using ExaminationSystem.Features.AttemptFeatures.AttemptTimerHandling;
+using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands.CreateAttempt;
 using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrators.DTOS;
 using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Queries;
 using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Queries.GetQuizAttemptMetaData;
+using Hangfire;
 
 namespace ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrators
 {
@@ -103,9 +105,17 @@ namespace ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrat
 
             var startAttemptDTO = new StartAttemptDTO
             (
-                CreateAttemptResult.Data,
+                CreateAttemptResult.Data.AttemptId,
                 shuffledMeta
             );
+
+            var delay = CreateAttemptResult.Data.DeadLine - DateTime.UtcNow;
+
+            BackgroundJob.Schedule<IMediator>(
+          mediator => mediator.Send(
+                 new ResolveQuizAttemptStateOrchestrator(CreateAttemptResult.Data.AttemptId),
+                 CancellationToken.None),
+                 delay);
 
             return RequestResult<StartAttemptDTO>.Success(startAttemptDTO);
         }

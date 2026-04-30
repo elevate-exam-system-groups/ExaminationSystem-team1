@@ -18,12 +18,12 @@ namespace ExaminationSystem.Domain.Implementations
         #region ReadRegion
         public IQueryable<T> GetAll()
         {
-            return _dbSet.Where(x => !x.isDeleted);
+            return _dbSet.Where(x => !x.IsDeleted);
         }
 
         public IQueryable<T> GetById(Guid id)
         {
-            return _dbSet.Where(x => x.Id == id && !x.isDeleted);
+            return _dbSet.Where(x => x.Id == id && !x.IsDeleted);
         }
 
         public IQueryable<T> Get(Expression<Func<T, bool>> expression)
@@ -32,7 +32,7 @@ namespace ExaminationSystem.Domain.Implementations
         }
         public IQueryable<T> GetByIdWithTracking(Guid id)
         {
-            var trackedEntity = _dbSet.Where(x => x.Id == id && !x.isDeleted)
+            var trackedEntity = _dbSet.Where(x => x.Id == id && !x.IsDeleted)
                 .AsTracking();
 
             return trackedEntity;
@@ -63,7 +63,7 @@ namespace ExaminationSystem.Domain.Implementations
 
         public void UpdateInclude(T entity, params string[] include)
         {
-            if (!_dbSet.Any(e => e.Id == entity.Id && !e.isDeleted))
+            if (!_dbSet.Any(e => e.Id == entity.Id && !e.IsDeleted))
             {
                 return;
             }
@@ -107,8 +107,8 @@ namespace ExaminationSystem.Domain.Implementations
 
         public void SoftDelete(T entity)
         {
-            entity.isDeleted = true;
-            UpdateInclude(entity, nameof(entity.isDeleted));
+            entity.IsDeleted = true;
+            UpdateInclude(entity, nameof(entity.IsDeleted));
             entity.DeletedAt = DateTime.UtcNow;
         }
 

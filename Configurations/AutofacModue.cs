@@ -38,9 +38,9 @@ namespace ExaminationSystem.Configurations
                    .As(typeof(IPipelineBehavior<,>))
                    .InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(TransactionBehavior<,>))
-                   .As(typeof(IPipelineBehavior<,>))
-                   .InstancePerLifetimeScope();
+            //builder.RegisterGeneric(typeof(TransactionBehavior<,>))
+            //       .As(typeof(IPipelineBehavior<,>))
+            //       .InstancePerLifetimeScope();
 
             #endregion
 
@@ -49,8 +49,8 @@ namespace ExaminationSystem.Configurations
             builder.RegisterType<GlobalErrorHandlerMiddelware>()
                    .InstancePerLifetimeScope();
 
-            //builder.RegisterType<TransactionMiddleware>()
-            //       .InstancePerLifetimeScope();
+            builder.RegisterType<TransactionMiddleware>()
+                   .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(HandlerBasicParameterss<>))
                    .AsSelf()
