@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Features.Common.Helpers;
-using ExaminationSystem.Features.Common.Request;
 using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizIds;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetCompletedQuizzesCount;
@@ -15,7 +14,9 @@ namespace ExaminationSystem.Features.StudentDashboard.Orchestrator.EnrolledDiplo
 
         private readonly IMediator _mediator;
         public GetEnrolledDiplomasOrchestratorHandler(IMediator mediator)
-            => _mediator = mediator;
+        {
+             _mediator = mediator;
+        }
 
         public async Task<RequestResult<EnrolledDiplomasListDto>> Handle(
             GetEnrolledDiplomasOrchestrator request, CancellationToken ct)

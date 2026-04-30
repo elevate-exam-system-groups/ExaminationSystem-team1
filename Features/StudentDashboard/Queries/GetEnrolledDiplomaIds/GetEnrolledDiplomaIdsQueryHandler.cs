@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiplomaIds
 {
@@ -9,14 +8,16 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiploma
 
         private readonly IGeneralRepository<Enrollment> _enrollmentRepo;
         public GetEnrolledDiplomaIdsQueryHandler(IGeneralRepository<Enrollment> enrollmentRepo)
-            => _enrollmentRepo = enrollmentRepo;
+        {
+             _enrollmentRepo = enrollmentRepo;
+        }
 
         public async Task<RequestResult<EnrolledDiplomaIdsDto>> Handle(
             GetEnrolledDiplomaIdsQuery request, CancellationToken ct)
         {
 
             var diplomaIds = await _enrollmentRepo
-                .Get(e => e.StudentId == request.StudentId && !e.IsDeleted)
+                .Get(e => e.StudentId == request.StudentId)
                 .Select(e => e.DiplomaId)
                 .ToListAsync(ct);
 

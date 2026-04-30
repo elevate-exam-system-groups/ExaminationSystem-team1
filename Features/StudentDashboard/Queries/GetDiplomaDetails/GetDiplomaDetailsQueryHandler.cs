@@ -1,6 +1,4 @@
-﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.StudentDashboard.DTOs;
-using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
+﻿using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
 {
@@ -10,14 +8,17 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
 
         private readonly IGeneralRepository<Diploma> _diplomaRepo;
         public GetDiplomaDetailsQueryHandler(IGeneralRepository<Diploma> diplomaRepo)
-            => _diplomaRepo = diplomaRepo;
+        {
+             _diplomaRepo = diplomaRepo;
+        }
 
         public async Task<RequestResult<DiplomaDetailsDto>> Handle(
             GetDiplomaDetailsQuery request, CancellationToken ct)
         {
-            if (!request.DiplomaIds.Any())
-                return RequestResult<DiplomaDetailsDto>.Success(
-                    new DiplomaDetailsDto(new()));
+
+            //if (!request.DiplomaIds.Any())  //////////////////=> generic reposatory
+            //    return RequestResult<DiplomaDetailsDto>.Success(
+            //        new DiplomaDetailsDto(new()));
 
             var diplomas = await _diplomaRepo
                 .Get(d => request.DiplomaIds.Contains(d.Id) && !d.IsDeleted)
