@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ExaminationSystem.Domain.Models
+﻿namespace ExaminationSystem.Domain.Models
 {
     public class Admin : BaseModel
     {
@@ -8,18 +6,5 @@ namespace ExaminationSystem.Domain.Models
 
         public string UserId { get; set; }
 
-    }
-
-    public class AdminConfiguration : IEntityTypeConfiguration<Admin>
-    {
-        public void Configure(EntityTypeBuilder<Admin> builder)
-        {
-            builder.Ignore(o => o.Id);
-
-            builder.HasKey(o => o.UserId);
-
-
-
-        }
-    }
+    } 
 }

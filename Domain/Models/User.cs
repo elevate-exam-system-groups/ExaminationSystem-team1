@@ -21,17 +21,4 @@ namespace ExaminationSystem.Domain.Models
         public ICollection<UserOTP> UserOTPs { get; set; } = new List<UserOTP>();
 
     }
-
-
-    public class UserConfiguration : IEntityTypeConfiguration<User>
-    {
-        public void Configure(EntityTypeBuilder<User> builder)
-        {
-            //builder.Property(u => u.Role)
-            //       .HasConversion<string>();
-
-            builder.Property(u => u.accountStatus)
-                   .HasConversion<string>();
-        }
-    }
 }

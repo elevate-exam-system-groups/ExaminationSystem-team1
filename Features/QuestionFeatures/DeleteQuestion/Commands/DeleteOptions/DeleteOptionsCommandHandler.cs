@@ -6,8 +6,8 @@ namespace ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Commands.De
         : IRequestHandler<DeleteOptionsCommand, RequestResult<DeleteResponseDto>>
     {
 
-        private readonly IGeneralRepository<Option> _optionRepo;
-        public DeleteOptionsCommandHandler(IGeneralRepository<Option> optionRepo)
+        private readonly IGeneralRepository<QuestionOption> _optionRepo;
+        public DeleteOptionsCommandHandler(IGeneralRepository<QuestionOption> optionRepo)
             => _optionRepo = optionRepo;
 
         public async Task<RequestResult<DeleteResponseDto>> Handle(

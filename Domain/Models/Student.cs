@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ExaminationSystem.Domain.Models
+﻿namespace ExaminationSystem.Domain.Models
 {
     public class Student : BaseModel
     {
@@ -10,21 +8,4 @@ namespace ExaminationSystem.Domain.Models
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
     }
-
-
-    public class StudentConfiguration : IEntityTypeConfiguration<Student>
-    {
-        public void Configure(EntityTypeBuilder<Student> builder)
-        {
-            builder.Ignore(o => o.Id);
-
-            builder.HasKey(o => o.UserId);
-
-
-
-        }
-    }
-
-
-
 }

@@ -8,8 +8,8 @@ namespace ExaminationSystem.Features.QuestionFeatures.AddQuestion.Commands.Creat
         : IRequestHandler<CreateOptionsForQuestionCommand, RequestResult<CreateOptionsResponseDto>>
     {
 
-        private readonly IGeneralRepository<Option> _optionRepo;
-        public CreateOptionsForQuestionCommandHandler(IGeneralRepository<Option> optionRepo)
+        private readonly IGeneralRepository<QuestionOption> _optionRepo;
+        public CreateOptionsForQuestionCommandHandler(IGeneralRepository<QuestionOption> optionRepo)
             => _optionRepo = optionRepo;
 
         public async Task<RequestResult<CreateOptionsResponseDto>> Handle(
@@ -17,7 +17,7 @@ namespace ExaminationSystem.Features.QuestionFeatures.AddQuestion.Commands.Creat
         {
             foreach (var opt in request.Options)
             {
-                _optionRepo.Add(new Option
+                _optionRepo.Add(new QuestionOption
                 {
                     QuestionId = request.QuestionId,
                     Text = opt.Text,

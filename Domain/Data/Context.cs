@@ -7,7 +7,7 @@ namespace ExaminationSystem.Domain.Data
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Option> Options { get; set; }
+        public DbSet<QuestionOption> Options { get; set; }
         public DbSet<QuizAttempt> QuizAttempts { get; set; }
         public DbSet<AttemptAnswer> AttemptAnswers { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }

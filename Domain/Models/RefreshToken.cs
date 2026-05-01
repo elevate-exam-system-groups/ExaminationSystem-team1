@@ -18,6 +18,7 @@ namespace ExaminationSystem.Domain.Models
         
         public DateTime ExpiryDate { get; set; }
 
+
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = string.Empty;
         public User? User { get; set; }

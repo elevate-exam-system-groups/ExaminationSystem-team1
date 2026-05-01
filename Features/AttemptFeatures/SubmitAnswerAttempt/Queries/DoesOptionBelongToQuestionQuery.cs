@@ -22,9 +22,9 @@ namespace ExaminationSystem.Features.AttemptFeatures.SubmitAnswerAttempt.Queries
     public class DoesOptionBelongToQuestionQueryHandler
         : IRequestHandler<DoesOptionBelongToQuestionQuery, RequestResult<bool>>
     {
-        private readonly IGeneralRepository<Option> _optionsRepository;
+        private readonly IGeneralRepository<QuestionOption> _optionsRepository;
         private readonly IValidator<DoesOptionBelongToQuestionQuery> _validator;
-        public DoesOptionBelongToQuestionQueryHandler(IGeneralRepository<Option> optionsRepository, IValidator<DoesOptionBelongToQuestionQuery> validator)
+        public DoesOptionBelongToQuestionQueryHandler(IGeneralRepository<QuestionOption> optionsRepository, IValidator<DoesOptionBelongToQuestionQuery> validator)
         {
             _optionsRepository = optionsRepository;
             _validator = validator;

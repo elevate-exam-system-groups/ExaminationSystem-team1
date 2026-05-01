@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExaminationSystem.Domain.Models
 {
-    public class Option : BaseModel
+    public class QuestionOption : BaseModel
     {
         [ForeignKey("Question")]
         public Guid QuestionId { get; set; }
@@ -13,19 +13,5 @@ namespace ExaminationSystem.Domain.Models
 
         public ICollection<AttemptAnswer> AttemptAnswers { get; set; } = new List<AttemptAnswer>();
 
-    }
-
-    public class OptionConfiguration : IEntityTypeConfiguration<Option>
-    {
-        public void Configure(EntityTypeBuilder<Option> builder)
-        {
-            builder.Property(o => o.Text)
-                   .IsRequired();
-
-            builder.HasOne(o => o.Question)
-                   .WithMany(q => q.Options)
-                   .HasForeignKey(o => o.QuestionId)
-                   .OnDelete(DeleteBehavior.NoAction);
-        }
     }
 }

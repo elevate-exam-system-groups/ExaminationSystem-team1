@@ -6,8 +6,8 @@ namespace ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Commands.Up
       : IRequestHandler<UpdateOptionsCommand, RequestResult<UpdateOptionResponse>>
     {
 
-        private readonly IGeneralRepository<Option> _optionRepo;
-        public UpdateOptionsCommandHandler(IGeneralRepository<Option> optionRepo)
+        private readonly IGeneralRepository<QuestionOption> _optionRepo;
+        public UpdateOptionsCommandHandler(IGeneralRepository<QuestionOption> optionRepo)
            => _optionRepo = optionRepo;
 
         public async Task<RequestResult<UpdateOptionResponse>> Handle(
@@ -41,7 +41,7 @@ namespace ExaminationSystem.Features.QuestionFeatures.UpdateQuestion.Commands.Up
                 }
                 else
                 {
-                    _optionRepo.Add(new Option
+                    _optionRepo.Add(new QuestionOption
                     {
                         QuestionId = request.QuestionId,
                         Text = optDto.Text,

@@ -131,15 +131,15 @@ namespace ExaminationSystem.Domain.Data
                 context.Questions.AddRange(question1, question2);
                 await context.SaveChangesAsync();
 
-                var options = new List<Option>
+                var options = new List<QuestionOption>
                 {
-                    new Option { QuestionId = question1.Id, Text = "System.Object", IsCorrect = true, CreatedBy = "System" },
-                    new Option { QuestionId = question1.Id, Text = "System.Base", IsCorrect = false, CreatedBy = "System" },
-                    new Option { QuestionId = question1.Id, Text = "System.Root", IsCorrect = false, CreatedBy = "System" },
+                    new QuestionOption { QuestionId = question1.Id, Text = "System.Object", IsCorrect = true, CreatedBy = "System" },
+                    new QuestionOption { QuestionId = question1.Id, Text = "System.Base", IsCorrect = false, CreatedBy = "System" },
+                    new QuestionOption { QuestionId = question1.Id, Text = "System.Root", IsCorrect = false, CreatedBy = "System" },
                     
-                    new Option { QuestionId = question2.Id, Text = "const", IsCorrect = true, CreatedBy = "System" },
-                    new Option { QuestionId = question2.Id, Text = "static", IsCorrect = false, CreatedBy = "System" },
-                    new Option { QuestionId = question2.Id, Text = "readonly", IsCorrect = false, CreatedBy = "System" }
+                    new QuestionOption { QuestionId = question2.Id, Text = "const", IsCorrect = true, CreatedBy = "System" },
+                    new QuestionOption { QuestionId = question2.Id, Text = "static", IsCorrect = false, CreatedBy = "System" },
+                    new QuestionOption { QuestionId = question2.Id, Text = "readonly", IsCorrect = false, CreatedBy = "System" }
                 };
 
                 context.Options.AddRange(options);
