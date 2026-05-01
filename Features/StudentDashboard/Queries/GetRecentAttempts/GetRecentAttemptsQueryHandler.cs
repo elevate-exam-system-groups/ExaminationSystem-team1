@@ -11,7 +11,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetRecentAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
         {
-             _attemptRepo = attemptRepo;
+            _attemptRepo = attemptRepo;
         }
         public async Task<RequestResult<RecentAttemptResponseDto>> Handle(
             GetRecentAttemptsQuery request, CancellationToken ct)
@@ -19,13 +19,10 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
             var spec = new StudentAttemptSpecification(request.StudentId, onlyCompleted: true);
 
             var attempts = await _attemptRepo
-<<<<<<< HEAD
+
                 .GetAll()
                 .ApplySpecification(spec)
-=======
-                .Get(a => a.StudentId == request.StudentId && !a.IsDeleted)
-                .OrderByDescending(a => a.CreatedAt)
->>>>>>> QuizModule
+
                 .Take(5)
                 .Select(a => new RecentAttemptDto(
                     a.Id,

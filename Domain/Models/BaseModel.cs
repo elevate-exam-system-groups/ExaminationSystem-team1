@@ -8,11 +8,9 @@
         public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
         public string CreatedBy { get; set; } = string.Empty;
         public string UpdatedBy { get; set; } = string.Empty;
-<<<<<<< HEAD
-        public bool isDeleted { get; set; } = false;
-=======
+
         public string DeletedBy { get; set; } = string.Empty;
         public bool IsDeleted { get; set; } = false;
->>>>>>> QuizModule
+
     }
 }
