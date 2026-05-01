@@ -1,8 +1,5 @@
 ﻿using ExaminationSystem.Controllers.StudentController.ViewModels;
-using ExaminationSystem.Features.StudentDashboard.DTOs.Attempt;
-using ExaminationSystem.Features.StudentDashboard.DTOs.Diploma;
-using ExaminationSystem.Features.StudentDashboard.DTOs.OverallStats;
-using ExaminationSystem.Features.StudentDashboard.DTOs.StudentDashboard;
+using ExaminationSystem.Features.StudentDashboard.DTOs;
 
 namespace ExaminationSystem.Controllers.StudentController.Mapping
 {

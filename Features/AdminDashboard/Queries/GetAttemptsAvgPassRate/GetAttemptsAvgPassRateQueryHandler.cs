@@ -9,13 +9,15 @@ namespace ExaminationSystem.Features.AdminDashboard.Queries.GetAttemptsAvgPassRa
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetAttemptsAvgPassRateQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-            => _attemptRepo = attemptRepo;
+        {
+            _attemptRepo = attemptRepo;
+        }
 
         public async Task<RequestResult<AttemptAvgPassRateDto>> Handle(
             GetAttemptsAvgPassRateQuery request, CancellationToken ct)
         {
             var stats = await _attemptRepo
-                .Get(a => a.Status != QuizAttemptStatus.InProgress && !a.IsDeleted)
+                .Get(a => a.Status != QuizAttemptStatus.InProgress)
                 .GroupBy(a => 1)
                 .Select(g => new
                 {

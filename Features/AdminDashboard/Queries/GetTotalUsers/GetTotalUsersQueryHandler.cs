@@ -1,23 +1,25 @@
 ﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
-using ExaminationSystem.Features.Common.Request;
 
 namespace ExaminationSystem.Features.AdminDashboard.Queries.GetTotalUsers
 {
     public class GetTotalUsersQueryHandler
-        : IRequestHandler<GetTotalUsersQuery, RequestResult<TotalUsersDto>>
+       : IRequestHandler<GetTotalUsersQuery, RequestResult<TotalUsersDto>>
     {
 
         private readonly UserManager<User> _userManager;
         public GetTotalUsersQueryHandler(UserManager<User> userManager)
-            => _userManager = userManager;
-
-        public async Task<RequestResult<TotalUsersDto>> Handle
-            (GetTotalUsersQuery request, CancellationToken ct)
         {
+            _userManager = userManager;
+        }
+
+        public async Task<RequestResult<TotalUsersDto>> Handle(
+            GetTotalUsersQuery request, CancellationToken ct)
+        {
+
             var count = await _userManager.Users.CountAsync(ct);
 
-            return RequestResult<TotalUsersDto>.Success(
-                new TotalUsersDto(count));
+            return RequestResult<TotalUsersDto>.Success(new TotalUsersDto(count));
+
         }
 
     }

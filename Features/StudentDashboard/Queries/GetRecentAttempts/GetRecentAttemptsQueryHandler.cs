@@ -1,24 +1,26 @@
 ﻿using ExaminationSystem.Features.Common.Specifications;
-using ExaminationSystem.Features.StudentDashboard.DTOs.Attempt;
+using ExaminationSystem.Features.StudentDashboard.DTOs;
 using ExaminationSystem.Features.StudentDashboard.Specifications;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
 {
     public class GetRecentAttemptsQueryHandler
-       : IRequestHandler<GetRecentAttemptsQuery, RequestResult<RecentAttemptResponseDto>>
+           : IRequestHandler<GetRecentAttemptsQuery, RequestResult<RecentAttemptResponseDto>>
     {
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetRecentAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
         {
-             _attemptRepo = attemptRepo;
+            _attemptRepo = attemptRepo;
         }
+
         public async Task<RequestResult<RecentAttemptResponseDto>> Handle(
             GetRecentAttemptsQuery request, CancellationToken ct)
         {
-            var spec = new StudentAttemptSpecification(request.StudentId, onlyCompleted: true);
 
-            var attempts = await _attemptRepo
+            var spec = new StudentAttemptSpecification(request.StudentId, onlyCompleted: false);
+
+            var result = await _attemptRepo
                 .GetAll()
                 .ApplySpecification(spec)
                 .Take(5)
@@ -31,11 +33,11 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
                     a.Score,
                     a.IsPassed,
                     a.SubmittedAt
-                ))
-                .ToListAsync(ct);
+
+                )).ToListAsync(ct);
 
             return RequestResult<RecentAttemptResponseDto>.Success(
-                new RecentAttemptResponseDto(attempts));
+                new RecentAttemptResponseDto(result));
         }
     }
 }

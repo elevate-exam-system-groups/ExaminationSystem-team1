@@ -12,6 +12,10 @@ namespace ExaminationSystem.Domain.Data.Configurations
 
             builder.Property(u => u.accountStatus)
                    .HasConversion<string>();
+
+            builder.HasIndex(u => u.LastActivityAt)
+                   .HasFilter("[LastActivityAt] IS NOT NULL");
+
         }
     }
 }

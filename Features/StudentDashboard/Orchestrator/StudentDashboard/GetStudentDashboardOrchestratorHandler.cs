@@ -1,6 +1,6 @@
 ﻿using ExaminationSystem.Features.Common.Request;
-using ExaminationSystem.Features.StudentDashboard.DTOs.StudentDashboard;
-using ExaminationSystem.Features.StudentDashboard.Orchestrator.EnrolledDiplomas;
+using ExaminationSystem.Features.StudentDashboard.DTOs;
+using ExaminationSystem.Features.StudentDashboard.Queries.EnrolledDiplomas;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats;
 using ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts;
 using Microsoft.Extensions.Caching.Memory;
@@ -29,7 +29,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Orchestrator.StudentDashbo
             if (_cache.TryGetValue(cacheKey, out StudentDashboardResponseDto? cached))
                 return RequestResult<StudentDashboardResponseDto>.Success(cached!);
 
-            var diplomasResult = await _mediator.Send(new GetEnrolledDiplomasOrchestrator(request.StudentId), ct);
+            var diplomasResult = await _mediator.Send(new GetEnrolledDiplomasQuery(request.StudentId), ct);
             var attemptsResult = await _mediator.Send(new GetRecentAttemptsQuery(request.StudentId), ct);
             var statsResult = await _mediator.Send(new GetOverallStatsQuery(request.StudentId), ct);
 
@@ -41,7 +41,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Orchestrator.StudentDashbo
 
             var response = new StudentDashboardResponseDto(
                 diplomasResult.Data.EnrolledDiplomas,
-                attemptsResult.Data.Data!,
+                attemptsResult.Data.RecentAttempts,
                 statsResult.Data!
             );
 

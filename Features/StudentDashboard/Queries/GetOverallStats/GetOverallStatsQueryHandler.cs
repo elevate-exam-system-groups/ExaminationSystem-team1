@@ -1,21 +1,24 @@
 ﻿using ExaminationSystem.Features.Common.Helpers;
 using ExaminationSystem.Features.Common.Specifications;
-using ExaminationSystem.Features.StudentDashboard.DTOs.OverallStats;
+using ExaminationSystem.Features.StudentDashboard.DTOs;
 using ExaminationSystem.Features.StudentDashboard.Specifications;
 
 namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
 {
     public class GetOverallStatsQueryHandler
-          : IRequestHandler<GetOverallStatsQuery, RequestResult<OverallStatsDto>>
+            : IRequestHandler<GetOverallStatsQuery, RequestResult<OverallStatsDto>>
     {
-        private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
 
+        private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetOverallStatsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-            => _attemptRepo = attemptRepo;
+        {
+            _attemptRepo = attemptRepo;
+        }
 
         public async Task<RequestResult<OverallStatsDto>> Handle(
             GetOverallStatsQuery request, CancellationToken ct)
         {
+
             var spec = new StudentAttemptSpecification(request.StudentId, onlyCompleted: true);
 
             var stats = await _attemptRepo
@@ -27,17 +30,20 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetOverallStats
                     Total = g.Count(),
                     AvgScore = g.Average(a => (decimal?)a.Score ?? 0),
                     PassedCount = g.Count(a => a.IsPassed == true)
-                })
-                .FirstOrDefaultAsync(ct);
+
+                }).FirstOrDefaultAsync(ct);
 
             if (stats == null || stats.Total == 0)
                 return RequestResult<OverallStatsDto>.Success(new OverallStatsDto(0, 0, 0));
 
-            return RequestResult<OverallStatsDto>.Success(new OverallStatsDto(
+            return RequestResult<OverallStatsDto>.Success(
+            new OverallStatsDto
+            (
                 stats.Total,
                 StatisticsHelper.RoundScore(stats.AvgScore),
                 StatisticsHelper.CalculatePercentage(stats.Total, stats.PassedCount)
             ));
+
         }
     }
 }

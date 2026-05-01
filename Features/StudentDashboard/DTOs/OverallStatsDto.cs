@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.StudentDashboard.DTOs.OverallStats
+﻿namespace ExaminationSystem.Features.StudentDashboard.DTOs
 {
     public record OverallStatsDto(
       int TotalQuizzesTaken,

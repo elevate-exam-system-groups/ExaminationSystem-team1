@@ -9,13 +9,14 @@ namespace ExaminationSystem.Features.AdminDashboard.Queries.GetTotalQuizzes
 
         private readonly IGeneralRepository<Quiz> _quizRepo;
         public GetTotalQuizzesQueryHandler(IGeneralRepository<Quiz> quizRepo)
-            => _quizRepo = quizRepo;
-
+        {
+            _quizRepo = quizRepo;
+        }
         public async Task<RequestResult<TotalQuizzesDto>> Handle
             (GetTotalQuizzesQuery request, CancellationToken ct)
         {
             var count = await _quizRepo
-                .Get(q => q.Status == QuizStatus.Published && !q.IsDeleted)
+                .Get(q => q.Status == QuizStatus.Published)
                 .CountAsync(ct);
 
             return RequestResult<TotalQuizzesDto>.Success(

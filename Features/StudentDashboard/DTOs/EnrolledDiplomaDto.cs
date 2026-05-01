@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.StudentDashboard.DTOs.Diploma
+﻿namespace ExaminationSystem.Features.StudentDashboard.DTOs
 {
     public record EnrolledDiplomaDto(
        Guid DiplomaId,

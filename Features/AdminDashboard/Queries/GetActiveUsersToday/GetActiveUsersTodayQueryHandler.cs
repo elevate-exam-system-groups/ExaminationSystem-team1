@@ -1,5 +1,4 @@
 ﻿using ExaminationSystem.Features.AdminDashboard.DTOs;
-using ExaminationSystem.Features.Common.Request;
 
 namespace ExaminationSystem.Features.AdminDashboard.Queries.GetActiveUsersToday
 {
@@ -9,16 +8,17 @@ namespace ExaminationSystem.Features.AdminDashboard.Queries.GetActiveUsersToday
 
         private readonly UserManager<User> _userManager;
         public GetActiveUsersTodayQueryHandler(UserManager<User> userManager)
-            => _userManager = userManager;
+        {
+            _userManager = userManager;
+        }
 
         public async Task<RequestResult<ActiveUsersTodayDto>> Handle
             (GetActiveUsersTodayQuery request, CancellationToken ct)
         {
 
             var count = await _userManager.Users
-            .Where(u => u.LastActivityAt.HasValue && //===================
-                        u.LastActivityAt >= DateTime.UtcNow.Date)
-            .CountAsync(ct);
+                .CountAsync(u => u.LastActivityAt.HasValue &&
+                        u.LastActivityAt >= DateTime.UtcNow.Date);
 
             return RequestResult<ActiveUsersTodayDto>.Success(
                 new ActiveUsersTodayDto(count));

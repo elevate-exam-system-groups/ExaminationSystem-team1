@@ -1,4 +1,4 @@
-﻿namespace ExaminationSystem.Features.StudentDashboard.DTOs.Attempt
+﻿namespace ExaminationSystem.Features.StudentDashboard.DTOs
 {
     public record RecentAttemptDto(
         Guid AttemptId,
