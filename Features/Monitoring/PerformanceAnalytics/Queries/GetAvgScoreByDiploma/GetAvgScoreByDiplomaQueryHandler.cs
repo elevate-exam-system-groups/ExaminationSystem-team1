@@ -10,7 +10,9 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Querie
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetAvgScoreByDiplomaQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-            => _attemptRepo = attemptRepo;
+        {
+            _attemptRepo = attemptRepo;
+        }
 
         public async Task<RequestResult<List<DiplomaAvgScoreDto>>> Handle(
             GetAvgScoreByDiplomaQuery request, CancellationToken ct)

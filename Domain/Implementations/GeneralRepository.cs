@@ -121,10 +121,6 @@ namespace ExaminationSystem.Domain.Implementations
             return true;
         }
 
-        public void AddRange(IEnumerable<T> entities)
-         => _dbSet.AddRange(entities);
-
- 
 
         public async Task SaveChangesAsync()
         {

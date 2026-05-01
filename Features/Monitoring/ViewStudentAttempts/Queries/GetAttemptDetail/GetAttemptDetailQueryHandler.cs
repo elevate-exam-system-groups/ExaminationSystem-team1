@@ -38,25 +38,34 @@ namespace ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Queries
                     a.Quiz.DurationInMinutes,
                     a.UserAnswers
                         .OrderBy(ua => ua.Question.OrderIndex)
-                        .Select(ua => new AttemptAnswerDto(
+                        .Select(ua => new 
+                        {
                             ua.QuestionId,
                             ua.Question.Text,
                             ua.Question.OrderIndex,
                             ua.SelectedOptionId,
-                            ua.SelectedOption.Text ?? "N/A",
+                            SelectedOptionText = ua.SelectedOption.Text ?? "N/A",
                             ua.IsCorrect,
-                            ua.Question.Options
+                            ua.Question.Explanation,
+                            CorrectOption = ua.Question.Options
                                 .Where(o => o.IsCorrect && !o.IsDeleted)
-                                .Select(o => o.Id)
-                                .FirstOrDefault(),
-                            ua.Question.Options
-                                .Where(o => o.IsCorrect && !o.IsDeleted)
-                                .Select(o => o.Text)
-                                .FirstOrDefault() ?? "N/A",
-                            ua.Question.Explanation
+                                .Select(o => new { o.Id, o.Text })
+                                .FirstOrDefault()
+                        })
+                        .Select(x => new AttemptAnswerDto
+                        (
+                            x.QuestionId,
+                            x.Text,
+                            x.OrderIndex,
+                            x.SelectedOptionId,
+                            x.SelectedOptionText,
+                            x.IsCorrect,
+                            x.CorrectOption != null ? x.CorrectOption.Id : Guid.Empty,
+                            x.CorrectOption != null ? x.CorrectOption.Text : "N/A",
+                            x.Explanation
                         )).ToList()
-                ))
-                .FirstOrDefaultAsync(ct);
+
+                )).FirstOrDefaultAsync(ct);
 
             if (attempt == null)
             {

@@ -10,7 +10,9 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Querie
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetPassRateByQuizQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-            => _attemptRepo = attemptRepo;
+        {
+            _attemptRepo = attemptRepo;
+        }
 
         public async Task<RequestResult<List<QuizPassRateDto>>> Handle(
             GetPassRateByQuizQuery request, CancellationToken ct)

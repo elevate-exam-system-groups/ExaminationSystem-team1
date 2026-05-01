@@ -73,7 +73,6 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Domain\Data\DataSeed\" />
-    <Folder Include="Controllers\Shared\Filters\" />
   </ItemGroup>
 
 </Project>

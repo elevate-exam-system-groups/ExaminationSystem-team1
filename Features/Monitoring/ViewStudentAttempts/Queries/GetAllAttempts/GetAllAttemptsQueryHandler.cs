@@ -12,7 +12,9 @@ namespace ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Queries
 
         private readonly IGeneralRepository<QuizAttempt> _attemptRepo;
         public GetAllAttemptsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-            => _attemptRepo = attemptRepo;
+        {
+            _attemptRepo = attemptRepo;
+        }
 
         public async Task<RequestResult<PaginatedResponseDto<AttemptDto>>> Handle(
             GetAllAttemptsQuery request, CancellationToken ct)

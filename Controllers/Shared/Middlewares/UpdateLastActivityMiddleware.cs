@@ -8,8 +8,9 @@ namespace ExaminationSystem.Controllers.Shared.Middlewares
 
         private readonly RequestDelegate _next;
         public UpdateLastActivityMiddleware(RequestDelegate next)
-            => _next = next;
-
+        {
+            _next = next;
+        }
         public async Task InvokeAsync(HttpContext context)
         {
             if (context.User.Identity?.IsAuthenticated == true)

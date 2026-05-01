@@ -4,5 +4,5 @@
           List<EnrolledDiplomaVm> EnrolledDiplomas,
           List<RecentAttemptVm> RecentQuizAttempts,
           OverallStatsVm OverallStats
-);
+    );
 }

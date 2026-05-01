@@ -13,7 +13,9 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Querie
         private const decimal HighFailRateThreshold = 40.0m;
 
         public GetTopFailedQuestionsQueryHandler(IGeneralRepository<QuizAttempt> attemptRepo)
-            => _attemptRepo = attemptRepo;
+        {
+            _attemptRepo = attemptRepo;
+        }
 
         public async Task<RequestResult<List<FailedQuestionDto>>> Handle(
             GetTopFailedQuestionsQuery request, CancellationToken ct)

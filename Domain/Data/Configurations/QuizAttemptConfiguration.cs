@@ -12,7 +12,7 @@ namespace ExaminationSystem.Domain.Data.Configurations
             // Partial Unique Index - the important one
             builder.HasIndex(q => new { q.StudentId, q.QuizId })
                    .IsUnique()
-                   .HasFilter("\"Status\" = 'inProgress'");
+                   .HasFilter("[Status] = 'InProgress'");
 
             // Decimal precision
             builder.Property(q => q.Score)

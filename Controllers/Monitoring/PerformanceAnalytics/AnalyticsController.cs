@@ -1,7 +1,7 @@
 ﻿using ExaminationSystem.Controllers.AdminManagementControllers.PerformanceAnalytics.Filter;
 using ExaminationSystem.Controllers.AdminManagementControllers.PerformanceAnalytics.Mapping;
 using ExaminationSystem.Controllers.AdminManagementControllers.PerformanceAnalytics.ViewModels;
-using ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Orchestrator;
+using ExaminationSystem.Features.Monitoring.PerformanceAnalytics.Orchestrator.GetAnalytics;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ExaminationSystem.Controllers.AdminManagementControllers.PerformanceAnalytics
