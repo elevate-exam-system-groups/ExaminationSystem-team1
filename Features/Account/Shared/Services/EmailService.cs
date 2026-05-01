@@ -43,9 +43,6 @@ namespace ExaminationSystem.Features.Account.Shared.Services
                         </html>"
                 };
 
-                // print token before Hashing
-                Console.WriteLine($"DEBUG_TOKEN: {token}");
-
                 using var client = new SmtpClient();
                 await client.ConnectAsync(
                     _configuration["EmailSettings:SmtpServer"],
