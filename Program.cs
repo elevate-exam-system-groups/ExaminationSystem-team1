@@ -4,6 +4,8 @@ using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Data;
+using Hangfire;
+using Newtonsoft.Json;
 
 namespace ExaminationSystem
 {
@@ -37,9 +39,33 @@ namespace ExaminationSystem
 
             builder.Services.AddJwtServices(builder.Configuration);
 
+            builder.Services.AddHangfire(opt =>
+            {
+                opt.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"),
+                    new Hangfire.SqlServer.SqlServerStorageOptions
+                    {
+                        CommandTimeout = TimeSpan.FromMinutes(5),
+                        QueuePollInterval = TimeSpan.FromSeconds(15),
+                        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                        JobExpirationCheckInterval = TimeSpan.FromHours(1),
+                    });
+
+                opt.UseSerializerSettings(new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
+            });
+
+            builder.Services.AddHangfireServer(opt =>
+            {
+                opt.WorkerCount = 5;
+            });
+
             #endregion
 
             var app = builder.Build();
+
+            app.UseHangfireDashboard("/hangfire");
 
             #region UpdateDatabase
 
@@ -75,7 +101,7 @@ namespace ExaminationSystem
             }
 
             app.UseMiddleware<GlobalErrorHandlerMiddelware>();
-            // app.UseMiddleware<TransactionMiddleware>();
+            app.UseMiddleware<TransactionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

@@ -52,15 +52,6 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLog
                 .Failure(isDiplomaExistAndPublished.Message, isDiplomaExistAndPublished.requestErrorCode);
             }
 
-            //var LoggedStudentIdResult = await _mediator
-            //    .Send(new GetCurrentLoggedStudentIdRequest(), cancellationToken);
-
-            //if (!LoggedStudentIdResult.IsSuccess)
-            //{
-            //    return RequestResult<List<GetDiplomaQuizzesForLoggedStudentDTO>>
-            //   .Failure(LoggedStudentIdResult.Message, LoggedStudentIdResult.requestErrorCode);
-            //}
-
             var isEnrolledResult = await _mediator
                 .Send(new CheckLoggedStudentEnrolledInDiplomaQueryRequest(request.diplomaId, request.StudentId), cancellationToken);
 

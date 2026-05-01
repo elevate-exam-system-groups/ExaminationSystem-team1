@@ -19,8 +19,13 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetRecentAttempts
             var spec = new StudentAttemptSpecification(request.StudentId, onlyCompleted: true);
 
             var attempts = await _attemptRepo
+<<<<<<< HEAD
                 .GetAll()
                 .ApplySpecification(spec)
+=======
+                .Get(a => a.StudentId == request.StudentId && !a.IsDeleted)
+                .OrderByDescending(a => a.CreatedAt)
+>>>>>>> QuizModule
                 .Take(5)
                 .Select(a => new RecentAttemptDto(
                     a.Id,
