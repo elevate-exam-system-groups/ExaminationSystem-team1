@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ExaminationSystem.Domain.Models
+﻿namespace ExaminationSystem.Domain.Models
 {
     public class PasswordResetToken : BaseModel
     {
@@ -13,6 +11,4 @@ namespace ExaminationSystem.Domain.Models
         // Navigation
         public User User { get; set; }
     }
-
-   
 }

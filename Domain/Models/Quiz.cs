@@ -5,6 +5,7 @@ namespace ExaminationSystem.Domain.Models
 {
     public class Quiz : BaseModel
     {
+
         [ForeignKey("Diploma")]
         public Guid DiplomaId { get; set; }
         public Diploma Diploma { get; set; }
@@ -21,6 +22,4 @@ namespace ExaminationSystem.Domain.Models
         public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
 
     }
-
-   
 }

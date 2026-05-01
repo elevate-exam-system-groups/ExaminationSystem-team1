@@ -1,5 +1,4 @@
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExaminationSystem.Domain.Models
 {

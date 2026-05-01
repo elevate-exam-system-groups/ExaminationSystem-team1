@@ -14,6 +14,4 @@ namespace ExaminationSystem.Domain.Models
         public QuestionOption SelectedOption { get; set; }
 
     }
-
-    
 }

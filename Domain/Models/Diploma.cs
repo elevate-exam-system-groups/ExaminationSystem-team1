@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ExaminationSystem.Domain.Models
+﻿namespace ExaminationSystem.Domain.Models
 {
     public class Diploma : BaseModel
     {
@@ -13,6 +11,4 @@ namespace ExaminationSystem.Domain.Models
         public ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
 
     }
-
-   
 }

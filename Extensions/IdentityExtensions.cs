@@ -24,6 +24,4 @@ namespace ExaminationSystem.Extensions
             return services;
         }
     }
-
-
 }

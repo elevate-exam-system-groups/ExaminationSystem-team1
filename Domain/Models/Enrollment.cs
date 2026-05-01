@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExaminationSystem.Domain.Models
 {
@@ -17,7 +16,4 @@ namespace ExaminationSystem.Domain.Models
         [ForeignKey(nameof(DiplomaId))]
         public Diploma Diploma { get; set; }
     }
-
-
-   
 }

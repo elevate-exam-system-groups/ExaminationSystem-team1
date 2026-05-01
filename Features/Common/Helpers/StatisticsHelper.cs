@@ -14,6 +14,5 @@
             return Math.Round(score, 1);
         }
 
-
     }
 }

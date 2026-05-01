@@ -1,8 +1,3 @@
-using ExaminationSystem.Domain.Models.Enums;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using ExaminationSystem.Domain.Models;
-using System.Text.Json.Serialization;
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 
 namespace ExaminationSystem.Domain.Data
