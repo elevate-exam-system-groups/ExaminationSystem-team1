@@ -1,8 +1,8 @@
-using ExaminationSystem.Features.Common.DiplomaRequests.Queries;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators.DTOS;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetDiplomaQuizzes;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Queries.GetStudentQuizzesAttemptsForDiploma;
+using ExaminationSystem.Features.DiplomaFeatures.SharedDiploma.Queries;
 
 
 

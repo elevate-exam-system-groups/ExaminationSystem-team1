@@ -1,5 +1,6 @@
-﻿using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestrators.DTOS;
-using ExaminationSystem.Features.Common.AttemptRequests.Orchestrators;
+﻿using ExaminationSystem.Features.AttemptFeatures.SharedAttempts.Orchestrators;
+using ExaminationSystem.Features.AttemptFeatures.SharedAttempts.Queries;
+using ExaminationSystem.Features.AttemptFeatures.SubmitQuizAttempt.Orchestrators.DTOS;
 
 namespace ExaminationSystem.Features.AttemptFeatures.AttemptTimerHandling
 {

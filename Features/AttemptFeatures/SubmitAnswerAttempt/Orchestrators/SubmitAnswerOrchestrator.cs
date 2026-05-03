@@ -1,6 +1,7 @@
-﻿using ExaminationSystem.Features.AttemptFeatures.SubmitAnswerAttempt.Commands;
+﻿using ExaminationSystem.Features.AttemptFeatures.SharedAttempts.Orchestrators;
+using ExaminationSystem.Features.AttemptFeatures.SharedAttempts.Queries;
+using ExaminationSystem.Features.AttemptFeatures.SubmitAnswerAttempt.Commands;
 using ExaminationSystem.Features.AttemptFeatures.SubmitAnswerAttempt.Queries;
-using ExaminationSystem.Features.Common.AttemptRequests.Orchestrators;
 
 namespace ExaminationSystem.Features.AttemptFeatures.SubmitAnswerAttempt.Orchestrators
 {

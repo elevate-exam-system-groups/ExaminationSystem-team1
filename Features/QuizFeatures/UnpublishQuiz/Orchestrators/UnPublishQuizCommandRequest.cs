@@ -1,4 +1,5 @@
-﻿using ExaminationSystem.Features.Common.QuizRequests.Commands;
+﻿using ExaminationSystem.Features.QuizFeatures.SharedQuizzes.Commands;
+using ExaminationSystem.Features.QuizFeatures.SharedQuizzes.Queries;
 using ExaminationSystem.Features.QuizFeatures.UnpublishQuiz.Queries;
 
 

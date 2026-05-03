@@ -1,4 +1,5 @@
 ﻿using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands.CreateAttempt.DTOs;
+using ExaminationSystem.Features.QuizFeatures.SharedQuizzes.Queries;
 
 namespace ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands.CreateAttempt
 {

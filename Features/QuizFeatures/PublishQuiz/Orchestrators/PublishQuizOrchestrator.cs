@@ -1,9 +1,12 @@
-﻿using ExaminationSystem.Features.Common.QuizRequests.Commands;
+﻿using ExaminationSystem.Features.Common.Helpers;
 using ExaminationSystem.Features.QuizFeatures.PublishQuiz.Queries;
+using ExaminationSystem.Features.QuizFeatures.SharedQuizzes.Commands;
+using ExaminationSystem.Features.QuizFeatures.SharedQuizzes.Queries;
 
 namespace ExaminationSystem.Features.QuizFeatures.PublishQuiz.Orchestrators
 {
-    public record PublishQuizOrchestrator(Guid quizId) : IRequest<RequestResult<bool>>;
+    public record PublishQuizOrchestrator(Guid quizId) : ICommand<RequestResult<bool>>;
+    //: IRequest<RequestResult<bool>>;
 
     public class PublishQuizOrchestratorValidator : AbstractValidator<PublishQuizOrchestrator>
     {
@@ -26,11 +29,6 @@ namespace ExaminationSystem.Features.QuizFeatures.PublishQuiz.Orchestrators
         }
         public async Task<RequestResult<bool>> Handle(PublishQuizOrchestrator request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator
-             .ValidateRequestAsync<PublishQuizOrchestrator, bool>(request, cancellationToken);
-
-            if (!validationResult.IsSuccess)
-                return validationResult;
 
             var isQuizPublished = await _mediator
                 .Send(new IsQuizPublishedQuery(request.quizId), cancellationToken);

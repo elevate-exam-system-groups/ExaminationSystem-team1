@@ -37,21 +37,13 @@ namespace ExaminationSystem.Features.QuizFeatures.CreateQuiz.Commands
     public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, RequestResult<Guid>>
     {
         private readonly IGeneralRepository<Quiz> _quizRepository;
-        private readonly IValidator<CreateQuizCommand> _validator;
 
-        public CreateQuizCommandHandler(IGeneralRepository<Quiz> quizRepository, IValidator<CreateQuizCommand> validator)
+        public CreateQuizCommandHandler(IGeneralRepository<Quiz> quizRepository)
         {
             _quizRepository = quizRepository;
-            _validator = validator;
         }
         public async Task<RequestResult<Guid>> Handle(CreateQuizCommand request, CancellationToken cancellationToken)
         {
-            //var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            //if (!validationResult.IsValid)
-            //{
-            //    return RequestResult<Guid>.Failure("Validation failed.", RequestErrorCode.ValidationError);
-            //}
-
 
             Quiz? NewQuiz = new Quiz
             {

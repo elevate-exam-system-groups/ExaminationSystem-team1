@@ -31,10 +31,9 @@ namespace ExaminationSystem.Domain.Implementations
             {
                 _transaction = await _context.Database.BeginTransactionAsync(cs);
             }
+            _depth++;
             try
             {
-                _depth++;
-
                 await action();
 
                 if (_depth == 0)
@@ -42,12 +41,16 @@ namespace ExaminationSystem.Domain.Implementations
             }
             catch
             {
-                //await _transaction.RollbackAsync(cs);
-                await _transaction.RollbackToSavepointAsync(_savePointName, cs);
+
+                if (!string.IsNullOrEmpty(_savePointName))
+                    await _transaction.RollbackToSavepointAsync(_savePointName, cs);
+                else
+                    await _transaction.RollbackAsync(cs);
                 throw;
             }
             finally
             {
+
                 if (_depth == 0 && _transaction is not null)
                 {
                     await _transaction.DisposeAsync();

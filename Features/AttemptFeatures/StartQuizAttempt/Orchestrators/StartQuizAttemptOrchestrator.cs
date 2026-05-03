@@ -1,8 +1,10 @@
 ﻿using ExaminationSystem.Features.AttemptFeatures.AttemptTimerHandling;
+using ExaminationSystem.Features.AttemptFeatures.SharedAttempts.Queries;
 using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Commands.CreateAttempt;
 using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrators.DTOS;
 using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Queries;
 using ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Queries.GetQuizAttemptMetaData;
+using ExaminationSystem.Features.QuizFeatures.SharedQuizzes.Queries;
 using Hangfire;
 
 namespace ExaminationSystem.Features.AttemptFeatures.StartQuizAttempt.Orchestrators

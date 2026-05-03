@@ -32,14 +32,21 @@ namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands
     public class CreateDiplomaCommandHandler : BaseRequestHandler<CreateDiplomaCommandRequest, CreateDiplomaResponseDTO>//IRequestHandler<CreateDiplomaCommandRequest, RequestResult<CreateDiplomaResponseDTO>>
     {
         private readonly IGeneralRepository<Diploma> _diplomaRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CreateDiplomaCommandHandler(IGeneralRepository<Diploma> diplomaRepository,
+            IUnitOfWork unitOfWork,
             HandlerBasicParameterss<CreateDiplomaCommandRequest> paramters) : base(paramters)
         {
             _diplomaRepository = diplomaRepository;
+            _unitOfWork = unitOfWork;
         }
         public override async Task<RequestResult<CreateDiplomaResponseDTO>> Handle(CreateDiplomaCommandRequest request, CancellationToken cancellationToken)
         {
+            // RequestResult<CreateDiplomaResponseDTO> response = null!;
+
+            //await _unitOfWork.ExecuteAsync(async () =>
+            //{
             var newDiploma = new Diploma
             {
                 Title = request.Title,
@@ -55,7 +62,12 @@ namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands
                 newDiploma.Description,
                 newDiploma.Status);
 
-            return RequestResult<CreateDiplomaResponseDTO>.Success(responseDTO, "Diploma created successfully", RequestErrorCode.Success);
+            var response = RequestResult<CreateDiplomaResponseDTO>
+            .Success(responseDTO, "Diploma created successfully", RequestErrorCode.Success);
+
+            //}, cancellationToken);
+
+            return response;
 
         }
     }
