@@ -1,14 +1,8 @@
 using ExaminationSystem.Domain.Data;
-using ExaminationSystem.Domain.Models;
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
-using ExaminationSystem.Features.Account.Shared.Services;
-using ExaminationSystem.Features.AuthModule.Account.DTOs;
-using FluentValidation;
-using MediatR;
 using ExaminationSystem.Features.Account.Reqisteration.DTOs;
-using Microsoft.AspNetCore.Identity;
+using ExaminationSystem.Features.Account.Shared.Services;
 using System.Security.Cryptography;
-using ExaminationSystem.Features.Common.Request;
 
 namespace ExaminationSystem.Features.Account.Reqisteration.Command
 {
@@ -18,9 +12,9 @@ namespace ExaminationSystem.Features.Account.Reqisteration.Command
     {
         private readonly UserManager<User> _userManager;
         private readonly IEmailService _emailService;
-        private readonly Domain.Data.IUnitOfWork _context;
+        private readonly Context _context;
 
-        public RegisterCommandHandler(UserManager<User> userManager, IEmailService emailService, Domain.Data.IUnitOfWork context)
+        public RegisterCommandHandler(UserManager<User> userManager, IEmailService emailService, Context context)
         {
             _userManager = userManager;
             _emailService = emailService;
@@ -52,7 +46,7 @@ namespace ExaminationSystem.Features.Account.Reqisteration.Command
 
             // Generate 6-digit OTP
             string otp = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
-            
+
             // Hash the OTP before storing
             string otpHash = global::ExaminationSystem.Features.Account.ForgetResetPassword.Helper.HashToken.TokenHasher.HashToken(otp);
 

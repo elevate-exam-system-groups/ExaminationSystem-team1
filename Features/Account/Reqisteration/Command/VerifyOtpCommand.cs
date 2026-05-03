@@ -1,12 +1,5 @@
 using ExaminationSystem.Domain.Data;
-using ExaminationSystem.Domain.Models;
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
-using ExaminationSystem.Features.Account.Shared;
-using ExaminationSystem.Features.Common.Request;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
 
 namespace ExaminationSystem.Features.Account.Reqisteration.Command
 {
@@ -15,9 +8,9 @@ namespace ExaminationSystem.Features.Account.Reqisteration.Command
     public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, RequestResult<string>>
     {
         private readonly UserManager<User> _userManager;
-        private readonly Domain.Data.IUnitOfWork _context;
+        private readonly Context _context;
 
-        public VerifyOtpCommandHandler(UserManager<User> userManager, Domain.Data.IUnitOfWork context)
+        public VerifyOtpCommandHandler(UserManager<User> userManager, Context context)
         {
             _userManager = userManager;
             _context = context;

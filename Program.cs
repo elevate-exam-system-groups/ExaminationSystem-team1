@@ -74,7 +74,7 @@ namespace ExaminationSystem
             try
             {
                 //Ask CLR For Creating An Instance From IUnitOfWork Exiplicitly
-                var context = Services.GetRequiredService<Domain.Data.IUnitOfWork>();
+                var context = Services.GetRequiredService<Context>();
 
                 await context.Database.MigrateAsync();
 

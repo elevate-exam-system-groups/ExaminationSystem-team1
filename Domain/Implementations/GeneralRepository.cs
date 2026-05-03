@@ -1,13 +1,14 @@
-﻿using System.Linq.Expressions;
+﻿using ExaminationSystem.Domain.Data;
+using System.Linq.Expressions;
 
 namespace ExaminationSystem.Domain.Implementations
 {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : BaseModel
     {
 
-        Data.IUnitOfWork _context;
+        Context _context;
         DbSet<T> _dbSet;
-        public GeneralRepository(Data.IUnitOfWork context)
+        public GeneralRepository(Context context)
         {
             _context = context;
             _dbSet = context.Set<T>();

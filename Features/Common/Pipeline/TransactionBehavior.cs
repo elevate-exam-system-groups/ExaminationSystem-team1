@@ -18,6 +18,11 @@ namespace ExaminationSystem.Features.Common.Pipeline
             RequestHandlerDelegate<TResponse> next,
             CancellationToken cancellationToken)
         {
+            if (request is ISavePoint sp)
+            {
+                await _unitOfWork.CreateSavePoint(sp.SavePointName, cancellationToken);
+            }
+
             TResponse response = default!;
 
             await _unitOfWork.ExecuteAsync(async () =>

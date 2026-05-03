@@ -1,15 +1,11 @@
-using ExaminationSystem.Domain.Models.Enums;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using ExaminationSystem.Domain.Models;
-using System.Text.Json.Serialization;
+
 using ExaminationSystem.ExaminationSystem.Domain.Models.Enums;
 
 namespace ExaminationSystem.Domain.Data
 {
     public static class ContextSeed
     {
-        public static async Task SeedAsync(IUnitOfWork context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             await SeedRolesAsync(roleManager);
             await SeedUserAsync(userManager);
@@ -65,7 +61,7 @@ namespace ExaminationSystem.Domain.Data
             }
         }
 
-        private static async Task SeedDataAsync(IUnitOfWork context)
+        private static async Task SeedDataAsync(Context context)
         {
             if (!context.Diplomas.Any())
             {
@@ -136,7 +132,7 @@ namespace ExaminationSystem.Domain.Data
                     new Option { QuestionId = question1.Id, Text = "System.Object", IsCorrect = true, CreatedBy = "System" },
                     new Option { QuestionId = question1.Id, Text = "System.Base", IsCorrect = false, CreatedBy = "System" },
                     new Option { QuestionId = question1.Id, Text = "System.Root", IsCorrect = false, CreatedBy = "System" },
-                    
+
                     new Option { QuestionId = question2.Id, Text = "const", IsCorrect = true, CreatedBy = "System" },
                     new Option { QuestionId = question2.Id, Text = "static", IsCorrect = false, CreatedBy = "System" },
                     new Option { QuestionId = question2.Id, Text = "readonly", IsCorrect = false, CreatedBy = "System" }

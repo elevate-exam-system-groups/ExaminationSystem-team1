@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using ExaminationSystem.Domain.Data;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ExaminationSystem.Domain.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly Data.IUnitOfWork _context;
+        private readonly Context _context;
         IDbContextTransaction _transaction;
         short _depth = 0;
         string _savePointName = string.Empty;
 
-        public UnitOfWork(Data.IUnitOfWork context, IDbContextTransaction transaction)
+        public UnitOfWork(Context context, IDbContextTransaction transaction)
         {
             _context = context;
             _transaction = transaction;

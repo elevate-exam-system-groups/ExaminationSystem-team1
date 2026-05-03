@@ -18,7 +18,7 @@ namespace ExaminationSystem.Extensions
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
             })
-            .AddEntityFrameworkStores<IUnitOfWork>()
+            .AddEntityFrameworkStores<Context>()
             .AddDefaultTokenProviders();
 
             return services;

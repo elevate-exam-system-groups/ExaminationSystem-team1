@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Controllers.Shared.Middlewares
+﻿using ExaminationSystem.Domain.Data;
+
+namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
     public class TransactionMiddleware
     {
@@ -8,7 +10,7 @@
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext, Domain.Data.IUnitOfWork context)
+        public async Task InvokeAsync(HttpContext httpContext, Context context)
         {
             if (httpContext.Request.Method == HttpMethods.Get)
             {

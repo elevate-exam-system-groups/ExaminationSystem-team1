@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using ExaminationSystem.Domain.Data;
+using System.Security.Claims;
 
 namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
@@ -17,7 +18,7 @@ namespace ExaminationSystem.Controllers.Shared.Middlewares
 
                 if (!string.IsNullOrEmpty(userId))
                 {
-                    var dbContext = context.RequestServices.GetRequiredService<Domain.Data.IUnitOfWork>();
+                    var dbContext = context.RequestServices.GetRequiredService<Context>();
 
                     await dbContext.Users
                         .Where(u => u.Id == userId)
