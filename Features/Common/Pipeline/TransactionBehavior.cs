@@ -1,5 +1,4 @@
-﻿using ExaminationSystem.Domain.Data;
-using ExaminationSystem.Features.Common.Helpers;
+﻿using ExaminationSystem.Features.Common.Helpers;
 
 namespace ExaminationSystem.Features.Common.Pipeline
 {
@@ -7,11 +6,11 @@ namespace ExaminationSystem.Features.Common.Pipeline
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ICommand<TResponse>
     {
-        private readonly Context _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TransactionBehavior(Context context)
+        public TransactionBehavior(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TResponse> Handle(
@@ -19,24 +18,14 @@ namespace ExaminationSystem.Features.Common.Pipeline
             RequestHandlerDelegate<TResponse> next,
             CancellationToken cancellationToken)
         {
-            await using var transaction =
-                await _context.Database.BeginTransactionAsync(cancellationToken);
+            TResponse response = default!;
 
-            try
+            await _unitOfWork.ExecuteAsync(async () =>
             {
-                var response = await next();
+                response = await next();
+            }, cancellationToken);
 
-                await _context.SaveChangesAsync(cancellationToken);
-
-                await transaction.CommitAsync(cancellationToken);
-
-                return response;
-            }
-            catch
-            {
-                await transaction.RollbackAsync(cancellationToken);
-                throw;
-            }
+            return response;
         }
     }
 }

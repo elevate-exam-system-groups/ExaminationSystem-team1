@@ -9,7 +9,7 @@ namespace ExaminationSystem.Domain.Data
 {
     public static class ContextSeed
     {
-        public static async Task SeedAsync(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(IUnitOfWork context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             await SeedRolesAsync(roleManager);
             await SeedUserAsync(userManager);
@@ -65,7 +65,7 @@ namespace ExaminationSystem.Domain.Data
             }
         }
 
-        private static async Task SeedDataAsync(Context context)
+        private static async Task SeedDataAsync(IUnitOfWork context)
         {
             if (!context.Diplomas.Any())
             {

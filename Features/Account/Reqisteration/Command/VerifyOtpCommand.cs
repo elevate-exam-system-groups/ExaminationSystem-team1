@@ -15,9 +15,9 @@ namespace ExaminationSystem.Features.Account.Reqisteration.Command
     public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, RequestResult<string>>
     {
         private readonly UserManager<User> _userManager;
-        private readonly Context _context;
+        private readonly Domain.Data.IUnitOfWork _context;
 
-        public VerifyOtpCommandHandler(UserManager<User> userManager, Context context)
+        public VerifyOtpCommandHandler(UserManager<User> userManager, Domain.Data.IUnitOfWork context)
         {
             _userManager = userManager;
             _context = context;

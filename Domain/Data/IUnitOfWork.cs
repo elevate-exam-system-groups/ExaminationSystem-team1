@@ -1,8 +1,8 @@
 namespace ExaminationSystem.Domain.Data
 {
-    public class Context : IdentityDbContext<User>
+    public class IUnitOfWork : IdentityDbContext<User>
     {
-        public Context(DbContextOptions<Context> options) : base(options) { }
+        public IUnitOfWork(DbContextOptions<IUnitOfWork> options) : base(options) { }
 
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }

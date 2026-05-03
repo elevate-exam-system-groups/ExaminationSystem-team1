@@ -9,7 +9,7 @@ namespace ExaminationSystem.Extensions
     {
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<Context>(opt =>
+            services.AddDbContext<Domain.Data.IUnitOfWork>(opt =>
                 opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                    .LogTo(log => Debug.WriteLine(log), LogLevel.Information)

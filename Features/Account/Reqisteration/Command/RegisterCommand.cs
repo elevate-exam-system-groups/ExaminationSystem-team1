@@ -18,9 +18,9 @@ namespace ExaminationSystem.Features.Account.Reqisteration.Command
     {
         private readonly UserManager<User> _userManager;
         private readonly IEmailService _emailService;
-        private readonly Context _context;
+        private readonly Domain.Data.IUnitOfWork _context;
 
-        public RegisterCommandHandler(UserManager<User> userManager, IEmailService emailService, Context context)
+        public RegisterCommandHandler(UserManager<User> userManager, IEmailService emailService, Domain.Data.IUnitOfWork context)
         {
             _userManager = userManager;
             _emailService = emailService;

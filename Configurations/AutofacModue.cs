@@ -19,6 +19,10 @@ namespace ExaminationSystem.Configurations
                    .As(typeof(IGeneralRepository<>))
                    .InstancePerLifetimeScope();
 
+            builder.RegisterGeneric(typeof(UnitOfWork))
+                   .As(typeof(IUnitOfWork))
+                   .InstancePerLifetimeScope();
+
 
             builder.RegisterType<TokenGenerator>()
                    .As<ITokenGenerator>()
@@ -38,9 +42,9 @@ namespace ExaminationSystem.Configurations
                    .As(typeof(IPipelineBehavior<,>))
                    .InstancePerLifetimeScope();
 
-            //builder.RegisterGeneric(typeof(TransactionBehavior<,>))
-            //       .As(typeof(IPipelineBehavior<,>))
-            //       .InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(TransactionBehavior<,>))
+                   .As(typeof(IPipelineBehavior<,>))
+                   .InstancePerLifetimeScope();
 
             #endregion
 
@@ -49,8 +53,8 @@ namespace ExaminationSystem.Configurations
             builder.RegisterType<GlobalErrorHandlerMiddelware>()
                    .InstancePerLifetimeScope();
 
-            builder.RegisterType<TransactionMiddleware>()
-                   .InstancePerLifetimeScope();
+            //builder.RegisterType<TransactionMiddleware>()
+            //       .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(HandlerBasicParameterss<>))
                    .AsSelf()

@@ -1,7 +1,4 @@
-﻿using ExaminationSystem.Domain.Data;
-using Microsoft.EntityFrameworkCore.Storage;
-
-namespace ExaminationSystem.Controllers.Shared.Middlewares
+﻿namespace ExaminationSystem.Controllers.Shared.Middlewares
 {
     public class TransactionMiddleware
     {
@@ -11,28 +8,27 @@ namespace ExaminationSystem.Controllers.Shared.Middlewares
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext, Context context)
+        public async Task InvokeAsync(HttpContext httpContext, Domain.Data.IUnitOfWork context)
         {
-            if (!httpContext.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
-            {
-                IDbContextTransaction transaction = default;
-                try
-                {
-                    transaction = await context.Database.BeginTransactionAsync();
-                    await _next(httpContext);
-                    //await context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                }
-                catch
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
-            else
+            if (httpContext.Request.Method == HttpMethods.Get)
             {
                 await _next(httpContext);
             }
+
+            var transaction = context.Database.BeginTransaction();
+
+            try
+            {
+                await _next(httpContext);
+                //await context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
+
     }
 }

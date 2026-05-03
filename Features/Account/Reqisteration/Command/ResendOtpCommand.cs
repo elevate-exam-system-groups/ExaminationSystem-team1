@@ -16,10 +16,10 @@ namespace ExaminationSystem.Features.Account.Reqisteration.Command
     public class ResendOtpCommandHandler : IRequestHandler<ResendOtpCommand, RequestResult<string>>
     {
         private readonly UserManager<User> _userManager;
-        private readonly Context _context;
+        private readonly Domain.Data.IUnitOfWork _context;
         private readonly IEmailService _emailService;
 
-        public ResendOtpCommandHandler(UserManager<User> userManager, Context context, IEmailService emailService)
+        public ResendOtpCommandHandler(UserManager<User> userManager, Domain.Data.IUnitOfWork context, IEmailService emailService)
         {
             _userManager = userManager;
             _context = context;

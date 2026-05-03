@@ -1,14 +1,13 @@
-﻿using ExaminationSystem.Domain.Data;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace ExaminationSystem.Domain.Implementations
 {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : BaseModel
     {
 
-        Context _context;
+        Data.IUnitOfWork _context;
         DbSet<T> _dbSet;
-        public GeneralRepository(Context context)
+        public GeneralRepository(Data.IUnitOfWork context)
         {
             _context = context;
             _dbSet = context.Set<T>();
@@ -124,7 +123,7 @@ namespace ExaminationSystem.Domain.Implementations
         public void AddRange(IEnumerable<T> entities)
          => _dbSet.AddRange(entities);
 
- 
+
 
         public async Task SaveChangesAsync()
         {

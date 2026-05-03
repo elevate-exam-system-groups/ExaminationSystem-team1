@@ -1,4 +1,3 @@
-
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
@@ -74,8 +73,8 @@ namespace ExaminationSystem
             var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
             try
             {
-                //Ask CLR For Creating An Instance From Context Exiplicitly
-                var context = Services.GetRequiredService<Context>();
+                //Ask CLR For Creating An Instance From IUnitOfWork Exiplicitly
+                var context = Services.GetRequiredService<Domain.Data.IUnitOfWork>();
 
                 await context.Database.MigrateAsync();
 
@@ -101,7 +100,7 @@ namespace ExaminationSystem
             }
 
             app.UseMiddleware<GlobalErrorHandlerMiddelware>();
-            app.UseMiddleware<TransactionMiddleware>();
+            //app.UseMiddleware<TransactionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
