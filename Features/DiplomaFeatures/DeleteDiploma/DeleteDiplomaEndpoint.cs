@@ -14,6 +14,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma
 
                 if (!result.IsSuccess)
                 {
+                    //stst
                     return Results.BadRequest(ResponseViewModel<bool>
                           .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode));
                 }
