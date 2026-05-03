@@ -10,10 +10,9 @@ namespace ExaminationSystem.Domain.Implementations
         short _depth = 0;
         string _savePointName = string.Empty;
 
-        public UnitOfWork(Context context, IDbContextTransaction transaction)
+        public UnitOfWork(Context context)
         {
             _context = context;
-            _transaction = transaction;
         }
 
         public async Task CreateSavePoint(string SavePointName, CancellationToken cs)

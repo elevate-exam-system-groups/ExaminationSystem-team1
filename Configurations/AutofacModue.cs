@@ -19,9 +19,9 @@ namespace ExaminationSystem.Configurations
                    .As(typeof(IGeneralRepository<>))
                    .InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(UnitOfWork))
-                   .As(typeof(IUnitOfWork))
-                   .InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWork>()
+                  .As<IUnitOfWork>()
+                  .InstancePerLifetimeScope();
 
 
             builder.RegisterType<TokenGenerator>()

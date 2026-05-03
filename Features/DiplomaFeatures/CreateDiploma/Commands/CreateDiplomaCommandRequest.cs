@@ -1,10 +1,13 @@
-﻿using ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands.DTOS;
+﻿using ExaminationSystem.Features.Common.Helpers;
+using ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands.DTOS;
 
 namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands
 {
     #region Request
 
-    public record CreateDiplomaCommandRequest(string Title, string? Description) : IRequest<RequestResult<CreateDiplomaResponseDTO>> { }
+    public record CreateDiplomaCommandRequest(string Title, string? Description)
+        : ICommand<RequestResult<CreateDiplomaResponseDTO>>;
+    //, IRequest<RequestResult<CreateDiplomaResponseDTO>> 
 
     #endregion
 
@@ -37,11 +40,6 @@ namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands
         }
         public override async Task<RequestResult<CreateDiplomaResponseDTO>> Handle(CreateDiplomaCommandRequest request, CancellationToken cancellationToken)
         {
-
-            var ValidationResult = ValidateRequest(request);
-            if (!ValidationResult.IsSuccess)
-                return ValidationResult;
-
             var newDiploma = new Diploma
             {
                 Title = request.Title,
