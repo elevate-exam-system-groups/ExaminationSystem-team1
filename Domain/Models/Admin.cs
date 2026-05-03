@@ -18,6 +18,9 @@ namespace ExaminationSystem.Domain.Models
 
             builder.HasKey(o => o.UserId);
 
+            builder.HasOne(a => a.user)
+          .WithOne()
+          .HasForeignKey<Admin>(a => a.UserId);
 
 
         }

@@ -20,7 +20,7 @@ namespace ExaminationSystem.Configurations
                    .InstancePerLifetimeScope();
 
             builder.RegisterType<UnitOfWork>()
-                  .As<IUnitOfWork>()
+                  .As<Domain.Abstractions.IUnitOfWork>()
                   .InstancePerLifetimeScope();
 
 

@@ -43,6 +43,10 @@ namespace ExaminationSystem.Domain.Models
 
             builder.Property(q => q.IsPassed)
                    .IsRequired(false);
+
+            builder.HasOne(q => q.Student)
+           .WithMany(u => u.QuizAttempts)
+           .HasForeignKey(q => q.StudentId);
         }
     }
 }

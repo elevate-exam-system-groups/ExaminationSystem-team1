@@ -8,7 +8,7 @@ namespace ExaminationSystem.Domain.Models
 
         public string UserId { get; set; }
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-        public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
+        //public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
     }
 
 
@@ -20,7 +20,9 @@ namespace ExaminationSystem.Domain.Models
 
             builder.HasKey(o => o.UserId);
 
-
+            builder.HasOne(s => s.user)
+          .WithOne()
+          .HasForeignKey<Student>(s => s.UserId);
 
         }
     }
