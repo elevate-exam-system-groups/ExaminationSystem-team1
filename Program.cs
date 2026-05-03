@@ -76,6 +76,11 @@ namespace ExaminationSystem
             }
 
 
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseMiddleware<UpdateLastActivityMiddleware>();
+            app.MapControllers();
             app.MapAllEndpoints();
             #endregion
 
