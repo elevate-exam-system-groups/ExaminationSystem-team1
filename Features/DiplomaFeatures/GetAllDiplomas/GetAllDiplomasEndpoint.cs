@@ -1,4 +1,4 @@
-﻿using ExaminationSystem.Controllers.DiplomaController.ViewModels;
+using ExaminationSystem.Controllers.DiplomaController.ViewModels;
 using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas
     {
         public static void MapGetAllDiplomasEndpoint(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/GetAllDiplomas", async (
+            app.MapGet("/api/v2/Diploma/GetAllDiplomas", async (
                 [AsParameters] AllDiplomasPaginatedRequestVM requestVM, 
                 IMediator _mediator) =>
             {
