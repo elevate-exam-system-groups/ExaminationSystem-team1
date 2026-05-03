@@ -83,8 +83,6 @@ namespace ExaminationSystem
             app.UseAuthorization();
             app.UseMiddleware<UpdateLastActivityMiddleware>();
             app.MapControllers();
-            //tst
-            //tst2
             app.MapAllEndpoints();
             #endregion
 
