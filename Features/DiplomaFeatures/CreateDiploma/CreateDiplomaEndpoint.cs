@@ -14,6 +14,15 @@ namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma
                 var result = await _mediator
                     .Send(new CreateDiplomaCommandRequest(request.Title, request.Description));
 
+
+
+
+
+
+
+
+
+                /////tst
                 if (!result.IsSuccess)
                 {
                     return Results.BadRequest(ResponseViewModel<CreateDiplomaResponseVM>

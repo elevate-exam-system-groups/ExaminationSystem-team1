@@ -24,6 +24,8 @@ namespace ExaminationSystem.Features.QuizFeatures.CreateQuiz
 
                 if (!requestResult.IsSuccess)
                 {
+
+                    /////tst
                     return Results.BadRequest(ResponseViewModel<Guid?>
                         .Failure(requestResult?.Message, (ResponseVmErrorCode?)requestResult?.requestErrorCode));
                 }

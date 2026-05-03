@@ -4,12 +4,22 @@ namespace ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma
 {
     public static class DeleteDiplomaEndpoint
     {
+
+
+
+
+
+
         public static void MapDeleteDiplomaEndpoint(this IEndpointRouteBuilder app)
         {
             app.MapDelete("/api/v2/Diploma/DeleteDiploma", async (
                 [FromQuery] Guid diplomaID,
                 IMediator _mediator) =>
             {
+
+
+
+                //tst
                 var result = await _mediator.Send(new DeleteDiplomaCommand(diplomaID));
 
                 if (!result.IsSuccess)
@@ -20,6 +30,10 @@ namespace ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma
 
                 return Results.Ok(ResponseViewModel<bool>.Success(result.Data));
             })
+
+
+
+
             .WithTags("Diploma")
             .WithName("DeleteDiploma");
         }
