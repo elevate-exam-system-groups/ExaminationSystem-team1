@@ -6,6 +6,6 @@
     "EnrollmentDate": "2025-01-01T00:00:00Z",
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   }
 ]

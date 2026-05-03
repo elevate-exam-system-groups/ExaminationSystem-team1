@@ -14,7 +14,7 @@ namespace ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Queries.Get
             GetQuestionInfoQuery request, CancellationToken ct)
         {
             var questionInfo = await _questionRepo
-                .Get(q => q.Id == request.QuestionId && !q.IsDeleted)
+                .Get(q => q.Id == request.QuestionId && !q.isDeleted)
                 .Select(q => new QuestionInfoDto(
                     //q.Id,
                     q.QuizId,

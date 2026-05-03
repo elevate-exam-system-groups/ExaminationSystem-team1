@@ -10,7 +10,7 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Specif
 
             var builder = new SpecificationBuilder<QuizAttempt>();
 
-            builder.Add(a => !a.IsDeleted && a.Status != QuizAttemptStatus.InProgress);
+            builder.Add(a => !a.isDeleted && a.Status != QuizAttemptStatus.InProgress);
 
             if (from.HasValue)
                 builder.Add(a => a.SubmittedAt >= from.Value);

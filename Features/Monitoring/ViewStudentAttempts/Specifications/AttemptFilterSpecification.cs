@@ -15,7 +15,7 @@ namespace ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Specifi
         {
             var builder = new SpecificationBuilder<QuizAttempt>();
 
-            builder.Add(a => !a.IsDeleted);
+            builder.Add(a => !a.isDeleted);
 
             if (quizId.HasValue)
                 builder.Add(a => a.QuizId == quizId.Value);

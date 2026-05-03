@@ -19,7 +19,7 @@ namespace ExaminationSystem.Features.Common.FeatureExtensions
                 .ToDictionaryAsync(k => k.Key, v => v.Count, ct);
         }
         public static IQueryable<Quiz> Published(this IQueryable<Quiz> query)
-            => query.Where(q => q.Status == QuizStatus.Published && !q.IsDeleted);
+            => query.Where(q => q.Status == QuizStatus.Published && !q.isDeleted);
 
 
     }

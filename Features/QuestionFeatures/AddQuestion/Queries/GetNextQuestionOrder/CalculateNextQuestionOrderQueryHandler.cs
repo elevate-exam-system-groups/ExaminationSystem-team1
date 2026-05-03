@@ -17,7 +17,7 @@ namespace ExaminationSystem.Features.QuestionFeatures.AddQuestion.Queries.GetNex
         {
 
             var maxOrder = await _questionRepo
-                .Get(q => q.QuizId == request.QuizId && !q.IsDeleted)
+                .Get(q => q.QuizId == request.QuizId && !q.isDeleted)
                 .MaxAsync(q => (int?)q.OrderIndex, ct) ?? 0;
 
             return RequestResult<NextQuestionOrderDto>.Success(

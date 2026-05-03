@@ -15,7 +15,7 @@ namespace ExaminationSystem.Features.AdminDashboard.Queries.GetAttemptsAvgPassRa
             GetAttemptsAvgPassRateQuery request, CancellationToken ct)
         {
             var stats = await _attemptRepo
-                .Get(a => a.Status != QuizAttemptStatus.InProgress && !a.IsDeleted)
+                .Get(a => a.Status != QuizAttemptStatus.InProgress && !a.isDeleted)
                 .GroupBy(a => 1)
                 .Select(g => new
                 {

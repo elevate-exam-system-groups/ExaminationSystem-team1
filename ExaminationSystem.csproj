@@ -74,6 +74,7 @@
     <Folder Include="Configurations\" />
     <Folder Include="Domain\Data\DataSeed\" />
     <Folder Include="Controllers\Shared\Filters\" />
+    <Folder Include="Domain\Data\Migrations\" />
   </ItemGroup>
 
 </Project>

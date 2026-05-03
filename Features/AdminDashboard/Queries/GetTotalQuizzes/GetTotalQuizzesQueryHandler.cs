@@ -15,7 +15,7 @@ namespace ExaminationSystem.Features.AdminDashboard.Queries.GetTotalQuizzes
             (GetTotalQuizzesQuery request, CancellationToken ct)
         {
             var count = await _quizRepo
-                .Get(q => q.Status == QuizStatus.Published && !q.IsDeleted)
+                .Get(q => q.Status == QuizStatus.Published && !q.isDeleted)
                 .CountAsync(ct);
 
             return RequestResult<TotalQuizzesDto>.Success(

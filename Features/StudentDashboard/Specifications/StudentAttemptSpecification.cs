@@ -8,7 +8,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Specifications
         {
             var builder = new SpecificationBuilder<QuizAttempt>();
 
-            builder.Add(a => a.StudentId == studentId && !a.IsDeleted);
+            builder.Add(a => a.StudentId == studentId && !a.isDeleted);
 
             if (onlyCompleted)
                 builder.Add(a => a.Status != QuizAttemptStatus.InProgress);

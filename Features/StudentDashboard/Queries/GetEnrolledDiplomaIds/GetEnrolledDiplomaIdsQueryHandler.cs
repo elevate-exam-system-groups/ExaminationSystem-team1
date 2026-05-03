@@ -16,7 +16,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetEnrolledDiploma
         {
 
             var diplomaIds = await _enrollmentRepo
-                .Get(e => e.StudentId == request.StudentId && !e.IsDeleted)
+                .Get(e => e.StudentId == request.StudentId && !e.isDeleted)
                 .Select(e => e.DiplomaId)
                 .ToListAsync(ct);
 

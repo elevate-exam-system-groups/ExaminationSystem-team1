@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ExaminationSystem.Domain.Data.Migrations
+namespace ExaminationSystem.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260421192354_init")]
-    partial class init
+    [Migration("20260503132627_m0")]
+    partial class m0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace ExaminationSystem.Domain.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.Admin", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Admin");
+                });
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.AttemptAnswer", b =>
                 {
@@ -43,10 +73,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsCorrect")
                         .HasColumnType("bit");
@@ -98,10 +124,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -145,10 +167,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("DiplomaId")
                         .HasColumnType("uniqueidentifier");
@@ -196,10 +214,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
@@ -242,10 +256,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpiryAt")
                         .HasColumnType("datetime2");
@@ -295,10 +305,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Explanation")
                         .HasColumnType("nvarchar(max)");
 
@@ -344,10 +350,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("DiplomaId")
                         .HasColumnType("uniqueidentifier");
@@ -396,7 +398,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.ToTable("Quizzes");
                 });
 
-            modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -414,10 +416,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsPassed")
                         .HasColumnType("bit");
@@ -461,7 +459,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .IsUnique()
                         .HasFilter("\"Status\" = 'inProgress'");
 
-                    b.ToTable("QuizAttempts");
+                    b.ToTable("QuizAttempt");
                 });
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.RefreshToken", b =>
@@ -482,10 +480,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -525,6 +519,36 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.Student", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Student");
+                });
+
             modelBuilder.Entity("ExaminationSystem.Domain.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -553,6 +577,12 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastActivityAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -623,10 +653,6 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -788,6 +814,17 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.Admin", b =>
+                {
+                    b.HasOne("ExaminationSystem.Domain.Models.User", "user")
+                        .WithOne()
+                        .HasForeignKey("ExaminationSystem.Domain.Models.Admin", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("ExaminationSystem.Domain.Models.AttemptAnswer", b =>
                 {
                     b.HasOne("ExaminationSystem.Domain.Models.Question", "Question")
@@ -796,7 +833,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("ExaminationSystem.Domain.Models.Quiz", "Quiz")
+                    b.HasOne("ExaminationSystem.Domain.Models.QuizAttempt", "QuizAttempt")
                         .WithMany("UserAnswers")
                         .HasForeignKey("QuizAttemptId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -810,7 +847,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
 
                     b.Navigation("Question");
 
-                    b.Navigation("Quiz");
+                    b.Navigation("QuizAttempt");
 
                     b.Navigation("SelectedOption");
                 });
@@ -878,7 +915,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Navigation("Diploma");
                 });
 
-            modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
                 {
                     b.HasOne("ExaminationSystem.Domain.Models.Quiz", "Quiz")
                         .WithMany("QuizAttempts")
@@ -906,6 +943,17 @@ namespace ExaminationSystem.Domain.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.Student", b =>
+                {
+                    b.HasOne("ExaminationSystem.Domain.Models.User", "user")
+                        .WithOne()
+                        .HasForeignKey("ExaminationSystem.Domain.Models.Student", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("ExaminationSystem.Domain.Models.UserOTP", b =>
@@ -996,7 +1044,7 @@ namespace ExaminationSystem.Domain.Data.Migrations
                     b.Navigation("QuizAttempts");
                 });
 
-            modelBuilder.Entity("ExaminationSystem.Domain.Models.Quiz", b =>
+            modelBuilder.Entity("ExaminationSystem.Domain.Models.QuizAttempt", b =>
                 {
                     b.Navigation("UserAnswers");
                 });

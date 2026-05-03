@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExaminationSystem.Domain.Models
 {
@@ -46,6 +46,10 @@ namespace ExaminationSystem.Domain.Models
 
             builder.Property(q => q.IsPassed)
                    .IsRequired(false);
+
+            builder.HasOne(q => q.Student)
+                   .WithMany(u => u.QuizAttempts)
+                   .HasForeignKey(q => q.StudentId);
         }
     }
 }

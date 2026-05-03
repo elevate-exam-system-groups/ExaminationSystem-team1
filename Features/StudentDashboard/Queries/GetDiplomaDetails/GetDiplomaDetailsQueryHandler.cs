@@ -20,7 +20,7 @@ namespace ExaminationSystem.Features.StudentDashboard.Queries.GetDiplomaDetails
                     new DiplomaDetailsDto(new()));
 
             var diplomas = await _diplomaRepo
-                .Get(d => request.DiplomaIds.Contains(d.Id) && !d.IsDeleted)
+                .Get(d => request.DiplomaIds.Contains(d.Id) && !d.isDeleted)
                 .ToDictionaryAsync(
                     k => k.Id,
                     v => new DiplomaInfoDTO(v.Title, v.Description),

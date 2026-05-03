@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExaminationSystem.Domain.Models
 {
@@ -7,8 +7,6 @@ namespace ExaminationSystem.Domain.Models
         public User user { get; set; }
 
         public string UserId { get; set; }
-        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-        public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
     }
 
 
@@ -20,8 +18,9 @@ namespace ExaminationSystem.Domain.Models
 
             builder.HasKey(o => o.UserId);
 
-
-
+            builder.HasOne(o => o.user)
+                   .WithOne()
+                   .HasForeignKey<Student>(o => o.UserId);
         }
     }
 

@@ -15,9 +15,9 @@ namespace ExaminationSystem.Features.QuestionFeatures.DeleteQuestion.Commands.De
         {
 
             var deletedCount = await _optionRepo
-                .Get(o => o.QuestionId == request.QuestionId && !o.IsDeleted)
+                .Get(o => o.QuestionId == request.QuestionId && !o.isDeleted)
                 .ExecuteUpdateAsync(s => s
-                    .SetProperty(o => o.IsDeleted, true)
+                    .SetProperty(o => o.isDeleted, true)
                     .SetProperty(o => o.DeletedAt, DateTime.UtcNow),
                 ct);
 

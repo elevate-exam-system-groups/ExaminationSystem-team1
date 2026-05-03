@@ -23,7 +23,7 @@ namespace ExaminationSystem.Features.AdminManagement.PerformanceAnalytics.Querie
             var failedQuestions = await _attemptRepo.GetAll()
                 .Where(spec.Criteria)
                 .SelectMany(a => a.UserAnswers)
-                .Where(ua => !ua.IsDeleted) 
+                .Where(ua => !ua.isDeleted) 
                 .GroupBy(ua => new
                 {
                     ua.QuestionId,

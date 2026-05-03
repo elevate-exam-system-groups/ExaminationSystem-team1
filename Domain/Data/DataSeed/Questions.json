@@ -7,7 +7,7 @@
     "OrderIndex": 1,
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   },
   {
     "Id": "b2000000-0000-0000-0000-000000000002",
@@ -17,6 +17,6 @@
     "OrderIndex": 2,
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   }
 ]

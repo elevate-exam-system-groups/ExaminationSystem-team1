@@ -46,11 +46,11 @@ namespace ExaminationSystem.Features.AdminManagement.ViewStudentAttempts.Queries
                             ua.SelectedOption.Text ?? "N/A",
                             ua.IsCorrect,
                             ua.Question.Options
-                                .Where(o => o.IsCorrect && !o.IsDeleted)
+                                .Where(o => o.IsCorrect && !o.isDeleted)
                                 .Select(o => o.Id)
                                 .FirstOrDefault(),
                             ua.Question.Options
-                                .Where(o => o.IsCorrect && !o.IsDeleted)
+                                .Where(o => o.IsCorrect && !o.isDeleted)
                                 .Select(o => o.Text)
                                 .FirstOrDefault() ?? "N/A",
                             ua.Question.Explanation

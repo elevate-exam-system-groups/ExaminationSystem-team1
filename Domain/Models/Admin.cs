@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExaminationSystem.Domain.Models
 {
@@ -18,8 +18,9 @@ namespace ExaminationSystem.Domain.Models
 
             builder.HasKey(o => o.UserId);
 
-
-
+            builder.HasOne(o => o.user)
+                   .WithOne()
+                   .HasForeignKey<Admin>(o => o.UserId);
         }
     }
 }

@@ -10,7 +10,7 @@
     "Status": "Published",
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   },
   {
     "Id": "a2000000-0000-0000-0000-000000000002",
@@ -23,6 +23,6 @@
     "Status": "Draft",
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   }
 ]

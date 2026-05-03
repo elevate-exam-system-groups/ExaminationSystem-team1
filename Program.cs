@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Data;
+using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas;
 
 namespace ExaminationSystem
 {
@@ -82,7 +83,7 @@ namespace ExaminationSystem
             app.UseAuthorization();
             app.UseMiddleware<UpdateLastActivityMiddleware>();
             app.MapControllers();
-
+            app.MapGetAllDiplomasEndpoint();
             #endregion
 
 

@@ -6,7 +6,7 @@
     "IsCorrect": true,
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   },
   {
     "Id": "c2000000-0000-0000-0000-000000000002",
@@ -15,7 +15,7 @@
     "IsCorrect": false,
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   },
   {
     "Id": "c3000000-0000-0000-0000-000000000003",
@@ -24,7 +24,7 @@
     "IsCorrect": true,
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   },
   {
     "Id": "c4000000-0000-0000-0000-000000000004",
@@ -33,6 +33,6 @@
     "IsCorrect": false,
     "CreatedAt": "2025-01-01T00:00:00Z",
     "UpdatedAt": "2025-01-01T00:00:00Z",
-    "IsDeleted": false
+    "isDeleted": false
   }
 ]

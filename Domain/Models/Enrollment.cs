@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExaminationSystem.Domain.Models
@@ -25,6 +25,10 @@ namespace ExaminationSystem.Domain.Models
         {
             builder.HasIndex(e => new { e.StudentId, e.DiplomaId })
                    .IsUnique();
+
+            builder.HasOne(e => e.Student)
+                   .WithMany(u => u.Enrollments)
+                   .HasForeignKey(e => e.StudentId);
         }
     }
 }
