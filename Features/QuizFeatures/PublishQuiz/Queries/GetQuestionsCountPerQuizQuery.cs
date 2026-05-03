@@ -15,28 +15,56 @@ namespace ExaminationSystem.Features.QuizFeatures.PublishQuiz.Queries
         }
     }
 
-    public class GetQuestionsCountPerQuizQueryHandler : IRequestHandler<GetQuestionsCountPerQuizQuery, RequestResult<int>>
+    namespace ExaminationSystem.Features.QuizFeatures.PublishQuiz.Queries
     {
-        private readonly IGeneralRepository<Question> _questionsRepository;
-        private readonly IValidator<GetQuestionsCountPerQuizQuery> _validator;
-        public GetQuestionsCountPerQuizQueryHandler(IGeneralRepository<Question> questionsRepository, IValidator<GetQuestionsCountPerQuizQuery> validator)
+        public record CheckAllQuizQuestionsHasValidOptionsQuery(Guid quizId) : IRequest<RequestResult<bool>>;
+
+        public class CheckAllQuizQuestionsHasValidOptionsQueryValidator : AbstractValidator<CheckAllQuizQuestionsHasValidOptionsQuery>
         {
-            _questionsRepository = questionsRepository;
-            _validator = validator;
+            public CheckAllQuizQuestionsHasValidOptionsQueryValidator()
+            {
+                RuleFor(r => r.quizId)
+                    .NotEmpty()
+                    .WithMessage("Quiz Id is required.");
+            }
         }
-        public async Task<RequestResult<int>> Handle(GetQuestionsCountPerQuizQuery request, CancellationToken cancellationToken)
+
+        public class CheckAllQuizQuestionsHasValidOptionsQueryHandler
+            : IRequestHandler<CheckAllQuizQuestionsHasValidOptionsQuery, RequestResult<bool>>
         {
-            var validationResult = await _validator
-              .ValidateRequestAsync<GetQuestionsCountPerQuizQuery, int>(request, cancellationToken);
+            private readonly IGeneralRepository<Question> _questionRepository;
+            private readonly IValidator<CheckAllQuizQuestionsHasValidOptionsQuery> _validator;
 
-            if (!validationResult.IsSuccess)
-                return validationResult;
+            public CheckAllQuizQuestionsHasValidOptionsQueryHandler(IGeneralRepository<Question> questionRepository, IValidator<CheckAllQuizQuestionsHasValidOptionsQuery> validator)
+            {
+                _questionRepository = questionRepository;
+                _validator = validator;
+            }
 
-            int questionsCount = await _questionsRepository
-                .Get(q => q.QuizId == request.quizId)
-                .CountAsync(cancellationToken);
+            public async Task<RequestResult<bool>> Handle(CheckAllQuizQuestionsHasValidOptionsQuery request, CancellationToken cancellationToken)
+            {
+                var validationResult = await _validator
+                  .ValidateRequestAsync<CheckAllQuizQuestionsHasValidOptionsQuery, bool>(request, cancellationToken);
 
-            return RequestResult<int>.Success(questionsCount);
+                if (!validationResult.IsSuccess)
+                    return validationResult;
+
+                var HasInValidQuestions = await _questionRepository
+                     .Get(q => q.QuizId == request.quizId)
+                     .AnyAsync(q => q.Options == null ||
+                                      q.Options.Count < 2 ||
+                                      !q.Options.Any(o => o.IsCorrect));
+
+                if (HasInValidQuestions)
+                {
+                    return RequestResult<bool>
+                        .Failure("All questions must have at least 2 options and at least one correct option.", RequestErrorCode.Forbidden);
+                }
+
+                return RequestResult<bool>.Success(true);
+            }
         }
+
+
     }
 }
