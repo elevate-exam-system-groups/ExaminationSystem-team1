@@ -1,6 +1,5 @@
+# ExaminationSystem-team1
   
-**EXAMINATION SYSTEM**
-
 *Business Overview & Process Flow*
 
 A complete guide to how the platform works,
