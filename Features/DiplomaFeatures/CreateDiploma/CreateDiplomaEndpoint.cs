@@ -1,5 +1,5 @@
 using ExaminationSystem.Controllers.DiplomaController.ViewModels;
-using ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Commands;
+using ExaminationSystem.Features.DiplomaFeatures.CreateDiploma.Publishers;
 
 namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma
 {
@@ -12,24 +12,17 @@ namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma
                 IMediator _mediator) =>
             {
                 var result = await _mediator
-                    .Send(new CreateDiplomaCommandRequest(request.Title, request.Description));
+                  .Send(new PublishDiplomaCommandRequest(request.Title, request.Description));
 
                 if (!result.IsSuccess)
                 {
-                    return Results.BadRequest(ResponseViewModel<CreateDiplomaResponseVM>
-                          .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode));
+                    return Results.BadRequest(ResponseViewModel<string>.Failure(result.Message));
                 }
 
-                var responseVM = new CreateDiplomaResponseVM(
-                    result.Data.Id,
-                    result.Data.Title,
-                    result.Data.Description,
-                    result.Data.Status);
-
-                return Results.Ok(ResponseViewModel<CreateDiplomaResponseVM>.Success(responseVM));
+                return Results.Accepted(value: "Request is being processed.");
             })
-            .WithTags("Diploma")
-            .WithName("CreateDiploma");
+                .WithTags("Diploma")
+                .WithName("CreateDiploma");
         }
     }
 }

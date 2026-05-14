@@ -2,9 +2,12 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ExaminationSystem.Configurations;
+using ExaminationSystem.Contracts.Commands;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Data;
 using ExaminationSystem.Features;
+using ExaminationSystem.Features.Consumers;
+using MassTransit;
 
 namespace ExaminationSystem
 {
@@ -13,6 +16,56 @@ namespace ExaminationSystem
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<DiplomaCreatedConsumer>();
+                x.AddConsumer<DeleteDiplomaCommandConsumer>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    EndpointConvention.Map<DeleteDiplomaCommandMessage>(
+                        new Uri("exchange:diploma-delete-command-exchange"));
+
+                    cfg.Send<DeleteDiplomaCommandMessage>(s =>
+                    {
+                        s.UseRoutingKeyFormatter(_ => "diploma-delete");
+                    });
+
+                    cfg.Host("localhost", "/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+
+                    cfg.ReceiveEndpoint("Diploma-creation-queue", e =>
+                    {
+                        e.UseMessageRetry(r => r.Intervals(
+                            TimeSpan.FromSeconds(1),
+                            TimeSpan.FromSeconds(5),
+                            TimeSpan.FromSeconds(10)));
+                        e.UseInMemoryOutbox();
+                        e.ConfigureConsumer<DiplomaCreatedConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint("diploma-delete-command-queue", e =>
+                    {
+                        e.ConfigureConsumeTopology = false;
+                        e.Bind("diploma-delete-command-exchange", s =>
+                        {
+                            s.ExchangeType = "direct";
+                            s.RoutingKey = "diploma-delete";
+                        });
+
+                        e.UseMessageRetry(r => r.Intervals(
+                            TimeSpan.FromSeconds(1),
+                            TimeSpan.FromSeconds(5),
+                            TimeSpan.FromSeconds(10)));
+                        e.UseInMemoryOutbox();
+                        e.ConfigureConsumer<DeleteDiplomaCommandConsumer>(context);
+                    });
+                });
+            });
 
             #region Add services to the container.
 
