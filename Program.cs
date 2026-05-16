@@ -30,8 +30,8 @@ namespace ExaminationSystem
 
             builder.Services.AddMassTransit(x =>
             {
-                x.AddConsumers(Assembly.GetExecutingAssembly());
-                x.AddConsumer<DiplomaCreatedConsumer>();
+                //x.AddConsumers(Assembly.GetExecutingAssembly());
+                //x.AddConsumer<DiplomaCreatedConsumer>();
                 x.AddConsumer<DeleteDiplomaCommandConsumer>();
                 x.AddEntityFrameworkOutbox<Context>(o =>
                 {
