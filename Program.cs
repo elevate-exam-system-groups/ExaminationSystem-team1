@@ -5,9 +5,11 @@ using ExaminationSystem.Configurations;
 using ExaminationSystem.Contracts.Commands;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Data;
+using ExaminationSystem.Extensions.Logging;
 using ExaminationSystem.Features;
 using ExaminationSystem.Features.Consumers;
 using MassTransit;
+using Microsoft.Extensions.Logging.Console;
 
 namespace ExaminationSystem
 {
@@ -17,11 +19,29 @@ namespace ExaminationSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Logging.AddSimpleConsole(options =>
+            {
+                options.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fff ";
+                options.SingleLine = true;
+            });
+            builder.Logging.AddFilter<ConsoleLoggerProvider>("MassTransit", LogLevel.None);
+            builder.Logging.AddFilter<ConsoleLoggerProvider>("MassTransit.EntityFrameworkCoreIntegration", LogLevel.None);
+            builder.Logging.AddProvider(new OutboxConsoleLoggerProvider());
+
             builder.Services.AddMassTransit(x =>
             {
                 x.AddConsumers(Assembly.GetExecutingAssembly());
                 x.AddConsumer<DiplomaCreatedConsumer>();
                 x.AddConsumer<DeleteDiplomaCommandConsumer>();
+                x.AddEntityFrameworkOutbox<Context>(o =>
+                {
+                    o.UseSqlServer();
+                    o.UseBusOutbox();
+                });
+                x.AddConfigureEndpointsCallback((context, name, cfg) =>
+                {
+                    cfg.UseEntityFrameworkOutbox<Context>(context);
+                });
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("localhost", "/", h =>

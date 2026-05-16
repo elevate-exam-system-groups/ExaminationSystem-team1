@@ -1,3 +1,5 @@
+using MassTransit;
+
 namespace ExaminationSystem.Domain.Data
 {
     public class Context : IdentityDbContext<User>
@@ -19,6 +21,10 @@ namespace ExaminationSystem.Domain.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
         }
 
     }
