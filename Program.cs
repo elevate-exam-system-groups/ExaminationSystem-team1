@@ -136,7 +136,7 @@ namespace ExaminationSystem
             }
 
             app.UseMiddleware<GlobalErrorHandlerMiddelware>();
-            // app.UseMiddleware<TransactionMiddleware>();
+            app.UseMiddleware<TransactionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

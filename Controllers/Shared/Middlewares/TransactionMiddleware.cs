@@ -20,7 +20,7 @@ namespace ExaminationSystem.Controllers.Shared.Middlewares
                 {
                     transaction = await context.Database.BeginTransactionAsync();
                     await _next(httpContext);
-                    //await context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                     await transaction.CommitAsync();
                 }
                 catch
