@@ -19,51 +19,38 @@ namespace ExaminationSystem
 
             builder.Services.AddMassTransit(x =>
             {
+                x.AddConsumers(Assembly.GetExecutingAssembly());
                 x.AddConsumer<DiplomaCreatedConsumer>();
                 x.AddConsumer<DeleteDiplomaCommandConsumer>();
-
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    EndpointConvention.Map<DeleteDiplomaCommandMessage>(
-                        new Uri("exchange:diploma-delete-command-exchange"));
-
-                    cfg.Send<DeleteDiplomaCommandMessage>(s =>
-                    {
-                        s.UseRoutingKeyFormatter(_ => "diploma-delete");
-                    });
-
                     cfg.Host("localhost", "/", h =>
                     {
                         h.Username("guest");
                         h.Password("guest");
                     });
 
-                    cfg.ReceiveEndpoint("Diploma-creation-queue", e =>
-                    {
-                        e.UseMessageRetry(r => r.Intervals(
-                            TimeSpan.FromSeconds(1),
-                            TimeSpan.FromSeconds(5),
-                            TimeSpan.FromSeconds(10)));
-                        e.UseInMemoryOutbox();
-                        e.ConfigureConsumer<DiplomaCreatedConsumer>(context);
-                    });
+                    cfg.ConfigureEndpoints(context);
 
-                    cfg.ReceiveEndpoint("diploma-delete-command-queue", e =>
-                    {
-                        e.ConfigureConsumeTopology = false;
-                        e.Bind("diploma-delete-command-exchange", s =>
-                        {
-                            s.ExchangeType = "direct";
-                            s.RoutingKey = "diploma-delete";
-                        });
+                    //cfg.ReceiveEndpoint("Diploma-creation-queue", e =>
+                    //{
+                    //    e.UseMessageRetry(r => r.Intervals(
+                    //        TimeSpan.FromSeconds(1),
+                    //        TimeSpan.FromSeconds(5),
+                    //        TimeSpan.FromSeconds(10)));
+                    //    e.UseInMemoryOutbox();
+                    //    e.ConfigureConsumer<DiplomaCreatedConsumer>(context);
+                    //});
 
-                        e.UseMessageRetry(r => r.Intervals(
-                            TimeSpan.FromSeconds(1),
-                            TimeSpan.FromSeconds(5),
-                            TimeSpan.FromSeconds(10)));
-                        e.UseInMemoryOutbox();
-                        e.ConfigureConsumer<DeleteDiplomaCommandConsumer>(context);
-                    });
+                    //cfg.ReceiveEndpoint("diploma-delete-command-queue", e =>
+                    //{
+                    //    e.UseMessageRetry(r => r.Intervals(
+                    //        TimeSpan.FromSeconds(1),
+                    //        TimeSpan.FromSeconds(5),
+                    //        TimeSpan.FromSeconds(10)));
+                    //    e.UseInMemoryOutbox();
+                    //    e.ConfigureConsumer<DeleteDiplomaCommandConsumer>(context);
+                    //});
                 });
             });
 

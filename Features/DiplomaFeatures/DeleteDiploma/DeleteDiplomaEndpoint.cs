@@ -1,4 +1,4 @@
-using ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma.Commands;
+using ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma.Senders;
 
 namespace ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma
 {
@@ -10,15 +10,15 @@ namespace ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma
                 [FromQuery] Guid diplomaID,
                 IMediator _mediator) =>
             {
-                var result = await _mediator.Send(new DeleteDiplomaCommand(diplomaID));
+                var result = await _mediator.Send(new SendDeleteDiplomaCommandRequest(diplomaID));
 
                 if (!result.IsSuccess)
                 {
-                    return Results.BadRequest(ResponseViewModel<bool>
+                    return Results.BadRequest(ResponseViewModel<string>
                           .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode));
                 }
 
-                return Results.Ok(ResponseViewModel<bool>.Success(result.Data));
+                return Results.Accepted(value: "Delete command is being processed.");
             })
             .WithTags("Diploma")
             .WithName("DeleteDiploma");

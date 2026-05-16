@@ -45,6 +45,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomasAllStatuses.Q
 
             var diplomas = _diplomaRepository
                 .GetAll()
+                .OrderByDescending(d => d.CreatedAt)
                 .Select(d => new GetPublishedDiplomaResponseDTO(
                     d.Id,
                     d.Title,

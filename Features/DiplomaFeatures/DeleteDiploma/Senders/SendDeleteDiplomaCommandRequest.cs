@@ -10,7 +10,8 @@ namespace ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma.Senders
     {
         public async Task<RequestResult<string>> Handle(SendDeleteDiplomaCommandRequest request, CancellationToken cancellationToken)
         {
-            await sendEndpointProvider.Send(new DeleteDiplomaCommandMessage(request.DiplomaId), cancellationToken);
+            var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:diploma-delete-command-queue"));
+            await endpoint.Send(new DeleteDiplomaCommandMessage(request.DiplomaId), cancellationToken);
 
             return RequestResult<string>.Success("Delete command queued successfully", "Accepted", RequestErrorCode.Success);
         }

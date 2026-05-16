@@ -36,9 +36,10 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries
 
             var diplomas = _diplomaRepository
                 .Get(d => d.Status == DiplomaStatus.Published)
+                .OrderByDescending(d => d.CreatedAt)
                 .Select(d => new GetPublishedDiplomaResponseDTO(
-                                                          d.Id,
-                                                          d.Title,
+                                                           d.Id,
+                                                           d.Title,
                                                           d.Description,
                                                           d.Status,
                                                           d.Quizzes.Count(q => !q.isDeleted)

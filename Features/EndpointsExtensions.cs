@@ -18,7 +18,6 @@ namespace ExaminationSystem.Features
             app.MapCreateDiplomaEndpoint();
             app.MapUpdateDiplomaEndpoint();
             app.MapDeleteDiplomaEndpoint();
-            app.MapDeleteDiplomaAsyncEndpoint();
             app.MapGetAllDiplomasEndpoint();
             app.MapGetAllDiplomasAllStatusesEndpoint();
             app.MapGetDiplomaQuizzesEndpoint();
