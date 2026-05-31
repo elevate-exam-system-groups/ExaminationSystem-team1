@@ -36,7 +36,7 @@ namespace ExaminationSystem.Domain.Implementations
             {
                 await action();
 
-                if (_depth == 0)
+                if (_depth == 1)
                     await _transaction.CommitAsync(cs);
             }
             catch
@@ -50,14 +50,14 @@ namespace ExaminationSystem.Domain.Implementations
             }
             finally
             {
-
+                _depth--;
                 if (_depth == 0 && _transaction is not null)
                 {
                     await _transaction.DisposeAsync();
                     _transaction = null;
                 }
 
-                _depth--;
+
 
             }
 
