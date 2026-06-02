@@ -7,7 +7,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma
     {
         public static void MapCreateDiplomaEndpoint(this IEndpointRouteBuilder app)
         {
-            app.MapPost("/api/v2/Diploma/CreateDiploma", async (
+            app.MapPost("/CreateDiploma", async (
                 [FromBody] CreateDiplomaRequestVM request,
                 IMediator _mediator) =>
             {
@@ -16,6 +16,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.CreateDiploma
 
                 if (!result.IsSuccess)
                 {
+                    //tstst
                     return Results.BadRequest(ResponseViewModel<CreateDiplomaResponseVM>
                           .Failure(result.Message, (ResponseVmErrorCode?)result.requestErrorCode));
                 }

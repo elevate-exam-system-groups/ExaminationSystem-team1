@@ -75,8 +75,6 @@ namespace ExaminationSystem
                 app.UseSwaggerUI();
             }
 
-            app.UseMiddleware<GlobalErrorHandlerMiddelware>();
-            // app.UseMiddleware<TransactionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
