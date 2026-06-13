@@ -1,11 +1,9 @@
-using ExaminationSystem.Features.Authentication.Queries;
-using MediatR;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -26,12 +24,6 @@ namespace ExaminationSystem.Features.Authentication
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            // Extract the Authorization header from the request
-            //if (!Request.Headers.ContainsKey("Authorization"))
-            //{
-            //    return AuthenticateResult.NoResult();
-            //}
-            
             if (!Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues))
             {
                 return AuthenticateResult.NoResult();
@@ -58,30 +50,48 @@ namespace ExaminationSystem.Features.Authentication
                 var username = credentials[0];
                 var password = credentials[1];
 
-                // Resolve MediatR to send LoginQuery
-                var mediator = Context.RequestServices.GetRequiredService<IMediator>();
-                var authResult = await mediator.Send(new LoginQuery(username, password));
+                // Resolve DB Context directly from request services
+                var dbContext = Context.RequestServices.GetRequiredService<Domain.Data.Context>();
 
-                if (!authResult.IsSuccess)
+                // Find user in database by Username or Email
+                var user = await dbContext.Users
+                    .FirstOrDefaultAsync(u => u.Email == username || u.UserName == username);
+
+                if (user == null)
                 {
                     return AuthenticateResult.Fail("Invalid Credentials");
+                }
+
+                // Verify password using BCrypt
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+                if (!isPasswordValid)
+                {
+                    return AuthenticateResult.Fail("Invalid Credentials");
+                }
+
+                // Determine user role dynamically by checking existence in Admins or Students tables
+                string role = "Student"; // Default role
+                bool isAdmin = await dbContext.Admins.AnyAsync(a => a.UserId == user.Id);
+                if (isAdmin)
+                {
+                    role = "Admin";
                 }
 
                 // Explicitly build the .NET Identity object hierarchy to show how it works under the hood
                 
                 // 1. Create a collection of Claim objects
                 var claims = new[] {
-                    new Claim(ClaimTypes.NameIdentifier, authResult.UserId),
-                    new Claim(ClaimTypes.Name, authResult.Username),
-                    new Claim(ClaimTypes.Email, authResult.Email),
-                    new Claim(ClaimTypes.Role, authResult.Role)
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim (ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, role)
                 };
 
                 // 2. Instantiate a ClaimsIdentity passing the claims and naming the authentication type
                 var identity = new ClaimsIdentity(claims, Scheme.Name);
 
                 // 3. Instantiate a ClaimsPrincipal wrapping that identity
-                var principal = new ClaimsPrincipal(identity);
+                var principal = new System.Security.Claims.ClaimsPrincipal(identity);
 
                 // 4. Construct an AuthenticationTicket using the principal and scheme name
                 var ticket = new AuthenticationTicket(principal, Scheme.Name);
