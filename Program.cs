@@ -145,7 +145,7 @@ namespace ExaminationSystem
             app.MapControllers();
             app.MapAllEndpoints();
             #endregion
-
+            //tst
 
             app.Run();
         }
