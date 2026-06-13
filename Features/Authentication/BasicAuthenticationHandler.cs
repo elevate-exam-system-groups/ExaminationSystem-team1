@@ -41,7 +41,7 @@ namespace ExaminationSystem.Features.Authentication
                 var authHeaderValue = AuthenticationHeaderValue.Parse(authorizationHeader);
                 var credentialBytes = Convert.FromBase64String(authHeaderValue.Parameter ?? string.Empty);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':', 2);
-                
+
                 if (credentials.Length != 2)
                 {
                     return AuthenticateResult.Fail("Invalid Authorization Header Format");
@@ -52,46 +52,51 @@ namespace ExaminationSystem.Features.Authentication
 
                 // Resolve DB Context directly from request services
                 var dbContext = Context.RequestServices.GetRequiredService<Domain.Data.Context>();
+                if (!(username == "amr" && password == "Admin"))
+                {
+                    return AuthenticateResult.Fail("Invalid Credentials");
+                }
+
 
                 // Find user in database by Username or Email
-                var user = await dbContext.Users
-                    .FirstOrDefaultAsync(u => u.Email == username || u.UserName == username);
+                //var user = await dbContext.Users
+                //    .FirstOrDefaultAsync(u => u.Email == username || u.UserName == username);
 
-                if (user == null)
-                {
-                    return AuthenticateResult.Fail("Invalid Credentials");
-                }
+                //if (user == null)
+                //{
+                //    return AuthenticateResult.Fail("Invalid Credentials");
+                //}
 
-                // Verify password using BCrypt
-                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
-                if (!isPasswordValid)
-                {
-                    return AuthenticateResult.Fail("Invalid Credentials");
-                }
+                //// Verify password using BCrypt
+                //bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+                //if (!isPasswordValid)
+                //{
+                //    return AuthenticateResult.Fail("Invalid Credentials");
+                //}
 
-                // Determine user role dynamically by checking existence in Admins or Students tables
-                string role = "Student"; // Default role
-                bool isAdmin = await dbContext.Admins.AnyAsync(a => a.UserId == user.Id);
-                if (isAdmin)
-                {
-                    role = "Admin";
-                }
+                //// Determine user role dynamically by checking existence in Admins or Students tables
+                //string role = "Student"; // Default role
+                //bool isAdmin = await dbContext.Admins.AnyAsync(a => a.UserId == user.Id);
+                //if (isAdmin)
+                //{
+                //    role = "Admin";
+                //}
 
                 // Explicitly build the .NET Identity object hierarchy to show how it works under the hood
                 
                 // 1. Create a collection of Claim objects
                 var claims = new[] {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim (ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.NameIdentifier,"1"),
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim (ClaimTypes.Email, "amr@gmail.com"),
+                    new Claim(ClaimTypes.Role, "Admin")
                 };
 
                 // 2. Instantiate a ClaimsIdentity passing the claims and naming the authentication type
                 var identity = new ClaimsIdentity(claims, Scheme.Name);
 
                 // 3. Instantiate a ClaimsPrincipal wrapping that identity
-                var principal = new System.Security.Claims.ClaimsPrincipal(identity);
+                var principal = new ClaimsPrincipal(identity);
 
                 // 4. Construct an AuthenticationTicket using the principal and scheme name
                 var ticket = new AuthenticationTicket(principal, Scheme.Name);

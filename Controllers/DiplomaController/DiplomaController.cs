@@ -5,6 +5,7 @@ using ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma.Commands;
 using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas.Queries;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent.Orchestrators;
 using ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma.Commands;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace ExaminationSystem.Controllers.DiplomaController
@@ -73,6 +74,7 @@ namespace ExaminationSystem.Controllers.DiplomaController
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ResponseViewModel<GetAllDiplomasPaginatedResponseVM>> GetAllDiplomas([FromQuery] AllDiplomasPaginatedRequestVM requestVM)
         {
             var result = await _mediator.Send(new GetAllDiplomasQuery(requestVM.Page, requestVM.PerPage));

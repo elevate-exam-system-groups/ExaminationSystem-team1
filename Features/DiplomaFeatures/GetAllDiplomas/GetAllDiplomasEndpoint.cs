@@ -10,7 +10,7 @@ namespace ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas
         public static void MapGetAllDiplomasEndpoint(this IEndpointRouteBuilder app)
         {
             app.MapGet("/api/v2/Diploma/GetAllDiplomas", async (
-                [AsParameters] AllDiplomasPaginatedRequestVM requestVM, 
+                [AsParameters] AllDiplomasPaginatedRequestVM requestVM,
                 IMediator _mediator) =>
             {
                 var result = await _mediator.Send(new GetAllDiplomasQuery(requestVM.Page, requestVM.PerPage));

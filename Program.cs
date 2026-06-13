@@ -96,8 +96,8 @@ namespace ExaminationSystem
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 containerBuilder.RegisterModule(new AutofacModule()));
 
-            builder.Services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            builder.Services.AddAuthentication("Basic")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
             builder.Services.AddAuthorization();
 
             #endregion
@@ -146,7 +146,7 @@ namespace ExaminationSystem
             app.MapAllEndpoints();
             #endregion
             //tst
-
+            //app.MapAuthEndpoints();
             app.Run();
         }
     }
