@@ -4,6 +4,7 @@ using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas;
 using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomasAllStatuses;
 using ExaminationSystem.Features.DiplomaFeatures.GetDiplomaWithQuizzesForLoggedStudent;
 using ExaminationSystem.Features.DiplomaFeatures.UpdateDiploma;
+using ExaminationSystem.Features.Authentication;
 
 namespace ExaminationSystem.Features
 {
@@ -18,6 +19,9 @@ namespace ExaminationSystem.Features
             app.MapGetAllDiplomasEndpoint();
             app.MapGetAllDiplomasAllStatusesEndpoint();
             app.MapGetDiplomaQuizzesEndpoint();
+
+            // Custom Auth Endpoints
+            app.MapAuthEndpoints();
         }
     }
 }

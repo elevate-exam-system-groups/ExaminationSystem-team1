@@ -11,7 +11,7 @@ using ExaminationSystem.Features.Consumers;
 using MassTransit;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.AspNetCore.Authentication;
-using ExaminationSystem.Infrastructure.Authentication;
+using ExaminationSystem.Features.Authentication;
 
 namespace ExaminationSystem
 {

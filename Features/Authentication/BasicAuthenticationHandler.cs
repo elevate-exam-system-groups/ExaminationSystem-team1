@@ -1,14 +1,18 @@
+using ExaminationSystem.Features.Authentication.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace ExaminationSystem.Infrastructure.Authentication
+namespace ExaminationSystem.Features.Authentication
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
@@ -20,56 +24,57 @@ namespace ExaminationSystem.Infrastructure.Authentication
         {
         }
 
-        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            // Extract the Authorization header from the request
+            //if (!Request.Headers.ContainsKey("Authorization"))
+            //{
+            //    return AuthenticateResult.NoResult();
+            //}
+            
             if (!Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues))
             {
-                return Task.FromResult(AuthenticateResult.NoResult());
+                return AuthenticateResult.NoResult();
             }
 
             var authorizationHeader = authorizationHeaderValues.ToString();
             if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Basic ", StringComparison.OrdinalIgnoreCase))
             {
-                return Task.FromResult(AuthenticateResult.NoResult());
+                return AuthenticateResult.NoResult();
             }
 
             try
             {
+                // Parse the basic authentication credentials (format: Basic Base64String)
                 var authHeaderValue = AuthenticationHeaderValue.Parse(authorizationHeader);
                 var credentialBytes = Convert.FromBase64String(authHeaderValue.Parameter ?? string.Empty);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':', 2);
                 
                 if (credentials.Length != 2)
                 {
-                    return Task.FromResult(AuthenticateResult.Fail("Invalid Authorization Header Format"));
+                    return AuthenticateResult.Fail("Invalid Authorization Header Format");
                 }
 
                 var username = credentials[0];
                 var password = credentials[1];
 
-                string userId;
-                string role;
+                // Resolve MediatR to send LoginQuery
+                var mediator = Context.RequestServices.GetRequiredService<IMediator>();
+                var authResult = await mediator.Send(new LoginQuery(username, password));
 
-                if (username == "admin" && password == "password")
+                if (!authResult.IsSuccess)
                 {
-                    userId = "admin-id";
-                    role = "Admin";
-                }
-                else if (username == "student" && password == "password")
-                {
-                    userId = "a0000001-0000-0000-0000-000000000001";
-                    role = "Student";
-                }
-                else
-                {
-                    return Task.FromResult(AuthenticateResult.Fail("Invalid Credentials"));
+                    return AuthenticateResult.Fail("Invalid Credentials");
                 }
 
+                // Explicitly build the .NET Identity object hierarchy to show how it works under the hood
+                
                 // 1. Create a collection of Claim objects
                 var claims = new[] {
-                    new Claim(ClaimTypes.NameIdentifier, userId),
-                    new Claim(ClaimTypes.Name, username),
-                    new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.NameIdentifier, authResult.UserId),
+                    new Claim(ClaimTypes.Name, authResult.Username),
+                    new Claim(ClaimTypes.Email, authResult.Email),
+                    new Claim(ClaimTypes.Role, authResult.Role)
                 };
 
                 // 2. Instantiate a ClaimsIdentity passing the claims and naming the authentication type
@@ -81,12 +86,12 @@ namespace ExaminationSystem.Infrastructure.Authentication
                 // 4. Construct an AuthenticationTicket using the principal and scheme name
                 var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
-                // 5. Return success
-                return Task.FromResult(AuthenticateResult.Success(ticket));
+                // 5. Return success with the built ticket
+                return AuthenticateResult.Success(ticket);
             }
             catch (Exception ex)
             {
-                return Task.FromResult(AuthenticateResult.Fail($"Authorization Header Parsing Failed: {ex.Message}"));
+                return AuthenticateResult.Fail($"Authorization Header Parsing Failed: {ex.Message}");
             }
         }
     }
