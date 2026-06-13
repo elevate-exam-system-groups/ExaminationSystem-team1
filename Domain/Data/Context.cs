@@ -2,10 +2,11 @@ using MassTransit;
 
 namespace ExaminationSystem.Domain.Data
 {
-    public class Context : IdentityDbContext<User>
+    public class Context : DbContext
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }

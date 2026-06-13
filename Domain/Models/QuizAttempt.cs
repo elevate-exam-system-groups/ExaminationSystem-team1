@@ -50,6 +50,11 @@ namespace ExaminationSystem.Domain.Models
             builder.HasOne(q => q.Student)
                    .WithMany(u => u.QuizAttempts)
                    .HasForeignKey(q => q.StudentId);
+
+            builder.HasOne<Student>()
+                   .WithMany()
+                   .HasForeignKey("StudentIdEntity")
+                   .IsRequired(false);
         }
     }
 }

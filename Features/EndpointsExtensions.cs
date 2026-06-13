@@ -1,6 +1,3 @@
-using ExaminationSystem.Features.Account.ForgetResetPassword;
-using ExaminationSystem.Features.Account.Reqisteration;
-using ExaminationSystem.Features.Account.UserLogin;
 using ExaminationSystem.Features.DiplomaFeatures.CreateDiploma;
 using ExaminationSystem.Features.DiplomaFeatures.DeleteDiploma;
 using ExaminationSystem.Features.DiplomaFeatures.GetAllDiplomas;
@@ -21,14 +18,6 @@ namespace ExaminationSystem.Features
             app.MapGetAllDiplomasEndpoint();
             app.MapGetAllDiplomasAllStatusesEndpoint();
             app.MapGetDiplomaQuizzesEndpoint();
-
-            // Auth Endpoints
-            app.MapRegisterEndpoint();
-            app.MapVerifyOtpEndpoint();
-            app.MapResendOtpEndpoint();
-            app.MapLoginEndpoint();
-            app.MapForgotPasswordEndpoint();
-            app.MapResetPasswordEndpoint();
         }
     }
 }

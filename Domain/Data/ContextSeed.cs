@@ -1,5 +1,4 @@
 using ExaminationSystem.Domain.Models.Enums;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ExaminationSystem.Domain.Models;
 using System.Text.Json.Serialization;
@@ -9,59 +8,44 @@ namespace ExaminationSystem.Domain.Data
 {
     public static class ContextSeed
     {
-        public static async Task SeedAsync(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(Context context)
         {
-            await SeedRolesAsync(roleManager);
-            await SeedUserAsync(userManager);
+            await SeedUserAsync(context);
             await SeedDataAsync(context);
         }
 
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        private static async Task SeedUserAsync(Context context)
         {
-            if (!roleManager.Roles.Any())
-            {
-                await roleManager.CreateAsync(new IdentityRole(Role.Admin.ToString()));
-                await roleManager.CreateAsync(new IdentityRole(Role.Student.ToString()));
-            }
-        }
-
-        private static async Task SeedUserAsync(UserManager<User> userManager)
-        {
-            if (!userManager.Users.Any())
+            if (!await context.Users.AnyAsync())
             {
                 // Seed Admin
                 var admin = new User()
                 {
+                    Id = "admin-id",
                     FullName = "SuperAdmin",
                     Email = "SuperAdmin@gmail.com",
                     UserName = "SuperAdmin",
                     PhoneNumber = "0123456789",
                     accountStatus = AccountStatus.Active,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("P@ssw0rd123!")
                 };
-
-                var result = await userManager.CreateAsync(admin, "P@ssw0rd123!");
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, Role.Admin.ToString());
-                }
 
                 // Seed Student
                 var student = new User()
                 {
+                    Id = "a0000001-0000-0000-0000-000000000001",
                     FullName = "Sample Student",
                     Email = "student@gmail.com",
                     UserName = "student",
                     PhoneNumber = "01122334455",
                     accountStatus = AccountStatus.Active,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("P@ssw0rd123!")
                 };
 
-                result = await userManager.CreateAsync(student, "P@ssw0rd123!");
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(student, Role.Student.ToString());
-                }
+                context.Users.AddRange(admin, student);
+                await context.SaveChangesAsync();
             }
         }
 

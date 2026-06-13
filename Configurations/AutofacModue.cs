@@ -4,8 +4,6 @@ using ExaminationSystem.Controllers.AttemptController.ViewModels;
 using ExaminationSystem.Controllers.DiplomaController.ViewModels;
 using ExaminationSystem.Controllers.Shared.Middlewares;
 using ExaminationSystem.Domain.Implementations;
-using ExaminationSystem.Features.Account.Shared;
-using ExaminationSystem.Features.Account.Shared.Services;
 using ExaminationSystem.Features.Common.Pipeline;
 using Module = Autofac.Module;
 
@@ -17,15 +15,6 @@ namespace ExaminationSystem.Configurations
         {
             builder.RegisterGeneric(typeof(GeneralRepository<>))
                    .As(typeof(IGeneralRepository<>))
-                   .InstancePerLifetimeScope();
-
-
-            builder.RegisterType<TokenGenerator>()
-                   .As<ITokenGenerator>()
-                   .InstancePerLifetimeScope();
-
-            builder.RegisterType<EmailService>()
-                   .As<IEmailService>()
                    .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())

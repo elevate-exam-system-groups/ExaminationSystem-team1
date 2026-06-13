@@ -29,6 +29,11 @@ namespace ExaminationSystem.Domain.Models
             builder.HasOne(e => e.Student)
                    .WithMany(u => u.Enrollments)
                    .HasForeignKey(e => e.StudentId);
+
+            builder.HasOne<Student>()
+                   .WithMany()
+                   .HasForeignKey("StudentIdEntity")
+                   .IsRequired(false);
         }
     }
 }

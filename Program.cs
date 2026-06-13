@@ -10,6 +10,8 @@ using ExaminationSystem.Features;
 using ExaminationSystem.Features.Consumers;
 using MassTransit;
 using Microsoft.Extensions.Logging.Console;
+using Microsoft.AspNetCore.Authentication;
+using ExaminationSystem.Infrastructure.Authentication;
 
 namespace ExaminationSystem
 {
@@ -94,9 +96,9 @@ namespace ExaminationSystem
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 containerBuilder.RegisterModule(new AutofacModule()));
 
-            builder.Services.AddIdentityServices();
-
-            builder.Services.AddJwtServices(builder.Configuration);
+            builder.Services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            builder.Services.AddAuthorization();
 
             #endregion
 
@@ -114,9 +116,7 @@ namespace ExaminationSystem
 
                 await context.Database.MigrateAsync();
 
-                var userManager = Services.GetRequiredService<UserManager<User>>();
-                var roleManager = Services.GetRequiredService<RoleManager<IdentityRole>>();
-                await ContextSeed.SeedAsync(context, userManager, roleManager); // Seed Data
+                await ContextSeed.SeedAsync(context); // Seed Data
             }
             catch (Exception ex)
             {

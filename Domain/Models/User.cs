@@ -3,8 +3,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ExaminationSystem.Domain.Models
 {
-    public class User : IdentityUser
+    public class User
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string UserName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string NormalizedUserName { get; set; } = string.Empty;
+        public string NormalizedEmail { get; set; } = string.Empty;
+        public bool EmailConfirmed { get; set; }
+        public string PasswordHash { get; set; } = string.Empty;
+        public string SecurityStamp { get; set; } = Guid.NewGuid().ToString();
+        public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
+        public string? PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool TwoFactorEnabled { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public int AccessFailedCount { get; set; }
+
         public string FullName { get; set; }
         public DateTime? LastActivityAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
@@ -19,7 +35,6 @@ namespace ExaminationSystem.Domain.Models
 
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
         public ICollection<UserOTP> UserOTPs { get; set; } = new List<UserOTP>();
-
     }
 
 
@@ -27,8 +42,7 @@ namespace ExaminationSystem.Domain.Models
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            //builder.Property(u => u.Role)
-            //       .HasConversion<string>();
+            builder.ToTable("AspNetUsers");
 
             builder.Property(u => u.accountStatus)
                    .HasConversion<string>();
