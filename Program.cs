@@ -12,6 +12,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.AspNetCore.Authentication;
 using ExaminationSystem.Features.Authentication;
+using ExaminationSystem.Infrastructure.Authentication;
 
 namespace ExaminationSystem
 {
@@ -96,8 +97,39 @@ namespace ExaminationSystem
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 containerBuilder.RegisterModule(new AutofacModule()));
 
-            builder.Services.AddAuthentication("Basic")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+            // Commented out Basic Authentication configurations to preserve them for live comparison
+            // builder.Services.AddAuthentication("Basic")
+            //     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+
+            // Register JwtOptions configuration section
+            builder.Services.Configure<JwtOptions>(
+                builder.Configuration.GetSection("JwtOptions"));
+
+            // Register the JWT Token Generator Service
+            builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+            // Configure the active ASP.NET Core Authentication pipeline to use the JWT Bearer Scheme by default
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["JwtOptions:Issuer"],
+                    ValidAudience = builder.Configuration["JwtOptions:Audience"],
+                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                        System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:Secret"]!))
+                };
+            });
+
             builder.Services.AddAuthorization();
 
             #endregion
@@ -145,8 +177,7 @@ namespace ExaminationSystem
             app.MapControllers();
             app.MapAllEndpoints();
             #endregion
-            //tst
-            //app.MapAuthEndpoints();
+            app.MapAuthEndpoints();
             app.Run();
         }
     }

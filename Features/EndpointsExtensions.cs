@@ -20,8 +20,7 @@ namespace ExaminationSystem.Features
             app.MapGetAllDiplomasAllStatusesEndpoint();
             app.MapGetDiplomaQuizzesEndpoint();
 
-            // Custom Auth Endpoints
-            app.MapAuthEndpoints();
+            // Custom Auth Endpoints (mapped separately in Program.cs)
         }
     }
 }

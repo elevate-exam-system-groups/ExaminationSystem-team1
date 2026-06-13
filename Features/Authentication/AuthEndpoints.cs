@@ -2,36 +2,72 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using MediatR;
+using System;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using ExaminationSystem.Domain.Data;
 using ExaminationSystem.Features.Authentication.Queries;
 using ExaminationSystem.Features.Authentication.Commands;
+using ExaminationSystem.Infrastructure.Authentication;
 
 namespace ExaminationSystem.Features.Authentication
 {
     public static class AuthEndpoints
     {
-        public record LoginRequest(string Email, string Password);
+        public record LoginRequest(string Username, string Password);
         public record RegisterRequest(string FullName, string Email, string Password, string PhoneNumber);
 
         public static void MapAuthEndpoints(this IEndpointRouteBuilder app)
         {
-            // Login Endpoint (Validates credentials from DB using MediatR Query)
-            app.MapPost("/api/auth/login", async (LoginRequest request, IMediator mediator) =>
+            // Login Endpoint (Validates credentials from DB directly and generates JWT)
+            app.MapPost("/api/auth/login", async (LoginRequest request, Context dbContext, IJwtTokenGenerator jwtTokenGenerator) =>
             {
-                var result = await mediator.Send(new LoginQuery(request.Email, request.Password));
-
-                if (!result.IsSuccess)
+                if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
                 {
-                    return Results.Json(new { Error = "Invalid credentials" }, statusCode: StatusCodes.Status401Unauthorized);
+                    return Results.Json(new { Error = "Invalid Credentials" }, statusCode: StatusCodes.Status401Unauthorized);
                 }
+
+                // Fetch the user from dbContext.Users matching Username or Email
+                var user = await dbContext.Users
+                    .FirstOrDefaultAsync(u => u.UserName == request.Username || u.Email == request.Username);
+
+                if (user == null)
+                {
+                    return Results.Json(new { Error = "Invalid Credentials" }, statusCode: StatusCodes.Status401Unauthorized);
+                }
+
+                // Verify the password using BCrypt
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+                if (!isPasswordValid)
+                {
+                    return Results.Json(new { Error = "Invalid Credentials" }, statusCode: StatusCodes.Status401Unauthorized);
+                }
+
+                // Dynamically determine user role by checking Admins and Students tables
+                string role = "Student"; // Default role
+                bool isAdmin = await dbContext.Admins.AnyAsync(a => a.UserId == user.Id);
+                if (isAdmin)
+                {
+                    role = "Admin";
+                }
+                else
+                {
+                    bool isStudent = await dbContext.Students.AnyAsync(s => s.UserId == user.Id);
+                    if (!isStudent)
+                    {
+                        if (user.Email.Contains("admin", StringComparison.OrdinalIgnoreCase))
+                        {
+                            role = "Admin";
+                        }
+                    }
+                }
+
+                // Generate JWT Access Token
+                var token = jwtTokenGenerator.GenerateToken(user, role);
 
                 return Results.Ok(new
                 {
-                    Message = "Login successful",
-                    UserId = result.UserId,
-                    Username = result.Username,
-                    Email = result.Email,
-                    Role = result.Role
+                    AccessToken = token
                 });
             });
 
